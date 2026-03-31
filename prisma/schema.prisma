@@ -27,4 +27,6 @@ model User {
   role       Role
   deletedAt  DateTime?
   createdAt  DateTime
+
+  @@map("users")
 }
