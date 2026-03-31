@@ -3,16 +3,16 @@
   "compilerOptions": {
     // File Layout
     // "rootDir": "./src",
-    // "outDir": "./dist",
+    "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ES2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "esnext",
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
-    "types": [],
+    // "ignoreDeprecations": "6.0",
+    "forceConsistentCasingInFileNames": true,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -25,7 +25,6 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
 
     // Style Options
     // "noImplicitReturns": true,
