@@ -81,3 +81,8 @@ export type Point = Prisma.PointModel
  * 
  */
 export type Voucher = Prisma.VoucherModel
+/**
+ * Model Promotions
+ * 
+ */
+export type Promotions = Prisma.PromotionsModel

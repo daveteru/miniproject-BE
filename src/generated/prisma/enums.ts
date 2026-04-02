@@ -17,6 +17,23 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const Priority = {
+  HIGH: 'HIGH',
+  MID: 'MID'
+} as const
+
+export type Priority = (typeof Priority)[keyof typeof Priority]
+
+
+export const Status = {
+  ACTIVE: 'ACTIVE',
+  DRAFT: 'DRAFT',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]
+
+
 export const PaymentStatus = {
   WAITING_FOR_PAYMENT: 'WAITING_FOR_PAYMENT',
   WAITING_FOR_CONFIRM: 'WAITING_FOR_CONFIRM',

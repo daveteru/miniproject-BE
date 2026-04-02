@@ -391,7 +391,8 @@ export const ModelName = {
   Review: 'Review',
   Coupon: 'Coupon',
   Point: 'Point',
-  Voucher: 'Voucher'
+  Voucher: 'Voucher',
+  Promotions: 'Promotions'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "event" | "ticket" | "transaction" | "review" | "coupon" | "point" | "voucher"
+    modelProps: "user" | "event" | "ticket" | "transaction" | "review" | "coupon" | "point" | "voucher" | "promotions"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Promotions: {
+      payload: Prisma.$PromotionsPayload<ExtArgs>
+      fields: Prisma.PromotionsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PromotionsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PromotionsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        findFirst: {
+          args: Prisma.PromotionsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PromotionsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        findMany: {
+          args: Prisma.PromotionsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>[]
+        }
+        create: {
+          args: Prisma.PromotionsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        createMany: {
+          args: Prisma.PromotionsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PromotionsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>[]
+        }
+        delete: {
+          args: Prisma.PromotionsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        update: {
+          args: Prisma.PromotionsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        deleteMany: {
+          args: Prisma.PromotionsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PromotionsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PromotionsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>[]
+        }
+        upsert: {
+          args: Prisma.PromotionsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PromotionsPayload>
+        }
+        aggregate: {
+          args: Prisma.PromotionsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePromotions>
+        }
+        groupBy: {
+          args: Prisma.PromotionsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PromotionsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PromotionsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PromotionsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1145,6 +1220,16 @@ export const VoucherScalarFieldEnum = {
 export type VoucherScalarFieldEnum = (typeof VoucherScalarFieldEnum)[keyof typeof VoucherScalarFieldEnum]
 
 
+export const PromotionsScalarFieldEnum = {
+  id: 'id',
+  priority: 'priority',
+  status: 'status',
+  eventId: 'eventId'
+} as const
+
+export type PromotionsScalarFieldEnum = (typeof PromotionsScalarFieldEnum)[keyof typeof PromotionsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1242,6 +1327,34 @@ export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PaymentStatus[]'
  */
 export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Priority'
+ */
+export type EnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority'>
+    
+
+
+/**
+ * Reference to a field of type 'Priority[]'
+ */
+export type ListEnumPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Priority[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Status'
+ */
+export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+/**
+ * Reference to a field of type 'Status[]'
+ */
+export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
     
 
 
@@ -1361,6 +1474,7 @@ export type GlobalOmitConfig = {
   coupon?: Prisma.CouponOmit
   point?: Prisma.PointOmit
   voucher?: Prisma.VoucherOmit
+  promotions?: Prisma.PromotionsOmit
 }
 
 /* Types for Logging */

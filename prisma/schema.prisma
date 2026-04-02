@@ -12,6 +12,17 @@ enum Role {
   ORGANIZER
 }
 
+enum Priority {
+  HIGH
+  MID
+}
+
+enum Status {
+  ACTIVE
+  DRAFT
+  EXPIRED
+}
+
 enum PaymentStatus {
   WAITING_FOR_PAYMENT
   WAITING_FOR_CONFIRM
@@ -61,6 +72,7 @@ model Event {
   organizerId Int
   tickets     Ticket[]
   reviews     Review[]
+  promotions   Promotions[]
 
   @@map("events")
 }
@@ -155,4 +167,16 @@ model Voucher {
   transaction Transaction?
 
   @@map("vouchers")
+}
+
+model Promotions {
+  id Int @id @default(autoincrement())
+  priority Priority
+  status Status 
+
+  //relation
+  event   Event @relation(fields: [eventId], references: [id])
+  eventId Int
+
+  @@map("promotions")
 }

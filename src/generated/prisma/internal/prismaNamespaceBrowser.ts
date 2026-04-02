@@ -58,7 +58,8 @@ export const ModelName = {
   Review: 'Review',
   Coupon: 'Coupon',
   Point: 'Point',
-  Voucher: 'Voucher'
+  Voucher: 'Voucher',
+  Promotions: 'Promotions'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -178,6 +179,16 @@ export const VoucherScalarFieldEnum = {
 } as const
 
 export type VoucherScalarFieldEnum = (typeof VoucherScalarFieldEnum)[keyof typeof VoucherScalarFieldEnum]
+
+
+export const PromotionsScalarFieldEnum = {
+  id: 'id',
+  priority: 'priority',
+  status: 'status',
+  eventId: 'eventId'
+} as const
+
+export type PromotionsScalarFieldEnum = (typeof PromotionsScalarFieldEnum)[keyof typeof PromotionsScalarFieldEnum]
 
 
 export const SortOrder = {
