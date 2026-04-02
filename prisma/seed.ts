@@ -1,16 +1,11 @@
 import "dotenv/config";
 import {
-  PaymentStatus,
-  Role,
-  PrismaClient,
-  Priority,
-  Status,
+    PaymentStatus,
+    Priority,
+    Role,
+    Status
 } from "../src/generated/prisma/client.js";
-import { PrismaPg } from "@prisma/adapter-pg";
-
-const connectionString = `${process.env.DATABASE_URL}`;
-const pool = new PrismaPg({ connectionString: connectionString });
-const prisma = new PrismaClient({ adapter: pool });
+import { prisma } from "../src/lib/prisma.js";
 
 async function main() {
   // create user
