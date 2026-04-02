@@ -1,11 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -13,20 +8,151 @@ datasource db {
 }
 
 enum Role {
-  ORGANIZER
   USER
+  ORGANIZER
+}
+
+enum PaymentStatus {
+  WAITING_FOR_PAYMENT
+  WAITING_FOR_CONFIRM
+  PAID
+  EXPIRED
+  REJECTED
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  email      String    @unique
-  password   String
-  name       String
-  birthdate  DateTime
-  profilePic String
-  role       Role
-  deletedAt  DateTime?
-  createdAt  DateTime
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  fullName  String
+  birthdate DateTime
+  role      Role
+  avatar    String?
+  createdAt DateTime @default(now())
+  referral  Int?
+
+  // Relations
+  events       Event[]       @relation("OrganizerEvents")
+  transactions Transaction[]
+  coupons      Coupon[]
+  points       Point[]
+  reviews      Review[]      @relation("Reviewer")
+  vouchers     Voucher[]     @relation("User")
+  voucherOwner Voucher[]     @relation("Organizer")
 
   @@map("users")
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  name        String
+  artist      String
+  location    String
+  startDate   DateTime
+  endDate     DateTime
+  thumbnail   String?
+  totalTicket Int
+  category    String
+  description String?
+  deletedAt   DateTime?
+
+  // Relations
+  organizer   User     @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  organizerId Int
+  tickets     Ticket[]
+  reviews     Review[]
+
+  @@map("events")
+}
+
+model Ticket {
+  id              Int       @id @default(autoincrement())
+  ticketLevel     String
+  availableTicket Int
+  deletedAt       DateTime?
+
+  // Relations
+  event        Event         @relation(fields: [eventId], references: [id])
+  eventId      Int
+  transactions Transaction[]
+
+  @@map("tickets")
+}
+
+model Transaction {
+  id            Int           @id @default(autoincrement())
+  uuid          String        @unique @default(uuid())
+  expiredAt     DateTime?
+  pointsUsed    Int           @default(0)
+  paymentProof  String?
+  paymentStatus PaymentStatus
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  Int
+  reviews   Review[]
+  coupon    Coupon?  @relation(fields: [couponId], references: [id])
+  couponId  Int?     @unique
+  voucher   Voucher? @relation(fields: [voucherId], references: [id])
+  voucherId Int?     @unique
+
+  @@map("transactions")
+}
+
+model Review {
+  id     Int    @id @default(autoincrement())
+  text   String
+  rating Int
+
+  // Relations
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId Int
+  event         Event       @relation(fields: [eventId], references: [id])
+  eventId       Int
+  reviewer      User        @relation("Reviewer", fields: [reviewerId], references: [id])
+  reviewerId    Int
+
+  @@map("reviews")
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  amount      Int
+  expiredDate DateTime
+
+  // Relations
+  user        User         @relation(fields: [userId], references: [id])
+  userId      Int
+  transaction Transaction?
+
+  @@map("coupons")
+}
+
+model Point {
+  id          Int      @id @default(autoincrement())
+  amount      Int
+  expiredDate DateTime
+
+  // Relations
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@map("points")
+}
+
+model Voucher {
+  id          Int      @id @default(autoincrement())
+  amount      Int
+  expiredDate DateTime
+
+  // Relations
+  user        User         @relation("User", fields: [userId], references: [id])
+  userId      Int
+  organizer   User         @relation("Organizer", fields: [organizerID], references: [id])
+  organizerID Int
+  transaction Transaction?
+
+  @@map("vouchers")
 }

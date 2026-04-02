@@ -1,10 +1,8 @@
-import express from "express";
-const PORT = 8000;
+import { App } from "./app.js";
 
-const app = express();
+const main = () => {
+  const app = new App();
+  app.start();
+};
 
-app.use(express.json());
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+main();
