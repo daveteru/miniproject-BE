@@ -1,8 +1,15 @@
 import "dotenv/config";
-import { PaymentStatus, Role, PrismaClient } from "../src/generated/prisma/client.js";
+import {
+  PaymentStatus,
+  Role,
+  PrismaClient,
+  Priority,
+  Status,
+} from "../src/generated/prisma/client.js";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const pool = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const connectionString = `${process.env.DATABASE_URL}`;
+const pool = new PrismaPg({ connectionString: connectionString });
 const prisma = new PrismaClient({ adapter: pool });
 
 async function main() {
@@ -110,14 +117,21 @@ async function main() {
     },
   });
 
-  console.log("Database seeded successfully!");
+  await prisma.promotions.create({
+    data: {
+      priority: Priority.HIGH,
+      status: Status.DRAFT,
+      eventId: event.id,
+    },
+  });
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
+  .then(async () => {
     await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
   });
