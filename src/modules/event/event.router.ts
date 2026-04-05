@@ -11,6 +11,10 @@ export class EventRouter {
 
   private initRoutes = () => {
     this.router.get("/:id", this.eventController.getEvent);
+    this.router.get("/", this.eventController.getEvents);
+    this.router.delete("/:id", this.eventController.deleteEvent);
+    this.router.patch("/:id", this.eventController.updateEvent);
+    this.router.post("/", this.eventController.createEvent);
   };
 
   getRouter = () => {
