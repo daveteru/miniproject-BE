@@ -10,7 +10,7 @@ export class UserRouter {
   }
 
   private initRoutes = () => {
-    this.router.get("/:id", this.userController.getSample);
+    this.router.get("/:id", this.userController.getUser);
   };
 
   getRouter = () => {

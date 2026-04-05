@@ -1,18 +1,18 @@
 import { PrismaClient } from "../../generated/prisma/client.js";
 import { ApiError } from "../../utils/api-error.js";
 
-export class UserService {
+export class EventService {
   constructor(private prisma: PrismaClient) {}
 
-  getUser = async (id: number) => {
-    const user = await this.prisma.user.findUnique({
+  getEvent = async (id: number) => {
+    const event = await this.prisma.event.findUnique({
       where: { id },
     });
 
-    if (!user) {
-      throw new ApiError("User not found", 404);
+    if (!event) {
+      throw new ApiError("Event not found", 404);
     }
 
-    return user;
+    return event;
   };
 }
