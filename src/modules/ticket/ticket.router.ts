@@ -10,7 +10,7 @@ export class TicketRouter {
   }
 
   private initRoutes = () => {
-    this.router.get("/:id", this.ticketController.getSample);
+    this.router.get("/:id", this.ticketController.getTicket);
   };
 
   getRouter = () => {
