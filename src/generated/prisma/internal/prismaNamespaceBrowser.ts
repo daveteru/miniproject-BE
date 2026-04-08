@@ -82,11 +82,11 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
-  fullName: 'fullName',
   birthdate: 'birthdate',
   role: 'role',
-  avatar: 'avatar',
   createdAt: 'createdAt',
+  avatar: 'avatar',
+  fullName: 'fullName',
   referral: 'referral'
 } as const
 
@@ -98,6 +98,7 @@ export const EventScalarFieldEnum = {
   name: 'name',
   artist: 'artist',
   location: 'location',
+  city: 'city',
   startDate: 'startDate',
   endDate: 'endDate',
   thumbnail: 'thumbnail',
@@ -126,13 +127,13 @@ export const TransactionScalarFieldEnum = {
   id: 'id',
   uuid: 'uuid',
   expiredAt: 'expiredAt',
-  pointsUsed: 'pointsUsed',
   paymentProof: 'paymentProof',
   paymentStatus: 'paymentStatus',
   userId: 'userId',
   ticketId: 'ticketId',
+  voucherId: 'voucherId',
   couponId: 'couponId',
-  voucherId: 'voucherId'
+  pointsUsed: 'pointsUsed'
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]

@@ -33,6 +33,7 @@ model Event {
   name        String
   artist      String
   location    String
+  city        String?
   startDate   DateTime
   endDate     DateTime
   thumbnail   String?

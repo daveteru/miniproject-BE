@@ -43,6 +43,7 @@ export type EventMinAggregateOutputType = {
   name: string | null
   artist: string | null
   location: string | null
+  city: string | null
   startDate: Date | null
   endDate: Date | null
   thumbnail: string | null
@@ -58,6 +59,7 @@ export type EventMaxAggregateOutputType = {
   name: string | null
   artist: string | null
   location: string | null
+  city: string | null
   startDate: Date | null
   endDate: Date | null
   thumbnail: string | null
@@ -73,6 +75,7 @@ export type EventCountAggregateOutputType = {
   name: number
   artist: number
   location: number
+  city: number
   startDate: number
   endDate: number
   thumbnail: number
@@ -102,6 +105,7 @@ export type EventMinAggregateInputType = {
   name?: true
   artist?: true
   location?: true
+  city?: true
   startDate?: true
   endDate?: true
   thumbnail?: true
@@ -117,6 +121,7 @@ export type EventMaxAggregateInputType = {
   name?: true
   artist?: true
   location?: true
+  city?: true
   startDate?: true
   endDate?: true
   thumbnail?: true
@@ -132,6 +137,7 @@ export type EventCountAggregateInputType = {
   name?: true
   artist?: true
   location?: true
+  city?: true
   startDate?: true
   endDate?: true
   thumbnail?: true
@@ -234,6 +240,7 @@ export type EventGroupByOutputType = {
   name: string
   artist: string
   location: string
+  city: string | null
   startDate: Date
   endDate: Date
   thumbnail: string | null
@@ -272,6 +279,7 @@ export type EventWhereInput = {
   name?: Prisma.StringFilter<"Event"> | string
   artist?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
+  city?: Prisma.StringNullableFilter<"Event"> | string | null
   startDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   thumbnail?: Prisma.StringNullableFilter<"Event"> | string | null
@@ -281,9 +289,9 @@ export type EventWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
   organizerId?: Prisma.IntFilter<"Event"> | number
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  tickets?: Prisma.TicketListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
   promotions?: Prisma.PromotionsListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }
 
 export type EventOrderByWithRelationInput = {
@@ -291,6 +299,7 @@ export type EventOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -300,9 +309,9 @@ export type EventOrderByWithRelationInput = {
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   organizerId?: Prisma.SortOrder
   organizer?: Prisma.UserOrderByWithRelationInput
-  tickets?: Prisma.TicketOrderByRelationAggregateInput
-  reviews?: Prisma.ReviewOrderByRelationAggregateInput
   promotions?: Prisma.PromotionsOrderByRelationAggregateInput
+  reviews?: Prisma.ReviewOrderByRelationAggregateInput
+  tickets?: Prisma.TicketOrderByRelationAggregateInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -313,6 +322,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Event"> | string
   artist?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
+  city?: Prisma.StringNullableFilter<"Event"> | string | null
   startDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   thumbnail?: Prisma.StringNullableFilter<"Event"> | string | null
@@ -322,9 +332,9 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   deletedAt?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
   organizerId?: Prisma.IntFilter<"Event"> | number
   organizer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  tickets?: Prisma.TicketListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
   promotions?: Prisma.PromotionsListRelationFilter
+  reviews?: Prisma.ReviewListRelationFilter
+  tickets?: Prisma.TicketListRelationFilter
 }, "id">
 
 export type EventOrderByWithAggregationInput = {
@@ -332,6 +342,7 @@ export type EventOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -355,6 +366,7 @@ export type EventScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Event"> | string
   artist?: Prisma.StringWithAggregatesFilter<"Event"> | string
   location?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  city?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   thumbnail?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
@@ -369,6 +381,7 @@ export type EventCreateInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -377,9 +390,9 @@ export type EventCreateInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizer: Prisma.UserCreateNestedOneWithoutEventsInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -387,6 +400,7 @@ export type EventUncheckedCreateInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -395,15 +409,16 @@ export type EventUncheckedCreateInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizerId: number
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -412,9 +427,9 @@ export type EventUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizer?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -422,6 +437,7 @@ export type EventUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -430,9 +446,9 @@ export type EventUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizerId?: Prisma.IntFieldUpdateOperationsInput | number
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyInput = {
@@ -440,6 +456,7 @@ export type EventCreateManyInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -454,6 +471,7 @@ export type EventUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -468,6 +486,7 @@ export type EventUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -493,6 +512,7 @@ export type EventCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  city?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
@@ -514,6 +534,7 @@ export type EventMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  city?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
@@ -529,6 +550,7 @@ export type EventMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   location?: Prisma.SortOrder
+  city?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   thumbnail?: Prisma.SortOrder
@@ -642,6 +664,7 @@ export type EventCreateWithoutOrganizerInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -649,9 +672,9 @@ export type EventCreateWithoutOrganizerInput = {
   category: string
   description?: string | null
   deletedAt?: Date | string | null
-  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutOrganizerInput = {
@@ -659,6 +682,7 @@ export type EventUncheckedCreateWithoutOrganizerInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -666,9 +690,9 @@ export type EventUncheckedCreateWithoutOrganizerInput = {
   category: string
   description?: string | null
   deletedAt?: Date | string | null
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutOrganizerInput = {
@@ -705,6 +729,7 @@ export type EventScalarWhereInput = {
   name?: Prisma.StringFilter<"Event"> | string
   artist?: Prisma.StringFilter<"Event"> | string
   location?: Prisma.StringFilter<"Event"> | string
+  city?: Prisma.StringNullableFilter<"Event"> | string | null
   startDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   thumbnail?: Prisma.StringNullableFilter<"Event"> | string | null
@@ -719,6 +744,7 @@ export type EventCreateWithoutTicketsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -727,8 +753,8 @@ export type EventCreateWithoutTicketsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizer: Prisma.UserCreateNestedOneWithoutEventsInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutTicketsInput = {
@@ -736,6 +762,7 @@ export type EventUncheckedCreateWithoutTicketsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -744,8 +771,8 @@ export type EventUncheckedCreateWithoutTicketsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizerId: number
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsUncheckedCreateNestedManyWithoutEventInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutTicketsInput = {
@@ -768,6 +795,7 @@ export type EventUpdateWithoutTicketsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -776,8 +804,8 @@ export type EventUpdateWithoutTicketsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizer?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutTicketsInput = {
@@ -785,6 +813,7 @@ export type EventUncheckedUpdateWithoutTicketsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -793,14 +822,15 @@ export type EventUncheckedUpdateWithoutTicketsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizerId?: Prisma.IntFieldUpdateOperationsInput | number
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutReviewsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -809,8 +839,8 @@ export type EventCreateWithoutReviewsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizer: Prisma.UserCreateNestedOneWithoutEventsInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutReviewsInput = {
@@ -818,6 +848,7 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -826,8 +857,8 @@ export type EventUncheckedCreateWithoutReviewsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizerId: number
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
   promotions?: Prisma.PromotionsUncheckedCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutReviewsInput = {
@@ -850,6 +881,7 @@ export type EventUpdateWithoutReviewsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -858,8 +890,8 @@ export type EventUpdateWithoutReviewsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizer?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutReviewsInput = {
@@ -867,6 +899,7 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -875,14 +908,15 @@ export type EventUncheckedUpdateWithoutReviewsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizerId?: Prisma.IntFieldUpdateOperationsInput | number
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUncheckedUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateWithoutPromotionsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -891,8 +925,8 @@ export type EventCreateWithoutPromotionsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizer: Prisma.UserCreateNestedOneWithoutEventsInput
-  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutEventInput
 }
 
 export type EventUncheckedCreateWithoutPromotionsInput = {
@@ -900,6 +934,7 @@ export type EventUncheckedCreateWithoutPromotionsInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -908,8 +943,8 @@ export type EventUncheckedCreateWithoutPromotionsInput = {
   description?: string | null
   deletedAt?: Date | string | null
   organizerId: number
-  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutEventInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutEventInput
 }
 
 export type EventCreateOrConnectWithoutPromotionsInput = {
@@ -932,6 +967,7 @@ export type EventUpdateWithoutPromotionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -940,8 +976,8 @@ export type EventUpdateWithoutPromotionsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizer?: Prisma.UserUpdateOneRequiredWithoutEventsNestedInput
-  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutPromotionsInput = {
@@ -949,6 +985,7 @@ export type EventUncheckedUpdateWithoutPromotionsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -957,8 +994,8 @@ export type EventUncheckedUpdateWithoutPromotionsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   organizerId?: Prisma.IntFieldUpdateOperationsInput | number
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventCreateManyOrganizerInput = {
@@ -966,6 +1003,7 @@ export type EventCreateManyOrganizerInput = {
   name: string
   artist: string
   location: string
+  city?: string | null
   startDate: Date | string
   endDate: Date | string
   thumbnail?: string | null
@@ -979,6 +1017,7 @@ export type EventUpdateWithoutOrganizerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -986,9 +1025,9 @@ export type EventUpdateWithoutOrganizerInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateWithoutOrganizerInput = {
@@ -996,6 +1035,7 @@ export type EventUncheckedUpdateWithoutOrganizerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1003,9 +1043,9 @@ export type EventUncheckedUpdateWithoutOrganizerInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
   promotions?: Prisma.PromotionsUncheckedUpdateManyWithoutEventNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutEventNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutEventNestedInput
 }
 
 export type EventUncheckedUpdateManyWithoutOrganizerInput = {
@@ -1013,6 +1053,7 @@ export type EventUncheckedUpdateManyWithoutOrganizerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thumbnail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1028,15 +1069,15 @@ export type EventUncheckedUpdateManyWithoutOrganizerInput = {
  */
 
 export type EventCountOutputType = {
-  tickets: number
-  reviews: number
   promotions: number
+  reviews: number
+  tickets: number
 }
 
 export type EventCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tickets?: boolean | EventCountOutputTypeCountTicketsArgs
-  reviews?: boolean | EventCountOutputTypeCountReviewsArgs
   promotions?: boolean | EventCountOutputTypeCountPromotionsArgs
+  reviews?: boolean | EventCountOutputTypeCountReviewsArgs
+  tickets?: boolean | EventCountOutputTypeCountTicketsArgs
 }
 
 /**
@@ -1052,8 +1093,8 @@ export type EventCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * EventCountOutputType without action
  */
-export type EventCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TicketWhereInput
+export type EventCountOutputTypeCountPromotionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PromotionsWhereInput
 }
 
 /**
@@ -1066,8 +1107,8 @@ export type EventCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.E
 /**
  * EventCountOutputType without action
  */
-export type EventCountOutputTypeCountPromotionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PromotionsWhereInput
+export type EventCountOutputTypeCountTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TicketWhereInput
 }
 
 
@@ -1076,6 +1117,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   name?: boolean
   artist?: boolean
   location?: boolean
+  city?: boolean
   startDate?: boolean
   endDate?: boolean
   thumbnail?: boolean
@@ -1085,9 +1127,9 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   deletedAt?: boolean
   organizerId?: boolean
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  tickets?: boolean | Prisma.Event$ticketsArgs<ExtArgs>
-  reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
   promotions?: boolean | Prisma.Event$promotionsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  tickets?: boolean | Prisma.Event$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
@@ -1096,6 +1138,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   artist?: boolean
   location?: boolean
+  city?: boolean
   startDate?: boolean
   endDate?: boolean
   thumbnail?: boolean
@@ -1112,6 +1155,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   name?: boolean
   artist?: boolean
   location?: boolean
+  city?: boolean
   startDate?: boolean
   endDate?: boolean
   thumbnail?: boolean
@@ -1128,6 +1172,7 @@ export type EventSelectScalar = {
   name?: boolean
   artist?: boolean
   location?: boolean
+  city?: boolean
   startDate?: boolean
   endDate?: boolean
   thumbnail?: boolean
@@ -1138,12 +1183,12 @@ export type EventSelectScalar = {
   organizerId?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "artist" | "location" | "startDate" | "endDate" | "thumbnail" | "totalTicket" | "category" | "description" | "deletedAt" | "organizerId", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "artist" | "location" | "city" | "startDate" | "endDate" | "thumbnail" | "totalTicket" | "category" | "description" | "deletedAt" | "organizerId", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  tickets?: boolean | Prisma.Event$ticketsArgs<ExtArgs>
-  reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
   promotions?: boolean | Prisma.Event$promotionsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Event$reviewsArgs<ExtArgs>
+  tickets?: boolean | Prisma.Event$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.EventCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1157,15 +1202,16 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Event"
   objects: {
     organizer: Prisma.$UserPayload<ExtArgs>
-    tickets: Prisma.$TicketPayload<ExtArgs>[]
-    reviews: Prisma.$ReviewPayload<ExtArgs>[]
     promotions: Prisma.$PromotionsPayload<ExtArgs>[]
+    reviews: Prisma.$ReviewPayload<ExtArgs>[]
+    tickets: Prisma.$TicketPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
     artist: string
     location: string
+    city: string | null
     startDate: Date
     endDate: Date
     thumbnail: string | null
@@ -1569,9 +1615,9 @@ readonly fields: EventFieldRefs;
 export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organizer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tickets<T extends Prisma.Event$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  reviews<T extends Prisma.Event$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   promotions<T extends Prisma.Event$promotionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PromotionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Event$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tickets<T extends Prisma.Event$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1605,6 +1651,7 @@ export interface EventFieldRefs {
   readonly name: Prisma.FieldRef<"Event", 'String'>
   readonly artist: Prisma.FieldRef<"Event", 'String'>
   readonly location: Prisma.FieldRef<"Event", 'String'>
+  readonly city: Prisma.FieldRef<"Event", 'String'>
   readonly startDate: Prisma.FieldRef<"Event", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Event", 'DateTime'>
   readonly thumbnail: Prisma.FieldRef<"Event", 'String'>
@@ -2014,27 +2061,27 @@ export type EventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Event.tickets
+ * Event.promotions
  */
-export type Event$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Event$promotionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Ticket
+   * Select specific fields to fetch from the Promotions
    */
-  select?: Prisma.TicketSelect<ExtArgs> | null
+  select?: Prisma.PromotionsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Ticket
+   * Omit specific fields from the Promotions
    */
-  omit?: Prisma.TicketOmit<ExtArgs> | null
+  omit?: Prisma.PromotionsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TicketInclude<ExtArgs> | null
-  where?: Prisma.TicketWhereInput
-  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
-  cursor?: Prisma.TicketWhereUniqueInput
+  include?: Prisma.PromotionsInclude<ExtArgs> | null
+  where?: Prisma.PromotionsWhereInput
+  orderBy?: Prisma.PromotionsOrderByWithRelationInput | Prisma.PromotionsOrderByWithRelationInput[]
+  cursor?: Prisma.PromotionsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
+  distinct?: Prisma.PromotionsScalarFieldEnum | Prisma.PromotionsScalarFieldEnum[]
 }
 
 /**
@@ -2062,27 +2109,27 @@ export type Event$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * Event.promotions
+ * Event.tickets
  */
-export type Event$promotionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Event$ticketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Promotions
+   * Select specific fields to fetch from the Ticket
    */
-  select?: Prisma.PromotionsSelect<ExtArgs> | null
+  select?: Prisma.TicketSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Promotions
+   * Omit specific fields from the Ticket
    */
-  omit?: Prisma.PromotionsOmit<ExtArgs> | null
+  omit?: Prisma.TicketOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PromotionsInclude<ExtArgs> | null
-  where?: Prisma.PromotionsWhereInput
-  orderBy?: Prisma.PromotionsOrderByWithRelationInput | Prisma.PromotionsOrderByWithRelationInput[]
-  cursor?: Prisma.PromotionsWhereUniqueInput
+  include?: Prisma.TicketInclude<ExtArgs> | null
+  where?: Prisma.TicketWhereInput
+  orderBy?: Prisma.TicketOrderByWithRelationInput | Prisma.TicketOrderByWithRelationInput[]
+  cursor?: Prisma.TicketWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.PromotionsScalarFieldEnum | Prisma.PromotionsScalarFieldEnum[]
+  distinct?: Prisma.TicketScalarFieldEnum | Prisma.TicketScalarFieldEnum[]
 }
 
 /**

@@ -240,9 +240,9 @@ export type ReviewWhereInput = {
   transactionId?: Prisma.IntFilter<"Review"> | number
   eventId?: Prisma.IntFilter<"Review"> | number
   reviewerId?: Prisma.IntFilter<"Review"> | number
-  transaction?: Prisma.XOR<Prisma.TransactionScalarRelationFilter, Prisma.TransactionWhereInput>
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   reviewer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  transaction?: Prisma.XOR<Prisma.TransactionScalarRelationFilter, Prisma.TransactionWhereInput>
 }
 
 export type ReviewOrderByWithRelationInput = {
@@ -252,9 +252,9 @@ export type ReviewOrderByWithRelationInput = {
   transactionId?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
   reviewerId?: Prisma.SortOrder
-  transaction?: Prisma.TransactionOrderByWithRelationInput
   event?: Prisma.EventOrderByWithRelationInput
   reviewer?: Prisma.UserOrderByWithRelationInput
+  transaction?: Prisma.TransactionOrderByWithRelationInput
 }
 
 export type ReviewWhereUniqueInput = Prisma.AtLeast<{
@@ -267,9 +267,9 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   transactionId?: Prisma.IntFilter<"Review"> | number
   eventId?: Prisma.IntFilter<"Review"> | number
   reviewerId?: Prisma.IntFilter<"Review"> | number
-  transaction?: Prisma.XOR<Prisma.TransactionScalarRelationFilter, Prisma.TransactionWhereInput>
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   reviewer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  transaction?: Prisma.XOR<Prisma.TransactionScalarRelationFilter, Prisma.TransactionWhereInput>
 }, "id">
 
 export type ReviewOrderByWithAggregationInput = {
@@ -301,9 +301,9 @@ export type ReviewScalarWhereWithAggregatesInput = {
 export type ReviewCreateInput = {
   text: string
   rating: number
-  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
   event: Prisma.EventCreateNestedOneWithoutReviewsInput
   reviewer: Prisma.UserCreateNestedOneWithoutReviewsInput
+  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
 }
 
 export type ReviewUncheckedCreateInput = {
@@ -318,9 +318,9 @@ export type ReviewUncheckedCreateInput = {
 export type ReviewUpdateInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
-  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
   event?: Prisma.EventUpdateOneRequiredWithoutReviewsNestedInput
   reviewer?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
+  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
 }
 
 export type ReviewUncheckedUpdateInput = {
@@ -537,8 +537,8 @@ export type ReviewUncheckedUpdateManyWithoutTransactionNestedInput = {
 export type ReviewCreateWithoutReviewerInput = {
   text: string
   rating: number
-  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
   event: Prisma.EventCreateNestedOneWithoutReviewsInput
+  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
 }
 
 export type ReviewUncheckedCreateWithoutReviewerInput = {
@@ -590,8 +590,8 @@ export type ReviewScalarWhereInput = {
 export type ReviewCreateWithoutEventInput = {
   text: string
   rating: number
-  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
   reviewer: Prisma.UserCreateNestedOneWithoutReviewsInput
+  transaction: Prisma.TransactionCreateNestedOneWithoutReviewsInput
 }
 
 export type ReviewUncheckedCreateWithoutEventInput = {
@@ -680,8 +680,8 @@ export type ReviewCreateManyReviewerInput = {
 export type ReviewUpdateWithoutReviewerInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
-  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
   event?: Prisma.EventUpdateOneRequiredWithoutReviewsNestedInput
+  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutReviewerInput = {
@@ -711,8 +711,8 @@ export type ReviewCreateManyEventInput = {
 export type ReviewUpdateWithoutEventInput = {
   text?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
-  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
   reviewer?: Prisma.UserUpdateOneRequiredWithoutReviewsNestedInput
+  transaction?: Prisma.TransactionUpdateOneRequiredWithoutReviewsNestedInput
 }
 
 export type ReviewUncheckedUpdateWithoutEventInput = {
@@ -771,9 +771,9 @@ export type ReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   transactionId?: boolean
   eventId?: boolean
   reviewerId?: boolean
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -783,9 +783,9 @@ export type ReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   transactionId?: boolean
   eventId?: boolean
   reviewerId?: boolean
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -795,9 +795,9 @@ export type ReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   transactionId?: boolean
   eventId?: boolean
   reviewerId?: boolean
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["review"]>
 
 export type ReviewSelectScalar = {
@@ -811,27 +811,27 @@ export type ReviewSelectScalar = {
 
 export type ReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "text" | "rating" | "transactionId" | "eventId" | "reviewerId", ExtArgs["result"]["review"]>
 export type ReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }
 export type ReviewIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }
 export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  transaction?: boolean | Prisma.TransactionDefaultArgs<ExtArgs>
 }
 
 export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Review"
   objects: {
-    transaction: Prisma.$TransactionPayload<ExtArgs>
     event: Prisma.$EventPayload<ExtArgs>
     reviewer: Prisma.$UserPayload<ExtArgs>
+    transaction: Prisma.$TransactionPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1234,9 +1234,9 @@ readonly fields: ReviewFieldRefs;
  */
 export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  transaction<T extends Prisma.TransactionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransactionDefaultArgs<ExtArgs>>): Prisma.Prisma__TransactionClient<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   event<T extends Prisma.EventDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EventDefaultArgs<ExtArgs>>): Prisma.Prisma__EventClient<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviewer<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transaction<T extends Prisma.TransactionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransactionDefaultArgs<ExtArgs>>): Prisma.Prisma__TransactionClient<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
