@@ -18,7 +18,7 @@ export class EventController {
       sortOrder: (req.query.sortOrder as string) || DEFAULT_SORT_ORDER,
       sortBy: (req.query.sortBy as string) || DEFAULT_SORT_BY,
       search: (req.query.search as string) || DEFAULT_SEARCH,
-      category: (req.query.search as string) || DEFAULT_FILTER,
+      category: (req.query.category as string) || DEFAULT_FILTER,
     };
 
     const result = await this.eventService.getEvents(query);
