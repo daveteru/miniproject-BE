@@ -4,6 +4,7 @@ import { ApiError } from "../../utils/api-error.js";
 
 interface GetEventsQuery extends PaginationQueryParams {
   search?: string;
+  category?: string;
 }
 
 export class EventService {
@@ -15,6 +16,7 @@ export class EventService {
     sortOrder,
     take,
     search,
+    category,
   }: GetEventsQuery) => {
     const whereClause: Prisma.EventWhereInput = {
       deletedAt: null,
@@ -22,6 +24,9 @@ export class EventService {
 
     if (search) {
       whereClause.name = { contains: search, mode: "insensitive" };
+    }
+    if (category) {
+      whereClause.category = { contains: category, mode: "insensitive" };
     }
 
     const events = await this.prisma.event.findMany({
