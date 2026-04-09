@@ -12,7 +12,7 @@ model User {
   email        String        @unique
   password     String
   birthdate    DateTime
-  role         Role
+  role         Role          @default(USER)
   createdAt    DateTime      @default(now())
   avatar       String?
   fullName     String
