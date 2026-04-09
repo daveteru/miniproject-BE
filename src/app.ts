@@ -42,18 +42,7 @@ export class App {
   constructor() {
     this.app = express();
     this.configure();
-    
-    this.userModules();
-    this.transactionModules();
-    this.ticketModules();
-    this.reviewModules();
-    this.promotionModules();
-    this.pointsModules();
-    this.eventModules();
-    this.couponModules();
-    this.voucherModules();
-    this.authModules();
-
+    this.registerModules();
     this.errors();
   }
 
@@ -67,73 +56,53 @@ export class App {
     this.app.use(notFoundMiddleware);
   }
 
-  private userModules() {
+  private registerModules() {
+    // services
     const userService = new UserService(prisma);
-    const userController = new UserController(userService);
-    const userRouter = new UserRouter(userController);
-    this.app.use("/users", userRouter.getRouter());
-  }
-
-  private transactionModules() {
     const transactionService = new TransactionService(prisma);
-    const transactionController = new TransactionController(transactionService);
-    const transactionRouter = new TransactionRouter(transactionController);
-    this.app.use("/transactions", transactionRouter.getRouter());
-  }
-
-  private ticketModules() {
     const ticketService = new TicketService(prisma);
-    const ticketController = new TicketController(ticketService);
-    const ticketRouter = new TicketRouter(ticketController);
-    this.app.use("/tickets", ticketRouter.getRouter());
-  }
-
-  private reviewModules() {
     const reviewService = new ReviewService(prisma);
-    const reviewController = new ReviewController(reviewService);
-    const reviewRouter = new ReviewRouter(reviewController);
-    this.app.use("/reviews", reviewRouter.getRouter());
-  }
-
-  private promotionModules() {
     const promotionService = new PromotionService(prisma);
-    const promotionController = new PromotionController(promotionService);
-    const promotionRouter = new PromotionRouter(promotionController);
-    this.app.use("/promotions", promotionRouter.getRouter());
-  }
-
-  private pointsModules() {
     const pointsService = new PointsService(prisma);
-    const pointsController = new PointsController(pointsService);
-    const pointsRouter = new PointsRouter(pointsController);
-    this.app.use("/points", pointsRouter.getRouter());
-  }
-
-  private eventModules() {
     const eventService = new EventService(prisma);
-    const eventController = new EventController(eventService);
-    const eventRouter = new EventRouter(eventController);
-    this.app.use("/events", eventRouter.getRouter());
-  }
-
-  private couponModules() {
     const couponService = new CouponService(prisma);
-    const couponController = new CouponController(couponService);
-    const couponRouter = new CouponRouter(couponController);
-    this.app.use("/coupons", couponRouter.getRouter());
-  }
-
-  private voucherModules() {
     const voucherService = new VoucherService(prisma);
-    const voucherController = new VoucherController(voucherService);
-    const voucherRouter = new VoucherRouter(voucherController);
-    this.app.use("/vouchers", voucherRouter.getRouter());
-  }
-
-  private authModules() {
     const authService = new AuthService(prisma);
+
+    // controllers
+    const userController = new UserController(userService);
+    const transactionController = new TransactionController(transactionService);
+    const ticketController = new TicketController(ticketService);
+    const reviewController = new ReviewController(reviewService);
+    const promotionController = new PromotionController(promotionService);
+    const pointsController = new PointsController(pointsService);
+    const eventController = new EventController(eventService);
+    const couponController = new CouponController(couponService);
+    const voucherController = new VoucherController(voucherService);
     const authController = new AuthController(authService);
+
+    // routers
+    const userRouter = new UserRouter(userController);
+    const transactionRouter = new TransactionRouter(transactionController);
+    const ticketRouter = new TicketRouter(ticketController);
+    const reviewRouter = new ReviewRouter(reviewController);
+    const promotionRouter = new PromotionRouter(promotionController);
+    const pointsRouter = new PointsRouter(pointsController);
+    const eventRouter = new EventRouter(eventController);
+    const couponRouter = new CouponRouter(couponController);
+    const voucherRouter = new VoucherRouter(voucherController);
     const authRouter = new AuthRouter(authController);
+
+    // entry points
+    this.app.use("/users", userRouter.getRouter());
+    this.app.use("/transactions", transactionRouter.getRouter());
+    this.app.use("/tickets", ticketRouter.getRouter());
+    this.app.use("/reviews", reviewRouter.getRouter());
+    this.app.use("/promotions", promotionRouter.getRouter());
+    this.app.use("/points", pointsRouter.getRouter());
+    this.app.use("/events", eventRouter.getRouter());
+    this.app.use("/coupons", couponRouter.getRouter());
+    this.app.use("/vouchers", voucherRouter.getRouter());
     this.app.use("/auth", authRouter.getRouter());
   }
 
