@@ -30,12 +30,14 @@ export type TicketAvgAggregateOutputType = {
   id: number | null
   availableTicket: number | null
   eventId: number | null
+  price: number | null
 }
 
 export type TicketSumAggregateOutputType = {
   id: number | null
   availableTicket: number | null
   eventId: number | null
+  price: number | null
 }
 
 export type TicketMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type TicketMinAggregateOutputType = {
   availableTicket: number | null
   deletedAt: Date | null
   eventId: number | null
+  price: number | null
 }
 
 export type TicketMaxAggregateOutputType = {
@@ -52,6 +55,7 @@ export type TicketMaxAggregateOutputType = {
   availableTicket: number | null
   deletedAt: Date | null
   eventId: number | null
+  price: number | null
 }
 
 export type TicketCountAggregateOutputType = {
@@ -60,6 +64,7 @@ export type TicketCountAggregateOutputType = {
   availableTicket: number
   deletedAt: number
   eventId: number
+  price: number
   _all: number
 }
 
@@ -68,12 +73,14 @@ export type TicketAvgAggregateInputType = {
   id?: true
   availableTicket?: true
   eventId?: true
+  price?: true
 }
 
 export type TicketSumAggregateInputType = {
   id?: true
   availableTicket?: true
   eventId?: true
+  price?: true
 }
 
 export type TicketMinAggregateInputType = {
@@ -82,6 +89,7 @@ export type TicketMinAggregateInputType = {
   availableTicket?: true
   deletedAt?: true
   eventId?: true
+  price?: true
 }
 
 export type TicketMaxAggregateInputType = {
@@ -90,6 +98,7 @@ export type TicketMaxAggregateInputType = {
   availableTicket?: true
   deletedAt?: true
   eventId?: true
+  price?: true
 }
 
 export type TicketCountAggregateInputType = {
@@ -98,6 +107,7 @@ export type TicketCountAggregateInputType = {
   availableTicket?: true
   deletedAt?: true
   eventId?: true
+  price?: true
   _all?: true
 }
 
@@ -193,6 +203,7 @@ export type TicketGroupByOutputType = {
   availableTicket: number
   deletedAt: Date | null
   eventId: number
+  price: number
   _count: TicketCountAggregateOutputType | null
   _avg: TicketAvgAggregateOutputType | null
   _sum: TicketSumAggregateOutputType | null
@@ -224,6 +235,7 @@ export type TicketWhereInput = {
   availableTicket?: Prisma.IntFilter<"Ticket"> | number
   deletedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
   eventId?: Prisma.IntFilter<"Ticket"> | number
+  price?: Prisma.IntFilter<"Ticket"> | number
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   transactions?: Prisma.TransactionListRelationFilter
 }
@@ -234,6 +246,7 @@ export type TicketOrderByWithRelationInput = {
   availableTicket?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   event?: Prisma.EventOrderByWithRelationInput
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
@@ -247,6 +260,7 @@ export type TicketWhereUniqueInput = Prisma.AtLeast<{
   availableTicket?: Prisma.IntFilter<"Ticket"> | number
   deletedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
   eventId?: Prisma.IntFilter<"Ticket"> | number
+  price?: Prisma.IntFilter<"Ticket"> | number
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
   transactions?: Prisma.TransactionListRelationFilter
 }, "id">
@@ -257,6 +271,7 @@ export type TicketOrderByWithAggregationInput = {
   availableTicket?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   _count?: Prisma.TicketCountOrderByAggregateInput
   _avg?: Prisma.TicketAvgOrderByAggregateInput
   _max?: Prisma.TicketMaxOrderByAggregateInput
@@ -273,12 +288,14 @@ export type TicketScalarWhereWithAggregatesInput = {
   availableTicket?: Prisma.IntWithAggregatesFilter<"Ticket"> | number
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
   eventId?: Prisma.IntWithAggregatesFilter<"Ticket"> | number
+  price?: Prisma.IntWithAggregatesFilter<"Ticket"> | number
 }
 
 export type TicketCreateInput = {
   ticketLevel: string
   availableTicket: number
   deletedAt?: Date | string | null
+  price?: number
   event: Prisma.EventCreateNestedOneWithoutTicketsInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutTicketInput
 }
@@ -289,6 +306,7 @@ export type TicketUncheckedCreateInput = {
   availableTicket: number
   deletedAt?: Date | string | null
   eventId: number
+  price?: number
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutTicketInput
 }
 
@@ -296,6 +314,7 @@ export type TicketUpdateInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   event?: Prisma.EventUpdateOneRequiredWithoutTicketsNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutTicketNestedInput
 }
@@ -306,6 +325,7 @@ export type TicketUncheckedUpdateInput = {
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   eventId?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutTicketNestedInput
 }
 
@@ -315,12 +335,14 @@ export type TicketCreateManyInput = {
   availableTicket: number
   deletedAt?: Date | string | null
   eventId: number
+  price?: number
 }
 
 export type TicketUpdateManyMutationInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TicketUncheckedUpdateManyInput = {
@@ -329,6 +351,7 @@ export type TicketUncheckedUpdateManyInput = {
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   eventId?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TicketListRelationFilter = {
@@ -347,12 +370,14 @@ export type TicketCountOrderByAggregateInput = {
   availableTicket?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type TicketAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   availableTicket?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type TicketMaxOrderByAggregateInput = {
@@ -361,6 +386,7 @@ export type TicketMaxOrderByAggregateInput = {
   availableTicket?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type TicketMinOrderByAggregateInput = {
@@ -369,12 +395,14 @@ export type TicketMinOrderByAggregateInput = {
   availableTicket?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type TicketSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   availableTicket?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type TicketScalarRelationFilter = {
@@ -442,6 +470,7 @@ export type TicketCreateWithoutEventInput = {
   ticketLevel: string
   availableTicket: number
   deletedAt?: Date | string | null
+  price?: number
   transactions?: Prisma.TransactionCreateNestedManyWithoutTicketInput
 }
 
@@ -450,6 +479,7 @@ export type TicketUncheckedCreateWithoutEventInput = {
   ticketLevel: string
   availableTicket: number
   deletedAt?: Date | string | null
+  price?: number
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutTicketInput
 }
 
@@ -488,12 +518,14 @@ export type TicketScalarWhereInput = {
   availableTicket?: Prisma.IntFilter<"Ticket"> | number
   deletedAt?: Prisma.DateTimeNullableFilter<"Ticket"> | Date | string | null
   eventId?: Prisma.IntFilter<"Ticket"> | number
+  price?: Prisma.IntFilter<"Ticket"> | number
 }
 
 export type TicketCreateWithoutTransactionsInput = {
   ticketLevel: string
   availableTicket: number
   deletedAt?: Date | string | null
+  price?: number
   event: Prisma.EventCreateNestedOneWithoutTicketsInput
 }
 
@@ -503,6 +535,7 @@ export type TicketUncheckedCreateWithoutTransactionsInput = {
   availableTicket: number
   deletedAt?: Date | string | null
   eventId: number
+  price?: number
 }
 
 export type TicketCreateOrConnectWithoutTransactionsInput = {
@@ -525,6 +558,7 @@ export type TicketUpdateWithoutTransactionsInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   event?: Prisma.EventUpdateOneRequiredWithoutTicketsNestedInput
 }
 
@@ -534,6 +568,7 @@ export type TicketUncheckedUpdateWithoutTransactionsInput = {
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   eventId?: Prisma.IntFieldUpdateOperationsInput | number
+  price?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TicketCreateManyEventInput = {
@@ -541,12 +576,14 @@ export type TicketCreateManyEventInput = {
   ticketLevel: string
   availableTicket: number
   deletedAt?: Date | string | null
+  price?: number
 }
 
 export type TicketUpdateWithoutEventInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   transactions?: Prisma.TransactionUpdateManyWithoutTicketNestedInput
 }
 
@@ -555,6 +592,7 @@ export type TicketUncheckedUpdateWithoutEventInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutTicketNestedInput
 }
 
@@ -563,6 +601,7 @@ export type TicketUncheckedUpdateManyWithoutEventInput = {
   ticketLevel?: Prisma.StringFieldUpdateOperationsInput | string
   availableTicket?: Prisma.IntFieldUpdateOperationsInput | number
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  price?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -602,6 +641,7 @@ export type TicketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   availableTicket?: boolean
   deletedAt?: boolean
   eventId?: boolean
+  price?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.Ticket$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.TicketCountOutputTypeDefaultArgs<ExtArgs>
@@ -613,6 +653,7 @@ export type TicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   availableTicket?: boolean
   deletedAt?: boolean
   eventId?: boolean
+  price?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
@@ -622,6 +663,7 @@ export type TicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   availableTicket?: boolean
   deletedAt?: boolean
   eventId?: boolean
+  price?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
@@ -631,9 +673,10 @@ export type TicketSelectScalar = {
   availableTicket?: boolean
   deletedAt?: boolean
   eventId?: boolean
+  price?: boolean
 }
 
-export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticketLevel" | "availableTicket" | "deletedAt" | "eventId", ExtArgs["result"]["ticket"]>
+export type TicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticketLevel" | "availableTicket" | "deletedAt" | "eventId" | "price", ExtArgs["result"]["ticket"]>
 export type TicketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.Ticket$transactionsArgs<ExtArgs>
@@ -658,6 +701,7 @@ export type $TicketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     availableTicket: number
     deletedAt: Date | null
     eventId: number
+    price: number
   }, ExtArgs["result"]["ticket"]>
   composites: {}
 }
@@ -1088,6 +1132,7 @@ export interface TicketFieldRefs {
   readonly availableTicket: Prisma.FieldRef<"Ticket", 'Int'>
   readonly deletedAt: Prisma.FieldRef<"Ticket", 'DateTime'>
   readonly eventId: Prisma.FieldRef<"Ticket", 'Int'>
+  readonly price: Prisma.FieldRef<"Ticket", 'Int'>
 }
     
 
