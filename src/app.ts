@@ -32,6 +32,9 @@ import { CouponRouter } from "./modules/coupon/coupon.router.js";
 import { VoucherService } from "./modules/voucher/voucher.service.js";
 import { VoucherController } from "./modules/voucher/voucher.controller.js";
 import { VoucherRouter } from "./modules/voucher/voucher.router.js";
+import { AuthService } from "./modules/auth/auth.service.js";
+import { AuthController } from "./modules/auth/auth.controller.js";
+import { AuthRouter } from "./modules/auth/auth.router.js";
 
 export class App {
   app: Express;
@@ -49,6 +52,7 @@ export class App {
     this.eventModules();
     this.couponModules();
     this.voucherModules();
+    this.authModules();
 
     this.errors();
   }
@@ -124,6 +128,13 @@ export class App {
     const voucherController = new VoucherController(voucherService);
     const voucherRouter = new VoucherRouter(voucherController);
     this.app.use("/vouchers", voucherRouter.getRouter());
+  }
+
+  private authModules() {
+    const authService = new AuthService(prisma);
+    const authController = new AuthController(authService);
+    const authRouter = new AuthRouter(authController);
+    this.app.use("/auth", authRouter.getRouter());
   }
 
   start() {
