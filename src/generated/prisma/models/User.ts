@@ -338,7 +338,7 @@ export type UserCreateInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -357,7 +357,7 @@ export type UserUncheckedCreateInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -413,7 +413,7 @@ export type UserCreateManyInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -628,7 +628,7 @@ export type UserCreateWithoutEventsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -646,7 +646,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -714,7 +714,7 @@ export type UserCreateWithoutTransactionsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -732,7 +732,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -800,7 +800,7 @@ export type UserCreateWithoutReviewsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -818,7 +818,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -886,7 +886,7 @@ export type UserCreateWithoutCouponsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -904,7 +904,7 @@ export type UserUncheckedCreateWithoutCouponsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -972,7 +972,7 @@ export type UserCreateWithoutPointsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -990,7 +990,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -1058,7 +1058,7 @@ export type UserCreateWithoutVoucherOwnerInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -1076,7 +1076,7 @@ export type UserUncheckedCreateWithoutVoucherOwnerInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -1098,7 +1098,7 @@ export type UserCreateWithoutVouchersInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
@@ -1116,7 +1116,7 @@ export type UserUncheckedCreateWithoutVouchersInput = {
   email: string
   password: string
   birthdate: Date | string
-  role: $Enums.Role
+  role?: $Enums.Role
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
