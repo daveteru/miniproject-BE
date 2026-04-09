@@ -1156,7 +1156,8 @@ export const TicketScalarFieldEnum = {
   ticketLevel: 'ticketLevel',
   availableTicket: 'availableTicket',
   deletedAt: 'deletedAt',
-  eventId: 'eventId'
+  eventId: 'eventId',
+  price: 'price'
 } as const
 
 export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]

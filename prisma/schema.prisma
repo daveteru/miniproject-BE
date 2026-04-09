@@ -56,6 +56,7 @@ model Ticket {
   availableTicket Int
   deletedAt       DateTime?
   eventId         Int
+  price           Int           @default(0)
   event           Event         @relation(fields: [eventId], references: [id])
   transactions    Transaction[]
 
