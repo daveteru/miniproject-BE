@@ -94,6 +94,7 @@ export class EventService {
         name: body.name,
         artist: body.artist,
         location: body.location,
+        city: body.city,
         startDate: new Date(body.startDate),
         endDate: new Date(body.endDate),
         thumbnail: body.thumbnail,

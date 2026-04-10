@@ -178,7 +178,8 @@ export const VoucherScalarFieldEnum = {
   amount: 'amount',
   expiredDate: 'expiredDate',
   userId: 'userId',
-  organizerID: 'organizerID'
+  organizerID: 'organizerID',
+  eventId: 'eventId'
 } as const
 
 export type VoucherScalarFieldEnum = (typeof VoucherScalarFieldEnum)[keyof typeof VoucherScalarFieldEnum]

@@ -13,16 +13,22 @@ export class EventRouter {
 
   private initRoutes = () => {
     this.router.get(
-      "/:id",
-      EventValidator.getById(),
-      validatorMiddleware,
-      this.eventController.getEvent,
-    );
-    this.router.get(
       "/",
       EventValidator.getMany(),
       validatorMiddleware,
       this.eventController.getEvents,
+    );
+    this.router.post(
+      "/",
+      EventValidator.create(),
+      validatorMiddleware,
+      this.eventController.createEvent,
+    );
+    this.router.get(
+      "/:id",
+      EventValidator.getById(),
+      validatorMiddleware,
+      this.eventController.getEvent,
     );
     this.router.delete(
       "/:id",
@@ -35,12 +41,6 @@ export class EventRouter {
       EventValidator.update(),
       validatorMiddleware,
       this.eventController.updateEvent,
-    );
-    this.router.post(
-      "/",
-      EventValidator.create(),
-      validatorMiddleware,
-      this.eventController.createEvent,
     );
   };
 
