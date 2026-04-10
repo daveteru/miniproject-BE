@@ -24,6 +24,12 @@ export class EventRouter {
       validatorMiddleware,
       this.eventController.createEvent,
     );
+    this.router.post(
+      "/bundle",
+      EventValidator.createBundle(),
+      validatorMiddleware,
+      this.eventController.createEventBundle,
+    );
     this.router.get(
       "/:id",
       EventValidator.getById(),

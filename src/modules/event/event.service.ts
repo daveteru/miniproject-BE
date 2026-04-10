@@ -2,6 +2,32 @@ import { Event, Prisma, PrismaClient } from "../../generated/prisma/client.js";
 import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
 
+interface createEventBundle {
+  event: {
+    name: string;
+    artist: string;
+    location: string;
+    city?: string;
+    startDate: string;
+    endDate: string;
+    thumbnail?: string;
+    totalTicket: number;
+    category: string;
+    description?: string;
+    organizerId: number;
+  };
+  tickets: {
+    ticketLevel: string;
+    availableTicket: number;
+    price: number;
+  }[];
+  voucher?: {
+    amount: number;
+    expiredDate: string;
+    userId: number;
+  };
+}
+
 interface GetEventsQuery extends PaginationQueryParams {
   search?: string;
   category?: string;
@@ -105,5 +131,48 @@ export class EventService {
       },
     });
     return { message: "Event creation successful" };
+  };
+
+  createEventBundle = async (body: createEventBundle) => {
+    await this.prisma.$transaction(async (tx) => {
+      const event = await tx.event.create({
+        data: {
+          name: body.event.name,
+          artist: body.event.artist,
+          location: body.event.location,
+          city: body.event.city,
+          startDate: new Date(body.event.startDate),
+          endDate: new Date(body.event.endDate),
+          thumbnail: body.event.thumbnail,
+          totalTicket: body.event.totalTicket,
+          category: body.event.category,
+          description: body.event.description,
+          organizerId: body.event.organizerId,
+        },
+      });
+
+      await tx.ticket.createMany({
+        data: body.tickets.map((ticket) => ({
+          ticketLevel: ticket.ticketLevel,
+          availableTicket: ticket.availableTicket,
+          price: ticket.price,
+          eventId: event.id,
+        })),
+      });
+
+      if (body.voucher) {
+        await tx.voucher.create({
+          data: {
+            amount: body.voucher.amount,
+            expiredDate: new Date(body.voucher.expiredDate),
+            userId: body.voucher.userId,
+            organizerID: body.event.organizerId,
+            eventId: event.id,
+          },
+        });
+      }
+    });
+
+    return { message: "Event bundle creation successful" };
   };
 }

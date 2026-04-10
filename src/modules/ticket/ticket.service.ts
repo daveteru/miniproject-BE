@@ -16,9 +16,9 @@ export class TicketService {
     return ticket;
   };
 
-    getEventTicket = async (eventId: number) => {
+  getEventTicket = async (eventId: number) => {
     const ticket = await this.prisma.ticket.findMany({
-      where: { eventId, deletedAt:null },
+      where: { eventId, deletedAt: null },
     });
 
     if (!ticket.length) {
@@ -28,14 +28,14 @@ export class TicketService {
     return ticket;
   };
 
-      createTicket = async (body : Omit<Ticket, "id" | "deletedAt">) => {
+  createTicket = async (body: Omit<Ticket, "id" | "deletedAt">) => {
     await this.prisma.ticket.create({
       data: {
-        ticketLevel:body.ticketLevel,
-        price:body.price,
-        availableTicket:body.availableTicket,
-        eventId:body.eventId
-      }
+        ticketLevel: body.ticketLevel,
+        price: body.price,
+        availableTicket: body.availableTicket,
+        eventId: body.eventId,
+      },
     });
     return { message: "Ticket creation successful" };
   };
