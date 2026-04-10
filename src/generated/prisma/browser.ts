@@ -62,3 +62,8 @@ export type Voucher = Prisma.VoucherModel
  * 
  */
 export type Promotions = Prisma.PromotionsModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel

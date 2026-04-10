@@ -259,6 +259,7 @@ export type UserWhereInput = {
   transactions?: Prisma.TransactionListRelationFilter
   voucherOwner?: Prisma.VoucherListRelationFilter
   vouchers?: Prisma.VoucherListRelationFilter
+  refreshToken?: Prisma.XOR<Prisma.RefreshTokenNullableScalarRelationFilter, Prisma.RefreshTokenWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -278,6 +279,7 @@ export type UserOrderByWithRelationInput = {
   transactions?: Prisma.TransactionOrderByRelationAggregateInput
   voucherOwner?: Prisma.VoucherOrderByRelationAggregateInput
   vouchers?: Prisma.VoucherOrderByRelationAggregateInput
+  refreshToken?: Prisma.RefreshTokenOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -300,6 +302,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   transactions?: Prisma.TransactionListRelationFilter
   voucherOwner?: Prisma.VoucherListRelationFilter
   vouchers?: Prisma.VoucherListRelationFilter
+  refreshToken?: Prisma.XOR<Prisma.RefreshTokenNullableScalarRelationFilter, Prisma.RefreshTokenWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -350,6 +353,7 @@ export type UserCreateInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -369,6 +373,7 @@ export type UserUncheckedCreateInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -387,6 +392,7 @@ export type UserUpdateInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -406,6 +412,7 @@ export type UserUncheckedUpdateInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -624,6 +631,20 @@ export type UserUpdateOneRequiredWithoutVouchersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVouchersInput, Prisma.UserUpdateWithoutVouchersInput>, Prisma.UserUncheckedUpdateWithoutVouchersInput>
 }
 
+export type UserCreateNestedOneWithoutRefreshTokenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokenInput, Prisma.UserUncheckedCreateWithoutRefreshTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRefreshTokenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokenInput, Prisma.UserUncheckedCreateWithoutRefreshTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRefreshTokenInput
+  upsert?: Prisma.UserUpsertWithoutRefreshTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRefreshTokenInput, Prisma.UserUpdateWithoutRefreshTokenInput>, Prisma.UserUncheckedUpdateWithoutRefreshTokenInput>
+}
+
 export type UserCreateWithoutEventsInput = {
   email: string
   password: string
@@ -639,6 +660,7 @@ export type UserCreateWithoutEventsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventsInput = {
@@ -657,6 +679,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventsInput = {
@@ -690,6 +713,7 @@ export type UserUpdateWithoutEventsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventsInput = {
@@ -708,6 +732,7 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransactionsInput = {
@@ -725,6 +750,7 @@ export type UserCreateWithoutTransactionsInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -743,6 +769,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -776,6 +803,7 @@ export type UserUpdateWithoutTransactionsInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -794,6 +822,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReviewsInput = {
@@ -811,6 +840,7 @@ export type UserCreateWithoutReviewsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewsInput = {
@@ -829,6 +859,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewsInput = {
@@ -862,6 +893,7 @@ export type UserUpdateWithoutReviewsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewsInput = {
@@ -880,6 +912,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCouponsInput = {
@@ -897,6 +930,7 @@ export type UserCreateWithoutCouponsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCouponsInput = {
@@ -915,6 +949,7 @@ export type UserUncheckedCreateWithoutCouponsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCouponsInput = {
@@ -948,6 +983,7 @@ export type UserUpdateWithoutCouponsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCouponsInput = {
@@ -966,6 +1002,7 @@ export type UserUncheckedUpdateWithoutCouponsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPointsInput = {
@@ -983,6 +1020,7 @@ export type UserCreateWithoutPointsInput = {
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPointsInput = {
@@ -1001,6 +1039,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPointsInput = {
@@ -1034,6 +1073,7 @@ export type UserUpdateWithoutPointsInput = {
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointsInput = {
@@ -1052,6 +1092,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutVoucherOwnerInput = {
@@ -1069,6 +1110,7 @@ export type UserCreateWithoutVoucherOwnerInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVoucherOwnerInput = {
@@ -1087,6 +1129,7 @@ export type UserUncheckedCreateWithoutVoucherOwnerInput = {
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVoucherOwnerInput = {
@@ -1109,6 +1152,7 @@ export type UserCreateWithoutVouchersInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
   transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
+  refreshToken?: Prisma.RefreshTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVouchersInput = {
@@ -1127,6 +1171,7 @@ export type UserUncheckedCreateWithoutVouchersInput = {
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
   transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
   voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
+  refreshToken?: Prisma.RefreshTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVouchersInput = {
@@ -1160,6 +1205,7 @@ export type UserUpdateWithoutVoucherOwnerInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVoucherOwnerInput = {
@@ -1178,6 +1224,7 @@ export type UserUncheckedUpdateWithoutVoucherOwnerInput = {
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutVouchersInput = {
@@ -1206,6 +1253,7 @@ export type UserUpdateWithoutVouchersInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
   transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
+  refreshToken?: Prisma.RefreshTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVouchersInput = {
@@ -1224,6 +1272,97 @@ export type UserUncheckedUpdateWithoutVouchersInput = {
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
   transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
   voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
+  refreshToken?: Prisma.RefreshTokenUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRefreshTokenInput = {
+  email: string
+  password: string
+  birthdate: Date | string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  avatar?: string | null
+  fullName: string
+  referral?: number | null
+  coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
+  events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
+  points?: Prisma.PointCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  voucherOwner?: Prisma.VoucherCreateNestedManyWithoutOrganizerInput
+  vouchers?: Prisma.VoucherCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRefreshTokenInput = {
+  id?: number
+  email: string
+  password: string
+  birthdate: Date | string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  avatar?: string | null
+  fullName: string
+  referral?: number | null
+  coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
+  points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  voucherOwner?: Prisma.VoucherUncheckedCreateNestedManyWithoutOrganizerInput
+  vouchers?: Prisma.VoucherUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRefreshTokenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokenInput, Prisma.UserUncheckedCreateWithoutRefreshTokenInput>
+}
+
+export type UserUpsertWithoutRefreshTokenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokenInput, Prisma.UserUncheckedUpdateWithoutRefreshTokenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRefreshTokenInput, Prisma.UserUncheckedCreateWithoutRefreshTokenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRefreshTokenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRefreshTokenInput, Prisma.UserUncheckedUpdateWithoutRefreshTokenInput>
+}
+
+export type UserUpdateWithoutRefreshTokenInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
+  events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
+  points?: Prisma.PointUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  voucherOwner?: Prisma.VoucherUpdateManyWithoutOrganizerNestedInput
+  vouchers?: Prisma.VoucherUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRefreshTokenInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
+  points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  voucherOwner?: Prisma.VoucherUncheckedUpdateManyWithoutOrganizerNestedInput
+  vouchers?: Prisma.VoucherUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1328,6 +1467,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   voucherOwner?: boolean | Prisma.User$voucherOwnerArgs<ExtArgs>
   vouchers?: boolean | Prisma.User$vouchersArgs<ExtArgs>
+  refreshToken?: boolean | Prisma.User$refreshTokenArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1376,6 +1516,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
   voucherOwner?: boolean | Prisma.User$voucherOwnerArgs<ExtArgs>
   vouchers?: boolean | Prisma.User$vouchersArgs<ExtArgs>
+  refreshToken?: boolean | Prisma.User$refreshTokenArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1391,6 +1532,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     transactions: Prisma.$TransactionPayload<ExtArgs>[]
     voucherOwner: Prisma.$VoucherPayload<ExtArgs>[]
     vouchers: Prisma.$VoucherPayload<ExtArgs>[]
+    refreshToken: Prisma.$RefreshTokenPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1803,6 +1945,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   voucherOwner<T extends Prisma.User$voucherOwnerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$voucherOwnerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoucherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vouchers<T extends Prisma.User$vouchersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$vouchersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoucherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  refreshToken<T extends Prisma.User$refreshTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokenArgs<ExtArgs>>): Prisma.Prisma__RefreshTokenClient<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2399,6 +2542,25 @@ export type User$vouchersArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.VoucherScalarFieldEnum | Prisma.VoucherScalarFieldEnum[]
+}
+
+/**
+ * User.refreshToken
+ */
+export type User$refreshTokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RefreshToken
+   */
+  select?: Prisma.RefreshTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RefreshToken
+   */
+  omit?: Prisma.RefreshTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RefreshTokenInclude<ExtArgs> | null
+  where?: Prisma.RefreshTokenWhereInput
 }
 
 /**
