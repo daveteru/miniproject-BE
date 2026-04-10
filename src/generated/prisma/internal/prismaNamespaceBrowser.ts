@@ -176,6 +176,7 @@ export type PointScalarFieldEnum = (typeof PointScalarFieldEnum)[keyof typeof Po
 export const VoucherScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
+  discamount: 'discamount',
   expiredDate: 'expiredDate',
   userId: 'userId',
   organizerID: 'organizerID',

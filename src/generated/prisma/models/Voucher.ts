@@ -29,6 +29,7 @@ export type AggregateVoucher = {
 export type VoucherAvgAggregateOutputType = {
   id: number | null
   amount: number | null
+  discamount: number | null
   userId: number | null
   organizerID: number | null
   eventId: number | null
@@ -37,6 +38,7 @@ export type VoucherAvgAggregateOutputType = {
 export type VoucherSumAggregateOutputType = {
   id: number | null
   amount: number | null
+  discamount: number | null
   userId: number | null
   organizerID: number | null
   eventId: number | null
@@ -45,6 +47,7 @@ export type VoucherSumAggregateOutputType = {
 export type VoucherMinAggregateOutputType = {
   id: number | null
   amount: number | null
+  discamount: number | null
   expiredDate: Date | null
   userId: number | null
   organizerID: number | null
@@ -54,6 +57,7 @@ export type VoucherMinAggregateOutputType = {
 export type VoucherMaxAggregateOutputType = {
   id: number | null
   amount: number | null
+  discamount: number | null
   expiredDate: Date | null
   userId: number | null
   organizerID: number | null
@@ -63,6 +67,7 @@ export type VoucherMaxAggregateOutputType = {
 export type VoucherCountAggregateOutputType = {
   id: number
   amount: number
+  discamount: number
   expiredDate: number
   userId: number
   organizerID: number
@@ -74,6 +79,7 @@ export type VoucherCountAggregateOutputType = {
 export type VoucherAvgAggregateInputType = {
   id?: true
   amount?: true
+  discamount?: true
   userId?: true
   organizerID?: true
   eventId?: true
@@ -82,6 +88,7 @@ export type VoucherAvgAggregateInputType = {
 export type VoucherSumAggregateInputType = {
   id?: true
   amount?: true
+  discamount?: true
   userId?: true
   organizerID?: true
   eventId?: true
@@ -90,6 +97,7 @@ export type VoucherSumAggregateInputType = {
 export type VoucherMinAggregateInputType = {
   id?: true
   amount?: true
+  discamount?: true
   expiredDate?: true
   userId?: true
   organizerID?: true
@@ -99,6 +107,7 @@ export type VoucherMinAggregateInputType = {
 export type VoucherMaxAggregateInputType = {
   id?: true
   amount?: true
+  discamount?: true
   expiredDate?: true
   userId?: true
   organizerID?: true
@@ -108,6 +117,7 @@ export type VoucherMaxAggregateInputType = {
 export type VoucherCountAggregateInputType = {
   id?: true
   amount?: true
+  discamount?: true
   expiredDate?: true
   userId?: true
   organizerID?: true
@@ -204,6 +214,7 @@ export type VoucherGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type VoucherGroupByOutputType = {
   id: number
   amount: number
+  discamount: number
   expiredDate: Date
   userId: number
   organizerID: number
@@ -236,6 +247,7 @@ export type VoucherWhereInput = {
   NOT?: Prisma.VoucherWhereInput | Prisma.VoucherWhereInput[]
   id?: Prisma.IntFilter<"Voucher"> | number
   amount?: Prisma.IntFilter<"Voucher"> | number
+  discamount?: Prisma.IntFilter<"Voucher"> | number
   expiredDate?: Prisma.DateTimeFilter<"Voucher"> | Date | string
   userId?: Prisma.IntFilter<"Voucher"> | number
   organizerID?: Prisma.IntFilter<"Voucher"> | number
@@ -249,6 +261,7 @@ export type VoucherWhereInput = {
 export type VoucherOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   expiredDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
@@ -265,6 +278,7 @@ export type VoucherWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.VoucherWhereInput[]
   NOT?: Prisma.VoucherWhereInput | Prisma.VoucherWhereInput[]
   amount?: Prisma.IntFilter<"Voucher"> | number
+  discamount?: Prisma.IntFilter<"Voucher"> | number
   expiredDate?: Prisma.DateTimeFilter<"Voucher"> | Date | string
   userId?: Prisma.IntFilter<"Voucher"> | number
   organizerID?: Prisma.IntFilter<"Voucher"> | number
@@ -278,6 +292,7 @@ export type VoucherWhereUniqueInput = Prisma.AtLeast<{
 export type VoucherOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   expiredDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
@@ -295,6 +310,7 @@ export type VoucherScalarWhereWithAggregatesInput = {
   NOT?: Prisma.VoucherScalarWhereWithAggregatesInput | Prisma.VoucherScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Voucher"> | number
   amount?: Prisma.IntWithAggregatesFilter<"Voucher"> | number
+  discamount?: Prisma.IntWithAggregatesFilter<"Voucher"> | number
   expiredDate?: Prisma.DateTimeWithAggregatesFilter<"Voucher"> | Date | string
   userId?: Prisma.IntWithAggregatesFilter<"Voucher"> | number
   organizerID?: Prisma.IntWithAggregatesFilter<"Voucher"> | number
@@ -303,6 +319,7 @@ export type VoucherScalarWhereWithAggregatesInput = {
 
 export type VoucherCreateInput = {
   amount: number
+  discamount?: number
   expiredDate: Date | string
   transaction?: Prisma.TransactionCreateNestedOneWithoutVoucherInput
   organizer: Prisma.UserCreateNestedOneWithoutVoucherOwnerInput
@@ -313,6 +330,7 @@ export type VoucherCreateInput = {
 export type VoucherUncheckedCreateInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   organizerID: number
@@ -322,6 +340,7 @@ export type VoucherUncheckedCreateInput = {
 
 export type VoucherUpdateInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transaction?: Prisma.TransactionUpdateOneWithoutVoucherNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutVoucherOwnerNestedInput
@@ -332,6 +351,7 @@ export type VoucherUpdateInput = {
 export type VoucherUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
@@ -342,6 +362,7 @@ export type VoucherUncheckedUpdateInput = {
 export type VoucherCreateManyInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   organizerID: number
@@ -350,12 +371,14 @@ export type VoucherCreateManyInput = {
 
 export type VoucherUpdateManyMutationInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type VoucherUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
@@ -380,6 +403,7 @@ export type VoucherNullableScalarRelationFilter = {
 export type VoucherCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   expiredDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
@@ -389,6 +413,7 @@ export type VoucherCountOrderByAggregateInput = {
 export type VoucherAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
@@ -397,6 +422,7 @@ export type VoucherAvgOrderByAggregateInput = {
 export type VoucherMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   expiredDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
@@ -406,6 +432,7 @@ export type VoucherMaxOrderByAggregateInput = {
 export type VoucherMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   expiredDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
@@ -415,6 +442,7 @@ export type VoucherMinOrderByAggregateInput = {
 export type VoucherSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  discamount?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   organizerID?: Prisma.SortOrder
   eventId?: Prisma.SortOrder
@@ -564,6 +592,7 @@ export type VoucherUpdateOneWithoutTransactionNestedInput = {
 
 export type VoucherCreateWithoutOrganizerInput = {
   amount: number
+  discamount?: number
   expiredDate: Date | string
   transaction?: Prisma.TransactionCreateNestedOneWithoutVoucherInput
   user: Prisma.UserCreateNestedOneWithoutVouchersInput
@@ -573,6 +602,7 @@ export type VoucherCreateWithoutOrganizerInput = {
 export type VoucherUncheckedCreateWithoutOrganizerInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   eventId?: number | null
@@ -591,6 +621,7 @@ export type VoucherCreateManyOrganizerInputEnvelope = {
 
 export type VoucherCreateWithoutUserInput = {
   amount: number
+  discamount?: number
   expiredDate: Date | string
   transaction?: Prisma.TransactionCreateNestedOneWithoutVoucherInput
   organizer: Prisma.UserCreateNestedOneWithoutVoucherOwnerInput
@@ -600,6 +631,7 @@ export type VoucherCreateWithoutUserInput = {
 export type VoucherUncheckedCreateWithoutUserInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   organizerID: number
   eventId?: number | null
@@ -638,6 +670,7 @@ export type VoucherScalarWhereInput = {
   NOT?: Prisma.VoucherScalarWhereInput | Prisma.VoucherScalarWhereInput[]
   id?: Prisma.IntFilter<"Voucher"> | number
   amount?: Prisma.IntFilter<"Voucher"> | number
+  discamount?: Prisma.IntFilter<"Voucher"> | number
   expiredDate?: Prisma.DateTimeFilter<"Voucher"> | Date | string
   userId?: Prisma.IntFilter<"Voucher"> | number
   organizerID?: Prisma.IntFilter<"Voucher"> | number
@@ -662,6 +695,7 @@ export type VoucherUpdateManyWithWhereWithoutUserInput = {
 
 export type VoucherCreateWithoutEventInput = {
   amount: number
+  discamount?: number
   expiredDate: Date | string
   transaction?: Prisma.TransactionCreateNestedOneWithoutVoucherInput
   organizer: Prisma.UserCreateNestedOneWithoutVoucherOwnerInput
@@ -671,6 +705,7 @@ export type VoucherCreateWithoutEventInput = {
 export type VoucherUncheckedCreateWithoutEventInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   organizerID: number
@@ -705,6 +740,7 @@ export type VoucherUpdateManyWithWhereWithoutEventInput = {
 
 export type VoucherCreateWithoutTransactionInput = {
   amount: number
+  discamount?: number
   expiredDate: Date | string
   organizer: Prisma.UserCreateNestedOneWithoutVoucherOwnerInput
   user: Prisma.UserCreateNestedOneWithoutVouchersInput
@@ -714,6 +750,7 @@ export type VoucherCreateWithoutTransactionInput = {
 export type VoucherUncheckedCreateWithoutTransactionInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   organizerID: number
@@ -738,6 +775,7 @@ export type VoucherUpdateToOneWithWhereWithoutTransactionInput = {
 
 export type VoucherUpdateWithoutTransactionInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizer?: Prisma.UserUpdateOneRequiredWithoutVoucherOwnerNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVouchersNestedInput
@@ -747,6 +785,7 @@ export type VoucherUpdateWithoutTransactionInput = {
 export type VoucherUncheckedUpdateWithoutTransactionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
@@ -756,6 +795,7 @@ export type VoucherUncheckedUpdateWithoutTransactionInput = {
 export type VoucherCreateManyOrganizerInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   eventId?: number | null
@@ -764,6 +804,7 @@ export type VoucherCreateManyOrganizerInput = {
 export type VoucherCreateManyUserInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   organizerID: number
   eventId?: number | null
@@ -771,6 +812,7 @@ export type VoucherCreateManyUserInput = {
 
 export type VoucherUpdateWithoutOrganizerInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transaction?: Prisma.TransactionUpdateOneWithoutVoucherNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVouchersNestedInput
@@ -780,6 +822,7 @@ export type VoucherUpdateWithoutOrganizerInput = {
 export type VoucherUncheckedUpdateWithoutOrganizerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -789,6 +832,7 @@ export type VoucherUncheckedUpdateWithoutOrganizerInput = {
 export type VoucherUncheckedUpdateManyWithoutOrganizerInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -796,6 +840,7 @@ export type VoucherUncheckedUpdateManyWithoutOrganizerInput = {
 
 export type VoucherUpdateWithoutUserInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transaction?: Prisma.TransactionUpdateOneWithoutVoucherNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutVoucherOwnerNestedInput
@@ -805,6 +850,7 @@ export type VoucherUpdateWithoutUserInput = {
 export type VoucherUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
   eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -814,6 +860,7 @@ export type VoucherUncheckedUpdateWithoutUserInput = {
 export type VoucherUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
   eventId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -822,6 +869,7 @@ export type VoucherUncheckedUpdateManyWithoutUserInput = {
 export type VoucherCreateManyEventInput = {
   id?: number
   amount: number
+  discamount?: number
   expiredDate: Date | string
   userId: number
   organizerID: number
@@ -829,6 +877,7 @@ export type VoucherCreateManyEventInput = {
 
 export type VoucherUpdateWithoutEventInput = {
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transaction?: Prisma.TransactionUpdateOneWithoutVoucherNestedInput
   organizer?: Prisma.UserUpdateOneRequiredWithoutVoucherOwnerNestedInput
@@ -838,6 +887,7 @@ export type VoucherUpdateWithoutEventInput = {
 export type VoucherUncheckedUpdateWithoutEventInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
@@ -847,6 +897,7 @@ export type VoucherUncheckedUpdateWithoutEventInput = {
 export type VoucherUncheckedUpdateManyWithoutEventInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  discamount?: Prisma.IntFieldUpdateOperationsInput | number
   expiredDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   organizerID?: Prisma.IntFieldUpdateOperationsInput | number
@@ -857,6 +908,7 @@ export type VoucherUncheckedUpdateManyWithoutEventInput = {
 export type VoucherSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   amount?: boolean
+  discamount?: boolean
   expiredDate?: boolean
   userId?: boolean
   organizerID?: boolean
@@ -870,6 +922,7 @@ export type VoucherSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type VoucherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   amount?: boolean
+  discamount?: boolean
   expiredDate?: boolean
   userId?: boolean
   organizerID?: boolean
@@ -882,6 +935,7 @@ export type VoucherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type VoucherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   amount?: boolean
+  discamount?: boolean
   expiredDate?: boolean
   userId?: boolean
   organizerID?: boolean
@@ -894,13 +948,14 @@ export type VoucherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type VoucherSelectScalar = {
   id?: boolean
   amount?: boolean
+  discamount?: boolean
   expiredDate?: boolean
   userId?: boolean
   organizerID?: boolean
   eventId?: boolean
 }
 
-export type VoucherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "expiredDate" | "userId" | "organizerID" | "eventId", ExtArgs["result"]["voucher"]>
+export type VoucherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "discamount" | "expiredDate" | "userId" | "organizerID" | "eventId", ExtArgs["result"]["voucher"]>
 export type VoucherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   transaction?: boolean | Prisma.Voucher$transactionArgs<ExtArgs>
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -929,6 +984,7 @@ export type $VoucherPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     amount: number
+    discamount: number
     expiredDate: Date
     userId: number
     organizerID: number
@@ -1362,6 +1418,7 @@ export interface Prisma__VoucherClient<T, Null = never, ExtArgs extends runtime.
 export interface VoucherFieldRefs {
   readonly id: Prisma.FieldRef<"Voucher", 'Int'>
   readonly amount: Prisma.FieldRef<"Voucher", 'Int'>
+  readonly discamount: Prisma.FieldRef<"Voucher", 'Int'>
   readonly expiredDate: Prisma.FieldRef<"Voucher", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Voucher", 'Int'>
   readonly organizerID: Prisma.FieldRef<"Voucher", 'Int'>
