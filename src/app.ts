@@ -35,6 +35,7 @@ import { VoucherRouter } from "./modules/voucher/voucher.router.js";
 import { AuthService } from "./modules/auth/auth.service.js";
 import { AuthController } from "./modules/auth/auth.controller.js";
 import { AuthRouter } from "./modules/auth/auth.router.js";
+import { AuthMiddleware } from "./middleware/auth.middleware.js";
 
 export class App {
   app: Express;
@@ -68,6 +69,9 @@ export class App {
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
     const authService = new AuthService(prisma);
+
+    // middlewares
+    const authMiddleware = new AuthMiddleware();
 
     // controllers
     const userController = new UserController(userService);
