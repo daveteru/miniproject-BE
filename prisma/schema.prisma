@@ -24,6 +24,7 @@ model User {
   transactions Transaction[]
   voucherOwner Voucher[]     @relation("Organizer")
   vouchers     Voucher[]     @relation("User")
+  refreshToken RefreshToken?
 
   @@map("users")
 }
@@ -139,6 +140,19 @@ model Promotions {
   event    Event    @relation(fields: [eventId], references: [id])
 
   @@map("promotions")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiredAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
 }
 
 enum Role {

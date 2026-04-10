@@ -614,10 +614,6 @@ export type EventUncheckedUpdateManyWithoutOrganizerNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EventCreateNestedOneWithoutTicketsInput = {
   create?: Prisma.XOR<Prisma.EventCreateWithoutTicketsInput, Prisma.EventUncheckedCreateWithoutTicketsInput>
   connectOrCreate?: Prisma.EventCreateOrConnectWithoutTicketsInput
