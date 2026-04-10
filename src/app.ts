@@ -37,6 +37,7 @@ import { AuthController } from "./modules/auth/auth.controller.js";
 import { AuthRouter } from "./modules/auth/auth.router.js";
 import { AuthMiddleware } from "./middleware/auth.middleware.js";
 import { corsOptions } from "./config/cors.js";
+import { ValidatorMiddleware } from "./middleware/validator.middleware.js";
 
 export class App {
   app: Express;
@@ -73,6 +74,7 @@ export class App {
 
     // middlewares
     const authMiddleware = new AuthMiddleware();
+    const validatorMiddleware = new ValidatorMiddleware();
 
     // controllers
     const userController = new UserController(userService);
@@ -93,7 +95,7 @@ export class App {
     const reviewRouter = new ReviewRouter(reviewController);
     const promotionRouter = new PromotionRouter(promotionController);
     const pointsRouter = new PointsRouter(pointsController);
-    const eventRouter = new EventRouter(eventController);
+    const eventRouter = new EventRouter(eventController, validatorMiddleware);
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
     const authRouter = new AuthRouter(authController);

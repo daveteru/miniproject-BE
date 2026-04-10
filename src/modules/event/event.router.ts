@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { EventController } from "./event.controller.js";
 import { EventValidator } from "./event.validator.js";
-import { validatorMiddleware } from "../../middleware/validator.middleware.js";
+import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
 
 export class EventRouter {
   router: Router;
 
-  constructor(private eventController: EventController) {
+  constructor(
+    private eventController: EventController,
+    private validatorMiddleware: ValidatorMiddleware,
+  ) {
     this.router = Router();
     this.initRoutes();
   }
@@ -15,37 +18,37 @@ export class EventRouter {
     this.router.get(
       "/",
       EventValidator.getMany(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.getEvents,
     );
     this.router.post(
       "/",
       EventValidator.create(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.createEvent,
     );
     this.router.post(
       "/bundle",
       EventValidator.createBundle(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.createEventBundle,
     );
     this.router.get(
       "/:id",
       EventValidator.getById(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.getEvent,
     );
     this.router.delete(
       "/:id",
       EventValidator.delete(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.deleteEvent,
     );
     this.router.patch(
       "/:id",
       EventValidator.update(),
-      validatorMiddleware,
+      this.validatorMiddleware.validateBody,
       this.eventController.updateEvent,
     );
   };
