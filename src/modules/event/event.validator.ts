@@ -58,6 +58,78 @@ export class EventValidator {
     ];
   }
 
+  static createBundle() {
+    return [
+      // event fields
+      body("event.name").notEmpty().withMessage("Event name is required").isString(),
+      body("event.artist").notEmpty().withMessage("Artist is required").isString(),
+      body("event.location").notEmpty().withMessage("Location is required").isString(),
+      body("event.city").optional().isString(),
+      body("event.startDate")
+        .notEmpty()
+        .withMessage("Start date is required")
+        .isISO8601()
+        .withMessage("Start date must be a valid date"),
+      body("event.endDate")
+        .notEmpty()
+        .withMessage("End date is required")
+        .isISO8601()
+        .withMessage("End date must be a valid date")
+        .custom((value, { req }) => {
+          if (new Date(value) <= new Date(req.body.event.startDate)) {
+            throw new Error("End date must be after start date");
+          }
+          return true;
+        }),
+      body("event.thumbnail").optional().isString(),
+      body("event.totalTicket")
+        .notEmpty()
+        .withMessage("Total ticket is required")
+        .isInt({ min: 1 })
+        .withMessage("Total ticket must be at least 1"),
+      body("event.category").notEmpty().withMessage("Category is required").isString(),
+      body("event.description").optional().isString(),
+      body("event.organizerId")
+        .notEmpty()
+        .withMessage("Organizer ID is required")
+        .isInt()
+        .withMessage("Organizer ID must be an integer"),
+
+      // ticket fields
+      body("tickets")
+        .isArray({ min: 1 })
+        .withMessage("At least one ticket tier is required"),
+      body("tickets.*.ticketLevel")
+        .notEmpty()
+        .withMessage("Ticket level is required")
+        .isString(),
+      body("tickets.*.availableTicket")
+        .notEmpty()
+        .withMessage("Available ticket is required")
+        .isInt({ min: 1 })
+        .withMessage("Available ticket must be at least 1"),
+      body("tickets.*.price")
+        .notEmpty()
+        .withMessage("Price is required")
+        .isInt({ min: 0 })
+        .withMessage("Price must be 0 or more"),
+
+      // voucher fields (optional — omit entire voucher object to skip)
+      body("voucher.amount")
+        .if(body("voucher").exists())
+        .notEmpty().withMessage("Voucher amount is required")
+        .isInt({ min: 1 }).withMessage("Voucher amount must be at least 1"),
+      body("voucher.expiredDate")
+        .if(body("voucher").exists())
+        .notEmpty().withMessage("Voucher expired date is required")
+        .isISO8601().withMessage("Voucher expired date must be a valid date"),
+      body("voucher.userId")
+        .if(body("voucher").exists())
+        .notEmpty().withMessage("Voucher user ID is required")
+        .isInt().withMessage("Voucher user ID must be an integer"),
+    ];
+  }
+
   static update() {
     return [
       param("id").isInt().withMessage("Event ID must be an integer"),

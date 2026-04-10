@@ -10,6 +10,7 @@ export class VoucherRouter {
   }
 
   private initRoutes = () => {
+    this.router.post("/", this.voucherController.createVoucher);
     this.router.get("/:id", this.voucherController.getVoucher);
   };
 

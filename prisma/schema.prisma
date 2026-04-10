@@ -135,6 +135,8 @@ model Voucher {
   @@map("vouchers")
 }
 
+
+
 model Promotions {
   id       Int      @id @default(autoincrement())
   priority Priority

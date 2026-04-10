@@ -50,4 +50,10 @@ export class EventController {
     const result = await this.eventService.createEvent(body);
     res.status(201).send(result);
   }
+
+  createEventBundle = async (req: Request, res: Response) => {
+    const body = req.body;
+    const result = await this.eventService.createEventBundle(body);
+    res.status(201).send(result);
+  }
 }
