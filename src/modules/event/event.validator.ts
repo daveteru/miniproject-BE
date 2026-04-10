@@ -46,6 +46,8 @@ export class EventValidator {
         .withMessage("Category is required")
         .isString(),
 
+      body("city").notEmpty().withMessage("City is required").isString(),
+
       body("description").optional().isString(),
 
       body("organizerId")

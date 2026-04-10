@@ -48,6 +48,6 @@ export class EventController {
   createEvent = async (req: Request, res: Response) => {
     const body = req.body;
     const result = await this.eventService.createEvent(body);
-    res.status(200).send(result);
+    res.status(201).send(result);
   }
 }

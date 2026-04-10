@@ -47,6 +47,7 @@ model Event {
   promotions  Promotions[]
   reviews     Review[]
   tickets     Ticket[]
+  vouchers    Voucher[]
 
   @@map("events")
 }
@@ -125,9 +126,11 @@ model Voucher {
   expiredDate DateTime
   userId      Int
   organizerID Int
+  eventId     Int?
   transaction Transaction?
   organizer   User         @relation("Organizer", fields: [organizerID], references: [id])
   user        User         @relation("User", fields: [userId], references: [id])
+  event       Event?        @relation(fields: [eventId], references: [id])
 
   @@map("vouchers")
 }

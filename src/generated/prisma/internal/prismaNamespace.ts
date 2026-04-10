@@ -80,11 +80,11 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.7.0
+ * Prisma Client JS version: 7.6.0
  * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.7.0",
+  client: "7.6.0",
   engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
@@ -1291,7 +1291,8 @@ export const VoucherScalarFieldEnum = {
   amount: 'amount',
   expiredDate: 'expiredDate',
   userId: 'userId',
-  organizerID: 'organizerID'
+  organizerID: 'organizerID',
+  eventId: 'eventId'
 } as const
 
 export type VoucherScalarFieldEnum = (typeof VoucherScalarFieldEnum)[keyof typeof VoucherScalarFieldEnum]

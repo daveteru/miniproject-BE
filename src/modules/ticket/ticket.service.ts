@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../generated/prisma/client.js";
+import { PrismaClient, Ticket } from "../../generated/prisma/client.js";
 import { ApiError } from "../../utils/api-error.js";
 
 export class TicketService {
@@ -14,5 +14,29 @@ export class TicketService {
     }
 
     return ticket;
+  };
+
+    getEventTicket = async (eventId: number) => {
+    const ticket = await this.prisma.ticket.findMany({
+      where: { eventId, deletedAt:null },
+    });
+
+    if (!ticket.length) {
+      throw new ApiError("Event ticket not found", 404);
+    }
+
+    return ticket;
+  };
+
+      createTicket = async (body : Omit<Ticket, "id" | "deletedAt">) => {
+    await this.prisma.ticket.create({
+      data: {
+        ticketLevel:body.ticketLevel,
+        price:body.price,
+        availableTicket:body.availableTicket,
+        eventId:body.eventId
+      }
+    });
+    return { message: "Ticket creation successful" };
   };
 }
