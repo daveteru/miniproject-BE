@@ -609,6 +609,14 @@ export type EnumPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentStatus
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TransactionCreateNestedOneWithoutReviewsInput = {
   create?: Prisma.XOR<Prisma.TransactionCreateWithoutReviewsInput, Prisma.TransactionUncheckedCreateWithoutReviewsInput>
   connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutReviewsInput
