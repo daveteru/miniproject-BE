@@ -73,47 +73,53 @@ export class AuthService {
   };
 
   login = async (body: User) => {
-    const user = await this.prisma.user.findUnique({
-      where: { email: body.email },
+    const result = await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { email: body.email },
+      });
+
+      if (!user) {
+        throw new ApiError("Invalid credentials", 400);
+      }
+
+      const isPassMatch = await verify(user.password, body.password);
+
+      if (!isPassMatch) {
+        throw new ApiError("Invalid credentials", 400);
+      }
+
+      const payload = {
+        id: user.id,
+        role: user.role,
+      };
+
+      const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
+        expiresIn: EXPIRED_ACCESS_TOKEN_JWT,
+      });
+
+      const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_REFRESH!, {
+        expiresIn: EXPIRED_REFRESH_TOKEN_JWT,
+      });
+
+      await tx.refreshToken.upsert({
+        where: { userId: user.id },
+        update: {
+          token: refreshToken,
+          expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+        },
+        create: {
+          token: refreshToken,
+          expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+          userId: user.id,
+        },
+      });
+
+      const { password, ...userWithoutPassword } = user;
+
+      return { userWithoutPassword, accessToken, refreshToken };
     });
-    if (!user) {
-      throw new ApiError("Invalid credentials", 400);
-    }
 
-    const isPassMatch = await verify(user.password, body.password);
-
-    if (!isPassMatch) {
-      throw new ApiError("Invalid credentials", 400);
-    }
-
-    const payload = {
-      id: user.id,
-      role: user.role,
-    };
-
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: EXPIRED_ACCESS_TOKEN_JWT,
-    });
-
-    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_REFRESH!, {
-      expiresIn: EXPIRED_REFRESH_TOKEN_JWT,
-    });
-
-    await this.prisma.refreshToken.upsert({
-      where: { userId: user.id },
-      update: {
-        token: refreshToken,
-        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
-      },
-      create: {
-        token: refreshToken,
-        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
-        userId: user.id,
-      },
-    });
-
-    const { password, ...userWithoutPassword } = user;
-
+    const { userWithoutPassword, accessToken, refreshToken } = result;
     return { user: userWithoutPassword, accessToken, refreshToken };
   };
 
