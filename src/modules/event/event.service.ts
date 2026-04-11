@@ -11,7 +11,6 @@ interface createEventBundle {
     startDate: string;
     endDate: string;
     thumbnail?: string;
-    totalTicket: number;
     category: string;
     description?: string;
     organizerId: number;
@@ -135,6 +134,8 @@ export class EventService {
 
   createEventBundle = async (body: createEventBundle) => {
     await this.prisma.$transaction(async (tx) => {
+      const totalTicket = body.tickets.reduce((sum, t) => sum + Number(t.availableTicket), 0);
+
       const event = await tx.event.create({
         data: {
           name: body.event.name,
@@ -144,18 +145,18 @@ export class EventService {
           startDate: new Date(body.event.startDate),
           endDate: new Date(body.event.endDate),
           thumbnail: body.event.thumbnail,
-          totalTicket: body.event.totalTicket,
+          totalTicket,
           category: body.event.category,
           description: body.event.description,
-          organizerId: body.event.organizerId,
+          organizerId: body.event.organizerId,   
         },
       });
 
       await tx.ticket.createMany({
         data: body.tickets.map((ticket) => ({
           ticketLevel: ticket.ticketLevel,
-          availableTicket: ticket.availableTicket,
-          price: ticket.price,
+          availableTicket: Number(ticket.availableTicket),
+          price: Number(ticket.price),
           eventId: event.id,
         })),
       });
@@ -163,9 +164,9 @@ export class EventService {
       if (body.voucher) {
         await tx.voucher.create({
           data: {
-            amount: body.voucher.amount,
+            amount: Number(body.voucher.amount),
             expiredDate: new Date(body.voucher.expiredDate),
-            userId: body.voucher.userId,
+            userId: Number(body.voucher.userId),
             organizerID: body.event.organizerId,
             eventId: event.id,
           },

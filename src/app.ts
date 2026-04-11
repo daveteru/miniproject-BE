@@ -1,4 +1,5 @@
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import {
   errorMiddleware,
@@ -51,6 +52,7 @@ export class App {
 
   configure() {
     this.app.use(cors(corsOptions));
+    this.app.use(cookieParser());
     this.app.use(express.json());
   }
 

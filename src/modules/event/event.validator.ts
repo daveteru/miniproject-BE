@@ -82,11 +82,6 @@ export class EventValidator {
           return true;
         }),
       body("event.thumbnail").optional().isString(),
-      body("event.totalTicket")
-        .notEmpty()
-        .withMessage("Total ticket is required")
-        .isInt({ min: 1 })
-        .withMessage("Total ticket must be at least 1"),
       body("event.category").notEmpty().withMessage("Category is required").isString(),
       body("event.description").optional().isString(),
       body("event.organizerId")
