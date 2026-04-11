@@ -10,62 +10,64 @@ import {
   EXPIRED_REFRESH_TOKEN_JWT,
   POINTS_EXPIRE_DATE,
   POINTS_ON_REGISTRATION,
-  SEVEN_DAYS,
+  REFRESH_TOKEN_EXPIRES_IN,
 } from "./constants.js";
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {}
 
   register = async (body: User) => {
-    const emailExists = await this.prisma.user.findUnique({
-      where: {
-        email: body.email,
-      },
-    });
-
-    if (emailExists) {
-      throw new ApiError("Email already exists", 400);
-    }
-
-    const hashedPassword = await hash(body.password);
-    const referralCode = randomString(16);
-
-    const user = await this.prisma.user.create({
-      data: {
-        fullName: body.fullName,
-        email: body.email,
-        password: hashedPassword,
-        birthdate: body.birthdate,
-        referral: referralCode,
-      },
-    });
-
-    if (body.referral) {
-      const referrer = await this.prisma.user.findUnique({
+    await this.prisma.$transaction(async (tx) => {
+      const emailExists = await tx.user.findUnique({
         where: {
-          referral: body.referral,
+          email: body.email,
         },
       });
 
-      if (!referrer) {
-        throw new ApiError("Invalid referral ID", 400);
+      if (emailExists) {
+        throw new ApiError("Email already exists", 400);
       }
 
-      await this.prisma.point.create({
+      const hashedPassword = await hash(body.password);
+      const referralCode = randomString(16);
+
+      const user = await tx.user.create({
         data: {
-          amount: POINTS_ON_REGISTRATION,
-          userId: user.id,
-          expiredDate: new Date(POINTS_EXPIRE_DATE),
+          fullName: body.fullName,
+          email: body.email,
+          password: hashedPassword,
+          birthdate: body.birthdate,
+          referral: referralCode,
         },
       });
-      await this.prisma.coupon.create({
-        data: {
-          amount: COUPON_ON_REGISTRATION,
-          userId: referrer.id,
-          expiredDate: new Date(COUPON_EXPIRE_DATE),
-        },
-      });
-    }
+
+      if (body.referral) {
+        const referrer = await tx.user.findUnique({
+          where: {
+            referral: body.referral,
+          },
+        });
+
+        if (!referrer) {
+          throw new ApiError("Invalid referral ID", 400);
+        }
+
+        await tx.point.create({
+          data: {
+            amount: POINTS_ON_REGISTRATION,
+            userId: user.id,
+            expiredDate: new Date(POINTS_EXPIRE_DATE),
+          },
+        });
+        await tx.coupon.create({
+          data: {
+            amount: COUPON_ON_REGISTRATION,
+            userId: referrer.id,
+            expiredDate: new Date(COUPON_EXPIRE_DATE),
+          },
+        });
+      }
+    });
 
     return { message: "User registration success" };
   };
@@ -101,11 +103,11 @@ export class AuthService {
       where: { userId: user.id },
       update: {
         token: refreshToken,
-        expiredAt: new Date(SEVEN_DAYS),
+        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
       },
       create: {
         token: refreshToken,
-        expiredAt: new Date(SEVEN_DAYS),
+        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
         userId: user.id,
       },
     });
