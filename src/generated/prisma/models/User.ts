@@ -28,12 +28,10 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   id: number | null
-  referral: number | null
 }
 
 export type UserSumAggregateOutputType = {
   id: number | null
-  referral: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -45,7 +43,7 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   avatar: string | null
   fullName: string | null
-  referral: number | null
+  referral: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -57,7 +55,7 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   avatar: string | null
   fullName: string | null
-  referral: number | null
+  referral: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -76,12 +74,10 @@ export type UserCountAggregateOutputType = {
 
 export type UserAvgAggregateInputType = {
   id?: true
-  referral?: true
 }
 
 export type UserSumAggregateInputType = {
   id?: true
-  referral?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -216,7 +212,7 @@ export type UserGroupByOutputType = {
   createdAt: Date
   avatar: string | null
   fullName: string
-  referral: number | null
+  referral: string
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -251,7 +247,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   fullName?: Prisma.StringFilter<"User"> | string
-  referral?: Prisma.IntNullableFilter<"User"> | number | null
+  referral?: Prisma.StringFilter<"User"> | string
   coupons?: Prisma.CouponListRelationFilter
   events?: Prisma.EventListRelationFilter
   points?: Prisma.PointListRelationFilter
@@ -271,7 +267,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
-  referral?: Prisma.SortOrderInput | Prisma.SortOrder
+  referral?: Prisma.SortOrder
   coupons?: Prisma.CouponOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
   points?: Prisma.PointOrderByRelationAggregateInput
@@ -285,6 +281,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   email?: string
+  referral?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -294,7 +291,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   fullName?: Prisma.StringFilter<"User"> | string
-  referral?: Prisma.IntNullableFilter<"User"> | number | null
   coupons?: Prisma.CouponListRelationFilter
   events?: Prisma.EventListRelationFilter
   points?: Prisma.PointListRelationFilter
@@ -303,7 +299,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   voucherOwner?: Prisma.VoucherListRelationFilter
   vouchers?: Prisma.VoucherListRelationFilter
   refreshToken?: Prisma.XOR<Prisma.RefreshTokenNullableScalarRelationFilter, Prisma.RefreshTokenWhereInput> | null
-}, "id" | "email">
+}, "id" | "email" | "referral">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -314,7 +310,7 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
-  referral?: Prisma.SortOrderInput | Prisma.SortOrder
+  referral?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -334,7 +330,7 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   fullName?: Prisma.StringWithAggregatesFilter<"User"> | string
-  referral?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  referral?: Prisma.StringWithAggregatesFilter<"User"> | string
 }
 
 export type UserCreateInput = {
@@ -345,7 +341,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -365,7 +361,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -384,7 +380,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -404,7 +400,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -424,7 +420,7 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -435,7 +431,7 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -447,7 +443,7 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -464,7 +460,6 @@ export type UserCountOrderByAggregateInput = {
 
 export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  referral?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -493,7 +488,6 @@ export type UserMinOrderByAggregateInput = {
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  referral?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -515,14 +509,6 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
-}
-
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -653,7 +639,7 @@ export type UserCreateWithoutEventsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
@@ -672,7 +658,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
@@ -706,7 +692,7 @@ export type UserUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
@@ -725,7 +711,7 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
@@ -743,7 +729,7 @@ export type UserCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -762,7 +748,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -796,7 +782,7 @@ export type UserUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -815,7 +801,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -833,7 +819,7 @@ export type UserCreateWithoutReviewsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -852,7 +838,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -886,7 +872,7 @@ export type UserUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -905,7 +891,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -923,7 +909,7 @@ export type UserCreateWithoutCouponsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
@@ -942,7 +928,7 @@ export type UserUncheckedCreateWithoutCouponsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
@@ -976,7 +962,7 @@ export type UserUpdateWithoutCouponsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
@@ -995,7 +981,7 @@ export type UserUncheckedUpdateWithoutCouponsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
@@ -1013,7 +999,7 @@ export type UserCreateWithoutPointsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutReviewerInput
@@ -1032,7 +1018,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutReviewerInput
@@ -1066,7 +1052,7 @@ export type UserUpdateWithoutPointsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutReviewerNestedInput
@@ -1085,7 +1071,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutReviewerNestedInput
@@ -1103,7 +1089,7 @@ export type UserCreateWithoutVoucherOwnerInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -1122,7 +1108,7 @@ export type UserUncheckedCreateWithoutVoucherOwnerInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -1145,7 +1131,7 @@ export type UserCreateWithoutVouchersInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -1164,7 +1150,7 @@ export type UserUncheckedCreateWithoutVouchersInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -1198,7 +1184,7 @@ export type UserUpdateWithoutVoucherOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -1217,7 +1203,7 @@ export type UserUncheckedUpdateWithoutVoucherOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -1246,7 +1232,7 @@ export type UserUpdateWithoutVouchersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -1265,7 +1251,7 @@ export type UserUncheckedUpdateWithoutVouchersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -1283,7 +1269,7 @@ export type UserCreateWithoutRefreshTokenInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -1302,7 +1288,7 @@ export type UserUncheckedCreateWithoutRefreshTokenInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
-  referral?: number | null
+  referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -1336,7 +1322,7 @@ export type UserUpdateWithoutRefreshTokenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -1355,7 +1341,7 @@ export type UserUncheckedUpdateWithoutRefreshTokenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
-  referral?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -1543,7 +1529,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     avatar: string | null
     fullName: string
-    referral: number | null
+    referral: string
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1983,7 +1969,7 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly fullName: Prisma.FieldRef<"User", 'String'>
-  readonly referral: Prisma.FieldRef<"User", 'Int'>
+  readonly referral: Prisma.FieldRef<"User", 'String'>
 }
     
 

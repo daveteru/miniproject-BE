@@ -1,33 +1,71 @@
-import { PrismaClient, User } from "../../generated/prisma/client.js";
-import { ApiError } from "../../utils/api-error.js";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
-import { EXPIRED_ACCESS_TOKEN_JWT, EXPIRED_REFRESH_TOKEN_JWT, SEVEN_DAYS } from "./constants.js";
+import { PrismaClient, User } from "../../generated/prisma/client.js";
+import { randomString } from "../../helpers/random-string.js";
+import { ApiError } from "../../utils/api-error.js";
+import {
+  COUPON_EXPIRE_DATE,
+  COUPON_ON_REGISTRATION,
+  EXPIRED_ACCESS_TOKEN_JWT,
+  EXPIRED_REFRESH_TOKEN_JWT,
+  POINTS_EXPIRE_DATE,
+  POINTS_ON_REGISTRATION,
+  SEVEN_DAYS,
+} from "./constants.js";
 
 export class AuthService {
   constructor(private prisma: PrismaClient) {}
 
   register = async (body: User) => {
-    const user = await this.prisma.user.findUnique({
+    const emailExists = await this.prisma.user.findUnique({
       where: {
         email: body.email,
       },
     });
 
-    if (user) {
+    if (emailExists) {
       throw new ApiError("Email already exists", 400);
     }
 
     const hashedPassword = await hash(body.password);
+    const referralCode = randomString(16);
 
-    await this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: {
         fullName: body.fullName,
         email: body.email,
         password: hashedPassword,
-        birthdate: body.birthdate
+        birthdate: body.birthdate,
+        referral: referralCode,
       },
     });
+
+    if (body.referral) {
+      const referrer = await this.prisma.user.findUnique({
+        where: {
+          referral: body.referral,
+        },
+      });
+
+      if (!referrer) {
+        throw new ApiError("Invalid referral ID", 400);
+      }
+
+      await this.prisma.point.create({
+        data: {
+          amount: POINTS_ON_REGISTRATION,
+          userId: user.id,
+          expiredDate: new Date(POINTS_EXPIRE_DATE),
+        },
+      });
+      await this.prisma.coupon.create({
+        data: {
+          amount: COUPON_ON_REGISTRATION,
+          userId: referrer.id,
+          expiredDate: new Date(COUPON_EXPIRE_DATE),
+        },
+      });
+    }
 
     return { message: "User registration success" };
   };
