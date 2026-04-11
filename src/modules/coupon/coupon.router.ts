@@ -11,6 +11,7 @@ export class CouponRouter {
 
   private initRoutes = () => {
     this.router.get("/:id", this.couponController.getCoupon);
+    this.router.get("/user/:id", this.couponController.getCouponsByUser);
   };
 
   getRouter = () => {
