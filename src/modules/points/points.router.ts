@@ -11,6 +11,7 @@ export class PointsRouter {
 
   private initRoutes = () => {
     this.router.get("/:id", this.pointsController.getPoints);
+    this.router.get("/user/:id", this.pointsController.getPointsByUser);
   };
 
   getRouter = () => {
