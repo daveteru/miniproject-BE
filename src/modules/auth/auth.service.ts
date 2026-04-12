@@ -12,9 +12,13 @@ import {
   POINTS_ON_REGISTRATION,
   REFRESH_TOKEN_EXPIRES_IN,
 } from "./constants.js";
+import { MailService } from "../mail/mail.service.js";
 
 export class AuthService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    private mailService: MailService,
+  ) {}
 
   register = async (body: User) => {
     await this.prisma.$transaction(async (tx) => {
@@ -67,6 +71,13 @@ export class AuthService {
           },
         });
       }
+    });
+
+    await this.mailService.sendMail({
+      to: body.email,
+      subject: "Welcome to the FRNTROW",
+      templateName: "welcome",
+      context: { name: body.fullName },
     });
 
     return { message: "User registration success" };

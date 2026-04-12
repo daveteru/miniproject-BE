@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: #ffc371;
+      color: #fff;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .content {
+      padding: 30px 40px;
+      line-height: 1.6;
+    }
+    .content h2 {
+      color: #222;
+      font-family: 'Open Sans', Arial, sans-serif;
+      margin-top: 0;
+    }
+    .cta {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .cta a {
+      background: #ffc371;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      display: inline-block;
+    }
+    .footer {
+      background: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      Welcome to FRNTROW, {{name}}
+    </div>
+    <div class="content">
+      <h2>Your Front Row Experience Awaits</h2>
+      <p>Hi {{name}},</p><br />
+      <p>Thank you for registering with <strong>FRNTROW</strong> — your gateway to discovering the best events near you.</p>
+      <p>Here’s what you can do next:</p>
+      <ul>
+        <li><strong>Discover Events:</strong> Browse by category — Music, Festivals, Comedy, Sports, Wellness & Fitness.</li>
+        <li><strong>Stay Updated:</strong> Get personalized recommendations based on your location.</li>
+        <li><strong>Join the Crowd:</strong> Secure your spot and never miss out on unforgettable experiences.</li>
+      </ul>
+      <div class="cta">
+        <a href="#">Explore Events Now</a>
+      </div>
+    </div>
+    <div class="footer">
+      You’re receiving this email because you registered with FRNTROW.<br>
+      For help, visit our Help Center or reply to this email.
+    </div>
+  </div>
+</body>
+</html>
