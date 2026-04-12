@@ -100,7 +100,7 @@ export class App {
     const eventRouter = new EventRouter(eventController, validatorMiddleware);
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
-    const authRouter = new AuthRouter(authController);
+    const authRouter = new AuthRouter(authController, validatorMiddleware);
 
     // entry points
     this.app.use("/users", userRouter.getRouter());
