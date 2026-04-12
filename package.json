@@ -21,7 +21,9 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
+    "handlebars": "^4.7.9",
     "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.5",
     "pg": "^8.20.0"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
+    "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "prisma": "^7.6.0",
     "tsx": "^4.21.0",
