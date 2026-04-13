@@ -39,6 +39,12 @@ export class EventRouter {
       this.validatorMiddleware.validateBody,
       this.eventController.getEvent,
     );
+    this.router.get(
+      "/detail/:id",
+      EventValidator.getById(),
+      this.validatorMiddleware.validateBody,
+      this.eventController.getEventDetail,
+    );
     this.router.delete(
       "/:id",
       EventValidator.delete(),

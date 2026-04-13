@@ -27,6 +27,12 @@ export class AuthRouter {
       this.validatorMiddleware.validateBody,
       this.authController.login,
     );
+    this.router.post(
+      "/logout",
+      AuthValidator.login(),
+      this.validatorMiddleware.validateBody,
+      this.authController.logout,
+    );
   };
 
   getRouter = () => {

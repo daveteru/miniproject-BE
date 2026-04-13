@@ -89,6 +89,32 @@ export class EventService {
     return event;
   };
 
+  getEventDetail = async (id: number) => {
+    const event = await this.prisma.event.findUnique({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      include: {
+        tickets: {
+          where: { deletedAt: null },
+        },
+        organizer: {
+          select: {
+            fullName: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
+    if (!event) {
+      throw new ApiError("Event not found", 404);
+    }
+
+    return event;
+  };
+
   deleteEvent = async (id: number) => {
     try {
       await this.prisma.event.update({
@@ -176,4 +202,6 @@ export class EventService {
 
     return { message: "Event bundle creation successful" };
   };
+
+  
 }

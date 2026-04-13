@@ -46,16 +46,22 @@ export class PromotionService {
       where: {
         priority: Priority.MID,
       },
-      include: {  
+      include: {
         event: {
           select: {
             name: true,
             artist: true,
-            category:true,
+            category: true,
             location: true,
             thumbnail: true,
             description: true,
             startDate: true,
+            tickets: {
+              where: { deletedAt: null },
+              select: { price: true },
+              orderBy: { price: "asc" },
+              take: 1,
+            },
           },
         },
       },
