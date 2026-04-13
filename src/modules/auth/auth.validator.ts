@@ -25,7 +25,7 @@ export class AuthValidator {
         .notEmpty()
         .withMessage("Birth date is required")
         .isISO8601()
-        .withMessage("Start date must be valid"),
+        .withMessage("Birth date must be valid"),
 
       body("referral")
         .optional()
