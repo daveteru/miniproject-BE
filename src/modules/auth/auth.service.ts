@@ -1,79 +1,136 @@
-import { PrismaClient, User } from "../../generated/prisma/client.js";
-import { ApiError } from "../../utils/api-error.js";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
-import { EXPIRED_ACCESS_TOKEN_JWT, EXPIRED_REFRESH_TOKEN_JWT, SEVEN_DAYS } from "./constants.js";
+import { PrismaClient, User } from "../../generated/prisma/client.js";
+import { randomString } from "../../helpers/random-string.js";
+import { ApiError } from "../../utils/api-error.js";
+import {
+  COUPON_EXPIRE_DATE,
+  COUPON_ON_REGISTRATION,
+  EXPIRED_ACCESS_TOKEN_JWT,
+  EXPIRED_REFRESH_TOKEN_JWT,
+  POINTS_EXPIRE_DATE,
+  POINTS_ON_REGISTRATION,
+  REFRESH_TOKEN_EXPIRES_IN,
+} from "./constants.js";
+import { MailService } from "../mail/mail.service.js";
 
 export class AuthService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    private mailService: MailService,
+  ) {}
 
   register = async (body: User) => {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: body.email,
-      },
+    await this.prisma.$transaction(async (tx) => {
+      const emailExists = await tx.user.findUnique({
+        where: {
+          email: body.email,
+        },
+      });
+
+      if (emailExists) {
+        throw new ApiError("Email already exists", 400);
+      }
+
+      const hashedPassword = await hash(body.password);
+      const referralCode = randomString(16);
+
+      const user = await tx.user.create({
+        data: {
+          fullName: body.fullName,
+          email: body.email,
+          password: hashedPassword,
+          birthdate: body.birthdate,
+          referral: referralCode,
+        },
+      });
+
+      if (body.referral) {
+        const referrer = await tx.user.findUnique({
+          where: {
+            referral: body.referral,
+          },
+        });
+
+        if (!referrer) {
+          throw new ApiError("Invalid referral ID", 400);
+        }
+
+        await tx.point.create({
+          data: {
+            amount: POINTS_ON_REGISTRATION,
+            userId: user.id,
+            expiredDate: new Date(POINTS_EXPIRE_DATE),
+          },
+        });
+        await tx.coupon.create({
+          data: {
+            amount: COUPON_ON_REGISTRATION,
+            userId: referrer.id,
+            expiredDate: new Date(COUPON_EXPIRE_DATE),
+          },
+        });
+      }
     });
 
-    if (user) {
-      throw new ApiError("Email already exists", 400);
-    }
-
-    const hashedPassword = await hash(body.password);
-
-    await this.prisma.user.create({
-      data: {
-        fullName: body.fullName,
-        email: body.email,
-        password: hashedPassword,
-        birthdate: body.birthdate
-      },
+    await this.mailService.sendMail({
+      to: body.email,
+      subject: "Welcome to the FRNTROW",
+      templateName: "welcome",
+      context: { name: body.fullName },
     });
 
     return { message: "User registration success" };
   };
 
   login = async (body: User) => {
-    const user = await this.prisma.user.findUnique({
-      where: { email: body.email },
+    const result = await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({
+        where: { email: body.email },
+      });
+
+      if (!user) {
+        throw new ApiError("Invalid credentials", 400);
+      }
+
+      const isPassMatch = await verify(user.password, body.password);
+
+      if (!isPassMatch) {
+        throw new ApiError("Invalid credentials", 400);
+      }
+
+      const payload = {
+        id: user.id,
+        role: user.role,
+      };
+
+      const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
+        expiresIn: EXPIRED_ACCESS_TOKEN_JWT,
+      });
+
+      const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_REFRESH!, {
+        expiresIn: EXPIRED_REFRESH_TOKEN_JWT,
+      });
+
+      await tx.refreshToken.upsert({
+        where: { userId: user.id },
+        update: {
+          token: refreshToken,
+          expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+        },
+        create: {
+          token: refreshToken,
+          expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+          userId: user.id,
+        },
+      });
+
+      const { password, ...userWithoutPassword } = user;
+
+      return { userWithoutPassword, accessToken, refreshToken };
     });
-    if (!user) {
-      throw new ApiError("Invalid credentials", 400);
-    }
 
-    const isPassMatch = await verify(user.password, body.password);
-
-    if (!isPassMatch) {
-      throw new ApiError("Invalid credentials", 400);
-    }
-
-    const payload = {
-      id: user.id,
-      role: user.role,
-    };
-
-    const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: EXPIRED_ACCESS_TOKEN_JWT,
-    });
-
-    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_REFRESH!, {
-      expiresIn: EXPIRED_REFRESH_TOKEN_JWT,
-    });
-
-    await this.prisma.refreshToken.upsert({
-      where: { userId: user.id },
-      update: {
-        token: refreshToken,
-        expiredAt: new Date(SEVEN_DAYS),
-      },
-      create: {
-        token: refreshToken,
-        expiredAt: new Date(SEVEN_DAYS),
-        userId: user.id,
-      },
-    });
-
-    const { password, ...userWithoutPassword } = user;
-
+    const { userWithoutPassword, accessToken, refreshToken } = result;
     return { user: userWithoutPassword, accessToken, refreshToken };
   };
 

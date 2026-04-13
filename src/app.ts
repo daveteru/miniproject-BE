@@ -39,6 +39,7 @@ import { AuthRouter } from "./modules/auth/auth.router.js";
 import { AuthMiddleware } from "./middleware/auth.middleware.js";
 import { corsOptions } from "./config/cors.js";
 import { ValidatorMiddleware } from "./middleware/validator.middleware.js";
+import { MailService } from "./modules/mail/mail.service.js";
 
 export class App {
   app: Express;
@@ -72,7 +73,8 @@ export class App {
     const eventService = new EventService(prisma);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
-    const authService = new AuthService(prisma);
+    const mailService = new MailService()
+    const authService = new AuthService(prisma, mailService);
 
     // middlewares
     const authMiddleware = new AuthMiddleware();
@@ -100,7 +102,7 @@ export class App {
     const eventRouter = new EventRouter(eventController, validatorMiddleware);
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
-    const authRouter = new AuthRouter(authController);
+    const authRouter = new AuthRouter(authController, validatorMiddleware);
 
     // entry points
     this.app.use("/users", userRouter.getRouter());

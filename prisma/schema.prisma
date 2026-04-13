@@ -16,7 +16,7 @@ model User {
   createdAt    DateTime      @default(now())
   avatar       String?
   fullName     String
-  referral     Int?
+  referral     String        @unique
   coupons      Coupon[]
   events       Event[]       @relation("OrganizerEvents")
   points       Point[]

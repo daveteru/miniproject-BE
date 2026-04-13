@@ -4,6 +4,12 @@ import { CouponService } from "./coupon.service.js";
 export class CouponController {
   constructor(private couponService: CouponService) {}
 
+  getCouponsByUser = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const result = await this.couponService.getCouponsByUser(id);
+    res.status(200).send(result);
+  };
+
   getCoupon = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const result = await this.couponService.getCoupon(id);
