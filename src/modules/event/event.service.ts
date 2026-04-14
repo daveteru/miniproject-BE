@@ -11,7 +11,6 @@ interface createEventBundle {
     startDate: string;
     endDate: string;
     thumbnail?: string;
-    totalTicket: number;
     category: string;
     description?: string;
     organizerId: number;
@@ -25,13 +24,14 @@ interface createEventBundle {
     amount: number;
     expiredDate: string;
     userId: number;
+    discamount: number;
   };
 }
 
 interface GetEventsQuery extends PaginationQueryParams {
   search?: string;
   category?: string;
-  city?:string;
+  city?: string;
 }
 
 export class EventService {
@@ -90,6 +90,39 @@ export class EventService {
     return event;
   };
 
+  getEventDetail = async (id: number) => {
+    const event = await this.prisma.event.findUnique({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      include: {
+        tickets: {
+          where: { deletedAt: null },
+        },
+        organizer: {
+          select: {
+            fullName: true,
+            avatar: true,
+          },
+        },
+        vouchers: {
+          select: {
+            expiredDate: true,
+            discamount: true,
+            amount: true,
+          },
+        },
+      },
+    });
+
+    if (!event) {
+      throw new ApiError("Event not found", 404);
+    }
+
+    return event;
+  };
+
   deleteEvent = async (id: number) => {
     try {
       await this.prisma.event.update({
@@ -135,6 +168,11 @@ export class EventService {
 
   createEventBundle = async (body: createEventBundle) => {
     await this.prisma.$transaction(async (tx) => {
+      const totalTicket = body.tickets.reduce(
+        (sum, t) => sum + Number(t.availableTicket),
+        0,
+      );
+
       const event = await tx.event.create({
         data: {
           name: body.event.name,
@@ -144,7 +182,7 @@ export class EventService {
           startDate: new Date(body.event.startDate),
           endDate: new Date(body.event.endDate),
           thumbnail: body.event.thumbnail,
-          totalTicket: body.event.totalTicket,
+          totalTicket,
           category: body.event.category,
           description: body.event.description,
           organizerId: body.event.organizerId,
@@ -154,8 +192,8 @@ export class EventService {
       await tx.ticket.createMany({
         data: body.tickets.map((ticket) => ({
           ticketLevel: ticket.ticketLevel,
-          availableTicket: ticket.availableTicket,
-          price: ticket.price,
+          availableTicket: Number(ticket.availableTicket),
+          price: Number(ticket.price),
           eventId: event.id,
         })),
       });
@@ -163,9 +201,10 @@ export class EventService {
       if (body.voucher) {
         await tx.voucher.create({
           data: {
-            amount: body.voucher.amount,
+            amount: Number(body.voucher.amount),
+            discamount: Number(body.voucher.discamount),
             expiredDate: new Date(body.voucher.expiredDate),
-            userId: body.voucher.userId,
+            userId: Number(body.voucher.userId),
             organizerID: body.event.organizerId,
             eventId: event.id,
           },

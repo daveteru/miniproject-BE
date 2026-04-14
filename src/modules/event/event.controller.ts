@@ -32,6 +32,12 @@ export class EventController {
     res.status(200).send(result);
   };
 
+  getEventDetail = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const result = await this.eventService.getEventDetail(id);
+    res.status(200).send(result);
+  };
+
   deleteEvent = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const result = await this.eventService.deleteEvent(id);
