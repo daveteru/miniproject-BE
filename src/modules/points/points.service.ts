@@ -29,7 +29,7 @@ export class PointsService {
       return { points: 0 };
     }
 
-    return { points: result };
+    return { totalPoints: result };
   };
 
   getPoints = async (id: number) => {
