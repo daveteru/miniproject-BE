@@ -29,7 +29,6 @@ export type AggregateTransaction = {
 export type TransactionAvgAggregateOutputType = {
   id: number | null
   userId: number | null
-  ticketId: number | null
   voucherId: number | null
   couponId: number | null
   pointsUsed: number | null
@@ -38,7 +37,6 @@ export type TransactionAvgAggregateOutputType = {
 export type TransactionSumAggregateOutputType = {
   id: number | null
   userId: number | null
-  ticketId: number | null
   voucherId: number | null
   couponId: number | null
   pointsUsed: number | null
@@ -51,7 +49,6 @@ export type TransactionMinAggregateOutputType = {
   paymentProof: string | null
   paymentStatus: $Enums.PaymentStatus | null
   userId: number | null
-  ticketId: number | null
   voucherId: number | null
   couponId: number | null
   pointsUsed: number | null
@@ -64,7 +61,6 @@ export type TransactionMaxAggregateOutputType = {
   paymentProof: string | null
   paymentStatus: $Enums.PaymentStatus | null
   userId: number | null
-  ticketId: number | null
   voucherId: number | null
   couponId: number | null
   pointsUsed: number | null
@@ -77,7 +73,6 @@ export type TransactionCountAggregateOutputType = {
   paymentProof: number
   paymentStatus: number
   userId: number
-  ticketId: number
   voucherId: number
   couponId: number
   pointsUsed: number
@@ -88,7 +83,6 @@ export type TransactionCountAggregateOutputType = {
 export type TransactionAvgAggregateInputType = {
   id?: true
   userId?: true
-  ticketId?: true
   voucherId?: true
   couponId?: true
   pointsUsed?: true
@@ -97,7 +91,6 @@ export type TransactionAvgAggregateInputType = {
 export type TransactionSumAggregateInputType = {
   id?: true
   userId?: true
-  ticketId?: true
   voucherId?: true
   couponId?: true
   pointsUsed?: true
@@ -110,7 +103,6 @@ export type TransactionMinAggregateInputType = {
   paymentProof?: true
   paymentStatus?: true
   userId?: true
-  ticketId?: true
   voucherId?: true
   couponId?: true
   pointsUsed?: true
@@ -123,7 +115,6 @@ export type TransactionMaxAggregateInputType = {
   paymentProof?: true
   paymentStatus?: true
   userId?: true
-  ticketId?: true
   voucherId?: true
   couponId?: true
   pointsUsed?: true
@@ -136,7 +127,6 @@ export type TransactionCountAggregateInputType = {
   paymentProof?: true
   paymentStatus?: true
   userId?: true
-  ticketId?: true
   voucherId?: true
   couponId?: true
   pointsUsed?: true
@@ -236,7 +226,6 @@ export type TransactionGroupByOutputType = {
   paymentProof: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   voucherId: number | null
   couponId: number | null
   pointsUsed: number
@@ -272,15 +261,14 @@ export type TransactionWhereInput = {
   paymentProof?: Prisma.StringNullableFilter<"Transaction"> | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   userId?: Prisma.IntFilter<"Transaction"> | number
-  ticketId?: Prisma.IntFilter<"Transaction"> | number
   voucherId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   couponId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   pointsUsed?: Prisma.IntFilter<"Transaction"> | number
   reviews?: Prisma.ReviewListRelationFilter
   coupon?: Prisma.XOR<Prisma.CouponNullableScalarRelationFilter, Prisma.CouponWhereInput> | null
-  ticket?: Prisma.XOR<Prisma.TicketScalarRelationFilter, Prisma.TicketWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voucher?: Prisma.XOR<Prisma.VoucherNullableScalarRelationFilter, Prisma.VoucherWhereInput> | null
+  items?: Prisma.TransactionItemListRelationFilter
 }
 
 export type TransactionOrderByWithRelationInput = {
@@ -290,15 +278,14 @@ export type TransactionOrderByWithRelationInput = {
   paymentProof?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrderInput | Prisma.SortOrder
   couponId?: Prisma.SortOrderInput | Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   coupon?: Prisma.CouponOrderByWithRelationInput
-  ticket?: Prisma.TicketOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   voucher?: Prisma.VoucherOrderByWithRelationInput
+  items?: Prisma.TransactionItemOrderByRelationAggregateInput
 }
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -313,13 +300,12 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   paymentProof?: Prisma.StringNullableFilter<"Transaction"> | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   userId?: Prisma.IntFilter<"Transaction"> | number
-  ticketId?: Prisma.IntFilter<"Transaction"> | number
   pointsUsed?: Prisma.IntFilter<"Transaction"> | number
   reviews?: Prisma.ReviewListRelationFilter
   coupon?: Prisma.XOR<Prisma.CouponNullableScalarRelationFilter, Prisma.CouponWhereInput> | null
-  ticket?: Prisma.XOR<Prisma.TicketScalarRelationFilter, Prisma.TicketWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voucher?: Prisma.XOR<Prisma.VoucherNullableScalarRelationFilter, Prisma.VoucherWhereInput> | null
+  items?: Prisma.TransactionItemListRelationFilter
 }, "id" | "uuid" | "voucherId" | "couponId">
 
 export type TransactionOrderByWithAggregationInput = {
@@ -329,7 +315,6 @@ export type TransactionOrderByWithAggregationInput = {
   paymentProof?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrderInput | Prisma.SortOrder
   couponId?: Prisma.SortOrderInput | Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
@@ -350,7 +335,6 @@ export type TransactionScalarWhereWithAggregatesInput = {
   paymentProof?: Prisma.StringNullableWithAggregatesFilter<"Transaction"> | string | null
   paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Transaction"> | $Enums.PaymentStatus
   userId?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
-  ticketId?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
   voucherId?: Prisma.IntNullableWithAggregatesFilter<"Transaction"> | number | null
   couponId?: Prisma.IntNullableWithAggregatesFilter<"Transaction"> | number | null
   pointsUsed?: Prisma.IntWithAggregatesFilter<"Transaction"> | number
@@ -364,9 +348,9 @@ export type TransactionCreateInput = {
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
-  ticket: Prisma.TicketCreateNestedOneWithoutTransactionsInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateInput = {
@@ -376,11 +360,11 @@ export type TransactionUncheckedCreateInput = {
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   voucherId?: number | null
   couponId?: number | null
   pointsUsed?: number
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTransactionInput
+  items?: Prisma.TransactionItemUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUpdateInput = {
@@ -391,9 +375,9 @@ export type TransactionUpdateInput = {
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  ticket?: Prisma.TicketUpdateOneRequiredWithoutTransactionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateInput = {
@@ -403,11 +387,11 @@ export type TransactionUncheckedUpdateInput = {
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateManyInput = {
@@ -417,7 +401,6 @@ export type TransactionCreateManyInput = {
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   voucherId?: number | null
   couponId?: number | null
   pointsUsed?: number
@@ -438,7 +421,6 @@ export type TransactionUncheckedUpdateManyInput = {
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
@@ -454,6 +436,11 @@ export type TransactionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type TransactionScalarRelationFilter = {
+  is?: Prisma.TransactionWhereInput
+  isNot?: Prisma.TransactionWhereInput
+}
+
 export type TransactionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   uuid?: Prisma.SortOrder
@@ -461,7 +448,6 @@ export type TransactionCountOrderByAggregateInput = {
   paymentProof?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrder
   couponId?: Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
@@ -470,7 +456,6 @@ export type TransactionCountOrderByAggregateInput = {
 export type TransactionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrder
   couponId?: Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
@@ -483,7 +468,6 @@ export type TransactionMaxOrderByAggregateInput = {
   paymentProof?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrder
   couponId?: Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
@@ -496,7 +480,6 @@ export type TransactionMinOrderByAggregateInput = {
   paymentProof?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrder
   couponId?: Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
@@ -505,15 +488,9 @@ export type TransactionMinOrderByAggregateInput = {
 export type TransactionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  ticketId?: Prisma.SortOrder
   voucherId?: Prisma.SortOrder
   couponId?: Prisma.SortOrder
   pointsUsed?: Prisma.SortOrder
-}
-
-export type TransactionScalarRelationFilter = {
-  is?: Prisma.TransactionWhereInput
-  isNot?: Prisma.TransactionWhereInput
 }
 
 export type TransactionNullableScalarRelationFilter = {
@@ -563,46 +540,18 @@ export type TransactionUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
-export type TransactionCreateNestedManyWithoutTicketInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput> | Prisma.TransactionCreateWithoutTicketInput[] | Prisma.TransactionUncheckedCreateWithoutTicketInput[]
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutTicketInput | Prisma.TransactionCreateOrConnectWithoutTicketInput[]
-  createMany?: Prisma.TransactionCreateManyTicketInputEnvelope
-  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+export type TransactionCreateNestedOneWithoutItemsInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutItemsInput, Prisma.TransactionUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutItemsInput
+  connect?: Prisma.TransactionWhereUniqueInput
 }
 
-export type TransactionUncheckedCreateNestedManyWithoutTicketInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput> | Prisma.TransactionCreateWithoutTicketInput[] | Prisma.TransactionUncheckedCreateWithoutTicketInput[]
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutTicketInput | Prisma.TransactionCreateOrConnectWithoutTicketInput[]
-  createMany?: Prisma.TransactionCreateManyTicketInputEnvelope
-  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-}
-
-export type TransactionUpdateManyWithoutTicketNestedInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput> | Prisma.TransactionCreateWithoutTicketInput[] | Prisma.TransactionUncheckedCreateWithoutTicketInput[]
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutTicketInput | Prisma.TransactionCreateOrConnectWithoutTicketInput[]
-  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutTicketInput | Prisma.TransactionUpsertWithWhereUniqueWithoutTicketInput[]
-  createMany?: Prisma.TransactionCreateManyTicketInputEnvelope
-  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutTicketInput | Prisma.TransactionUpdateWithWhereUniqueWithoutTicketInput[]
-  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutTicketInput | Prisma.TransactionUpdateManyWithWhereWithoutTicketInput[]
-  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
-}
-
-export type TransactionUncheckedUpdateManyWithoutTicketNestedInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput> | Prisma.TransactionCreateWithoutTicketInput[] | Prisma.TransactionUncheckedCreateWithoutTicketInput[]
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutTicketInput | Prisma.TransactionCreateOrConnectWithoutTicketInput[]
-  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutTicketInput | Prisma.TransactionUpsertWithWhereUniqueWithoutTicketInput[]
-  createMany?: Prisma.TransactionCreateManyTicketInputEnvelope
-  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
-  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutTicketInput | Prisma.TransactionUpdateWithWhereUniqueWithoutTicketInput[]
-  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutTicketInput | Prisma.TransactionUpdateManyWithWhereWithoutTicketInput[]
-  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
+export type TransactionUpdateOneRequiredWithoutItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutItemsInput, Prisma.TransactionUncheckedCreateWithoutItemsInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutItemsInput
+  upsert?: Prisma.TransactionUpsertWithoutItemsInput
+  connect?: Prisma.TransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutItemsInput, Prisma.TransactionUpdateWithoutItemsInput>, Prisma.TransactionUncheckedUpdateWithoutItemsInput>
 }
 
 export type EnumPaymentStatusFieldUpdateOperationsInput = {
@@ -703,8 +652,8 @@ export type TransactionCreateWithoutUserInput = {
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
-  ticket: Prisma.TicketCreateNestedOneWithoutTransactionsInput
   voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutUserInput = {
@@ -713,11 +662,11 @@ export type TransactionUncheckedCreateWithoutUserInput = {
   expiredAt?: Date | string | null
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
-  ticketId: number
   voucherId?: number | null
   couponId?: number | null
   pointsUsed?: number
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTransactionInput
+  items?: Prisma.TransactionItemUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutUserInput = {
@@ -756,13 +705,12 @@ export type TransactionScalarWhereInput = {
   paymentProof?: Prisma.StringNullableFilter<"Transaction"> | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   userId?: Prisma.IntFilter<"Transaction"> | number
-  ticketId?: Prisma.IntFilter<"Transaction"> | number
   voucherId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   couponId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   pointsUsed?: Prisma.IntFilter<"Transaction"> | number
 }
 
-export type TransactionCreateWithoutTicketInput = {
+export type TransactionCreateWithoutItemsInput = {
   uuid?: string
   expiredAt?: Date | string | null
   paymentProof?: string | null
@@ -774,7 +722,7 @@ export type TransactionCreateWithoutTicketInput = {
   voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
 }
 
-export type TransactionUncheckedCreateWithoutTicketInput = {
+export type TransactionUncheckedCreateWithoutItemsInput = {
   id?: number
   uuid?: string
   expiredAt?: Date | string | null
@@ -787,30 +735,45 @@ export type TransactionUncheckedCreateWithoutTicketInput = {
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTransactionInput
 }
 
-export type TransactionCreateOrConnectWithoutTicketInput = {
+export type TransactionCreateOrConnectWithoutItemsInput = {
   where: Prisma.TransactionWhereUniqueInput
-  create: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutItemsInput, Prisma.TransactionUncheckedCreateWithoutItemsInput>
 }
 
-export type TransactionCreateManyTicketInputEnvelope = {
-  data: Prisma.TransactionCreateManyTicketInput | Prisma.TransactionCreateManyTicketInput[]
-  skipDuplicates?: boolean
+export type TransactionUpsertWithoutItemsInput = {
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutItemsInput, Prisma.TransactionUncheckedUpdateWithoutItemsInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutItemsInput, Prisma.TransactionUncheckedCreateWithoutItemsInput>
+  where?: Prisma.TransactionWhereInput
 }
 
-export type TransactionUpsertWithWhereUniqueWithoutTicketInput = {
-  where: Prisma.TransactionWhereUniqueInput
-  update: Prisma.XOR<Prisma.TransactionUpdateWithoutTicketInput, Prisma.TransactionUncheckedUpdateWithoutTicketInput>
-  create: Prisma.XOR<Prisma.TransactionCreateWithoutTicketInput, Prisma.TransactionUncheckedCreateWithoutTicketInput>
+export type TransactionUpdateToOneWithWhereWithoutItemsInput = {
+  where?: Prisma.TransactionWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateWithoutItemsInput, Prisma.TransactionUncheckedUpdateWithoutItemsInput>
 }
 
-export type TransactionUpdateWithWhereUniqueWithoutTicketInput = {
-  where: Prisma.TransactionWhereUniqueInput
-  data: Prisma.XOR<Prisma.TransactionUpdateWithoutTicketInput, Prisma.TransactionUncheckedUpdateWithoutTicketInput>
+export type TransactionUpdateWithoutItemsInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
+  coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
 }
 
-export type TransactionUpdateManyWithWhereWithoutTicketInput = {
-  where: Prisma.TransactionScalarWhereInput
-  data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutTicketInput>
+export type TransactionUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateWithoutReviewsInput = {
@@ -820,9 +783,9 @@ export type TransactionCreateWithoutReviewsInput = {
   paymentStatus: $Enums.PaymentStatus
   pointsUsed?: number
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
-  ticket: Prisma.TicketCreateNestedOneWithoutTransactionsInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutReviewsInput = {
@@ -832,10 +795,10 @@ export type TransactionUncheckedCreateWithoutReviewsInput = {
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   voucherId?: number | null
   couponId?: number | null
   pointsUsed?: number
+  items?: Prisma.TransactionItemUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutReviewsInput = {
@@ -861,9 +824,9 @@ export type TransactionUpdateWithoutReviewsInput = {
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  ticket?: Prisma.TicketUpdateOneRequiredWithoutTransactionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutReviewsInput = {
@@ -873,10 +836,10 @@ export type TransactionUncheckedUpdateWithoutReviewsInput = {
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateWithoutCouponInput = {
@@ -886,9 +849,9 @@ export type TransactionCreateWithoutCouponInput = {
   paymentStatus: $Enums.PaymentStatus
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
-  ticket: Prisma.TicketCreateNestedOneWithoutTransactionsInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
   voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutCouponInput = {
@@ -898,10 +861,10 @@ export type TransactionUncheckedCreateWithoutCouponInput = {
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   voucherId?: number | null
   pointsUsed?: number
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTransactionInput
+  items?: Prisma.TransactionItemUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutCouponInput = {
@@ -927,9 +890,9 @@ export type TransactionUpdateWithoutCouponInput = {
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
-  ticket?: Prisma.TicketUpdateOneRequiredWithoutTransactionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
   voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutCouponInput = {
@@ -939,10 +902,10 @@ export type TransactionUncheckedUpdateWithoutCouponInput = {
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateWithoutVoucherInput = {
@@ -953,8 +916,8 @@ export type TransactionCreateWithoutVoucherInput = {
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
-  ticket: Prisma.TicketCreateNestedOneWithoutTransactionsInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
+  items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutVoucherInput = {
@@ -964,10 +927,10 @@ export type TransactionUncheckedCreateWithoutVoucherInput = {
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
   userId: number
-  ticketId: number
   couponId?: number | null
   pointsUsed?: number
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTransactionInput
+  items?: Prisma.TransactionItemUncheckedCreateNestedManyWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutVoucherInput = {
@@ -994,8 +957,8 @@ export type TransactionUpdateWithoutVoucherInput = {
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  ticket?: Prisma.TicketUpdateOneRequiredWithoutTransactionsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutVoucherInput = {
@@ -1005,10 +968,10 @@ export type TransactionUncheckedUpdateWithoutVoucherInput = {
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionCreateManyUserInput = {
@@ -1017,7 +980,6 @@ export type TransactionCreateManyUserInput = {
   expiredAt?: Date | string | null
   paymentProof?: string | null
   paymentStatus: $Enums.PaymentStatus
-  ticketId: number
   voucherId?: number | null
   couponId?: number | null
   pointsUsed?: number
@@ -1031,8 +993,8 @@ export type TransactionUpdateWithoutUserInput = {
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  ticket?: Prisma.TicketUpdateOneRequiredWithoutTransactionsNestedInput
   voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutUserInput = {
@@ -1041,11 +1003,11 @@ export type TransactionUncheckedUpdateWithoutUserInput = {
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutUserInput = {
@@ -1054,56 +1016,6 @@ export type TransactionUncheckedUpdateManyWithoutUserInput = {
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  ticketId?: Prisma.IntFieldUpdateOperationsInput | number
-  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type TransactionCreateManyTicketInput = {
-  id?: number
-  uuid?: string
-  expiredAt?: Date | string | null
-  paymentProof?: string | null
-  paymentStatus: $Enums.PaymentStatus
-  userId: number
-  voucherId?: number | null
-  couponId?: number | null
-  pointsUsed?: number
-}
-
-export type TransactionUpdateWithoutTicketInput = {
-  uuid?: Prisma.StringFieldUpdateOperationsInput | string
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
-  coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
-}
-
-export type TransactionUncheckedUpdateWithoutTicketInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  uuid?: Prisma.StringFieldUpdateOperationsInput | string
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
-}
-
-export type TransactionUncheckedUpdateManyWithoutTicketInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  uuid?: Prisma.StringFieldUpdateOperationsInput | string
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
   voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1116,10 +1028,12 @@ export type TransactionUncheckedUpdateManyWithoutTicketInput = {
 
 export type TransactionCountOutputType = {
   reviews: number
+  items: number
 }
 
 export type TransactionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reviews?: boolean | TransactionCountOutputTypeCountReviewsArgs
+  items?: boolean | TransactionCountOutputTypeCountItemsArgs
 }
 
 /**
@@ -1139,6 +1053,13 @@ export type TransactionCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.T
   where?: Prisma.ReviewWhereInput
 }
 
+/**
+ * TransactionCountOutputType without action
+ */
+export type TransactionCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionItemWhereInput
+}
+
 
 export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1147,15 +1068,14 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   paymentProof?: boolean
   paymentStatus?: boolean
   userId?: boolean
-  ticketId?: boolean
   voucherId?: boolean
   couponId?: boolean
   pointsUsed?: boolean
   reviews?: boolean | Prisma.Transaction$reviewsArgs<ExtArgs>
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
+  items?: boolean | Prisma.Transaction$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
@@ -1166,12 +1086,10 @@ export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   paymentProof?: boolean
   paymentStatus?: boolean
   userId?: boolean
-  ticketId?: boolean
   voucherId?: boolean
   couponId?: boolean
   pointsUsed?: boolean
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
@@ -1183,12 +1101,10 @@ export type TransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   paymentProof?: boolean
   paymentStatus?: boolean
   userId?: boolean
-  ticketId?: boolean
   voucherId?: boolean
   couponId?: boolean
   pointsUsed?: boolean
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
@@ -1200,30 +1116,27 @@ export type TransactionSelectScalar = {
   paymentProof?: boolean
   paymentStatus?: boolean
   userId?: boolean
-  ticketId?: boolean
   voucherId?: boolean
   couponId?: boolean
   pointsUsed?: boolean
 }
 
-export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "expiredAt" | "paymentProof" | "paymentStatus" | "userId" | "ticketId" | "voucherId" | "couponId" | "pointsUsed", ExtArgs["result"]["transaction"]>
+export type TransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "uuid" | "expiredAt" | "paymentProof" | "paymentStatus" | "userId" | "voucherId" | "couponId" | "pointsUsed", ExtArgs["result"]["transaction"]>
 export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reviews?: boolean | Prisma.Transaction$reviewsArgs<ExtArgs>
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
+  items?: boolean | Prisma.Transaction$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
 }
 export type TransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   coupon?: boolean | Prisma.Transaction$couponArgs<ExtArgs>
-  ticket?: boolean | Prisma.TicketDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voucher?: boolean | Prisma.Transaction$voucherArgs<ExtArgs>
 }
@@ -1233,9 +1146,9 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     coupon: Prisma.$CouponPayload<ExtArgs> | null
-    ticket: Prisma.$TicketPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
     voucher: Prisma.$VoucherPayload<ExtArgs> | null
+    items: Prisma.$TransactionItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1244,7 +1157,6 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     paymentProof: string | null
     paymentStatus: $Enums.PaymentStatus
     userId: number
-    ticketId: number
     voucherId: number | null
     couponId: number | null
     pointsUsed: number
@@ -1644,9 +1556,9 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   reviews<T extends Prisma.Transaction$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   coupon<T extends Prisma.Transaction$couponArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$couponArgs<ExtArgs>>): Prisma.Prisma__CouponClient<runtime.Types.Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  ticket<T extends Prisma.TicketDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TicketDefaultArgs<ExtArgs>>): Prisma.Prisma__TicketClient<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   voucher<T extends Prisma.Transaction$voucherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$voucherArgs<ExtArgs>>): Prisma.Prisma__VoucherClient<runtime.Types.Result.GetResult<Prisma.$VoucherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  items<T extends Prisma.Transaction$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1682,7 +1594,6 @@ export interface TransactionFieldRefs {
   readonly paymentProof: Prisma.FieldRef<"Transaction", 'String'>
   readonly paymentStatus: Prisma.FieldRef<"Transaction", 'PaymentStatus'>
   readonly userId: Prisma.FieldRef<"Transaction", 'Int'>
-  readonly ticketId: Prisma.FieldRef<"Transaction", 'Int'>
   readonly voucherId: Prisma.FieldRef<"Transaction", 'Int'>
   readonly couponId: Prisma.FieldRef<"Transaction", 'Int'>
   readonly pointsUsed: Prisma.FieldRef<"Transaction", 'Int'>
@@ -2146,6 +2057,30 @@ export type Transaction$voucherArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.VoucherInclude<ExtArgs> | null
   where?: Prisma.VoucherWhereInput
+}
+
+/**
+ * Transaction.items
+ */
+export type Transaction$itemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransactionItem
+   */
+  select?: Prisma.TransactionItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransactionItem
+   */
+  omit?: Prisma.TransactionItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionItemInclude<ExtArgs> | null
+  where?: Prisma.TransactionItemWhereInput
+  orderBy?: Prisma.TransactionItemOrderByWithRelationInput | Prisma.TransactionItemOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionItemScalarFieldEnum | Prisma.TransactionItemScalarFieldEnum[]
 }
 
 /**
