@@ -56,6 +56,14 @@ export class TransactionService {
         ),
       );
 
+      // pengurangan voucher amount jika ada voucherId
+      if (body.voucherId) {
+        await trans.voucher.update({
+          where: { id: body.voucherId },
+          data: { amount: { decrement: 1 } },
+        });
+      }
+
       await trans.transaction.create({
         data: {
           paymentStatus: "WAITING_FOR_PAYMENT",
