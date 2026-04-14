@@ -24,13 +24,14 @@ interface createEventBundle {
     amount: number;
     expiredDate: string;
     userId: number;
+    discamount: number;
   };
 }
 
 interface GetEventsQuery extends PaginationQueryParams {
   search?: string;
   category?: string;
-  city?:string;
+  city?: string;
 }
 
 export class EventService {
@@ -105,6 +106,13 @@ export class EventService {
             avatar: true,
           },
         },
+        vouchers: {
+          select: {
+            expiredDate: true,
+            discamount: true,
+            amount: true,
+          },
+        },
       },
     });
 
@@ -160,7 +168,10 @@ export class EventService {
 
   createEventBundle = async (body: createEventBundle) => {
     await this.prisma.$transaction(async (tx) => {
-      const totalTicket = body.tickets.reduce((sum, t) => sum + Number(t.availableTicket), 0);
+      const totalTicket = body.tickets.reduce(
+        (sum, t) => sum + Number(t.availableTicket),
+        0,
+      );
 
       const event = await tx.event.create({
         data: {
@@ -174,7 +185,7 @@ export class EventService {
           totalTicket,
           category: body.event.category,
           description: body.event.description,
-          organizerId: body.event.organizerId,   
+          organizerId: body.event.organizerId,
         },
       });
 
@@ -191,6 +202,7 @@ export class EventService {
         await tx.voucher.create({
           data: {
             amount: Number(body.voucher.amount),
+            discamount: Number(body.voucher.discamount),
             expiredDate: new Date(body.voucher.expiredDate),
             userId: Number(body.voucher.userId),
             organizerID: body.event.organizerId,
@@ -202,6 +214,4 @@ export class EventService {
 
     return { message: "Event bundle creation successful" };
   };
-
-  
 }
