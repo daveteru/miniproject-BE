@@ -84,7 +84,7 @@ model Transaction {
   paymentProof  String?
   paymentStatus PaymentStatus
   userId        Int
-  voucherId     Int?              @unique
+  voucherId     Int?
   couponId      Int?              @unique
   pointsUsed    Int               @default(0)
   reviews       Review[]
@@ -132,14 +132,14 @@ model Point {
 }
 
 model Voucher {
-  id          Int          @id @default(autoincrement())
-  amount      Int
-  discamount  Int          @default(0)
-  expiredDate DateTime
-  userId      Int
-  organizerID Int
-  eventId     Int?
-  transaction Transaction?
+  id           Int           @id @default(autoincrement())
+  amount       Int
+  discamount   Int           @default(0)
+  expiredDate  DateTime
+  userId       Int
+  organizerID  Int
+  eventId      Int?
+  transactions Transaction[]
   organizer   User         @relation("Organizer", fields: [organizerID], references: [id])
   user        User         @relation("User", fields: [userId], references: [id])
   event       Event?       @relation(fields: [eventId], references: [id])

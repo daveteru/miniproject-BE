@@ -58,6 +58,18 @@ export class TransactionService {
 
       // pengurangan voucher amount jika ada voucherId
       if (body.voucherId) {
+        const voucher = await trans.voucher.findUnique({
+          where: { id: body.voucherId },
+        });
+
+        if (!voucher) {
+          throw new ApiError("Voucher not found", 404);
+        }
+
+        if (voucher.amount <= 0) {
+          throw new ApiError("Voucher is no longer available", 400);
+        }
+
         await trans.voucher.update({
           where: { id: body.voucherId },
           data: { amount: { decrement: 1 } },

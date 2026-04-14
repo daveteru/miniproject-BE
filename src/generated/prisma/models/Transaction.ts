@@ -291,7 +291,6 @@ export type TransactionOrderByWithRelationInput = {
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   uuid?: string
-  voucherId?: number
   couponId?: number
   AND?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   OR?: Prisma.TransactionWhereInput[]
@@ -300,13 +299,14 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   paymentProof?: Prisma.StringNullableFilter<"Transaction"> | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"Transaction"> | $Enums.PaymentStatus
   userId?: Prisma.IntFilter<"Transaction"> | number
+  voucherId?: Prisma.IntNullableFilter<"Transaction"> | number | null
   pointsUsed?: Prisma.IntFilter<"Transaction"> | number
   reviews?: Prisma.ReviewListRelationFilter
   coupon?: Prisma.XOR<Prisma.CouponNullableScalarRelationFilter, Prisma.CouponWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voucher?: Prisma.XOR<Prisma.VoucherNullableScalarRelationFilter, Prisma.VoucherWhereInput> | null
   items?: Prisma.TransactionItemListRelationFilter
-}, "id" | "uuid" | "voucherId" | "couponId">
+}, "id" | "uuid" | "couponId">
 
 export type TransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -349,7 +349,7 @@ export type TransactionCreateInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
-  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionsInput
   items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
@@ -376,7 +376,7 @@ export type TransactionUpdateInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionsNestedInput
   items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
@@ -612,36 +612,46 @@ export type TransactionUncheckedUpdateOneWithoutCouponNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutCouponInput, Prisma.TransactionUpdateWithoutCouponInput>, Prisma.TransactionUncheckedUpdateWithoutCouponInput>
 }
 
-export type TransactionCreateNestedOneWithoutVoucherInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput
-  connect?: Prisma.TransactionWhereUniqueInput
+export type TransactionCreateNestedManyWithoutVoucherInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput> | Prisma.TransactionCreateWithoutVoucherInput[] | Prisma.TransactionUncheckedCreateWithoutVoucherInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput | Prisma.TransactionCreateOrConnectWithoutVoucherInput[]
+  createMany?: Prisma.TransactionCreateManyVoucherInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
 }
 
-export type TransactionUncheckedCreateNestedOneWithoutVoucherInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput
-  connect?: Prisma.TransactionWhereUniqueInput
+export type TransactionUncheckedCreateNestedManyWithoutVoucherInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput> | Prisma.TransactionCreateWithoutVoucherInput[] | Prisma.TransactionUncheckedCreateWithoutVoucherInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput | Prisma.TransactionCreateOrConnectWithoutVoucherInput[]
+  createMany?: Prisma.TransactionCreateManyVoucherInputEnvelope
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
 }
 
-export type TransactionUpdateOneWithoutVoucherNestedInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput
-  upsert?: Prisma.TransactionUpsertWithoutVoucherInput
-  disconnect?: Prisma.TransactionWhereInput | boolean
-  delete?: Prisma.TransactionWhereInput | boolean
-  connect?: Prisma.TransactionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutVoucherInput, Prisma.TransactionUpdateWithoutVoucherInput>, Prisma.TransactionUncheckedUpdateWithoutVoucherInput>
+export type TransactionUpdateManyWithoutVoucherNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput> | Prisma.TransactionCreateWithoutVoucherInput[] | Prisma.TransactionUncheckedCreateWithoutVoucherInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput | Prisma.TransactionCreateOrConnectWithoutVoucherInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutVoucherInput | Prisma.TransactionUpsertWithWhereUniqueWithoutVoucherInput[]
+  createMany?: Prisma.TransactionCreateManyVoucherInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutVoucherInput | Prisma.TransactionUpdateWithWhereUniqueWithoutVoucherInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutVoucherInput | Prisma.TransactionUpdateManyWithWhereWithoutVoucherInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
-export type TransactionUncheckedUpdateOneWithoutVoucherNestedInput = {
-  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
-  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput
-  upsert?: Prisma.TransactionUpsertWithoutVoucherInput
-  disconnect?: Prisma.TransactionWhereInput | boolean
-  delete?: Prisma.TransactionWhereInput | boolean
-  connect?: Prisma.TransactionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutVoucherInput, Prisma.TransactionUpdateWithoutVoucherInput>, Prisma.TransactionUncheckedUpdateWithoutVoucherInput>
+export type TransactionUncheckedUpdateManyWithoutVoucherNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput> | Prisma.TransactionCreateWithoutVoucherInput[] | Prisma.TransactionUncheckedCreateWithoutVoucherInput[]
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutVoucherInput | Prisma.TransactionCreateOrConnectWithoutVoucherInput[]
+  upsert?: Prisma.TransactionUpsertWithWhereUniqueWithoutVoucherInput | Prisma.TransactionUpsertWithWhereUniqueWithoutVoucherInput[]
+  createMany?: Prisma.TransactionCreateManyVoucherInputEnvelope
+  set?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  disconnect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  delete?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  connect?: Prisma.TransactionWhereUniqueInput | Prisma.TransactionWhereUniqueInput[]
+  update?: Prisma.TransactionUpdateWithWhereUniqueWithoutVoucherInput | Prisma.TransactionUpdateWithWhereUniqueWithoutVoucherInput[]
+  updateMany?: Prisma.TransactionUpdateManyWithWhereWithoutVoucherInput | Prisma.TransactionUpdateManyWithWhereWithoutVoucherInput[]
+  deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
 export type TransactionCreateWithoutUserInput = {
@@ -652,7 +662,7 @@ export type TransactionCreateWithoutUserInput = {
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
-  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionsInput
   items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
@@ -719,7 +729,7 @@ export type TransactionCreateWithoutItemsInput = {
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
-  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionsInput
 }
 
 export type TransactionUncheckedCreateWithoutItemsInput = {
@@ -760,7 +770,7 @@ export type TransactionUpdateWithoutItemsInput = {
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionsNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutItemsInput = {
@@ -784,7 +794,7 @@ export type TransactionCreateWithoutReviewsInput = {
   pointsUsed?: number
   coupon?: Prisma.CouponCreateNestedOneWithoutTransactionInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
-  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionsInput
   items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
@@ -825,7 +835,7 @@ export type TransactionUpdateWithoutReviewsInput = {
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionsNestedInput
   items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
@@ -850,7 +860,7 @@ export type TransactionCreateWithoutCouponInput = {
   pointsUsed?: number
   reviews?: Prisma.ReviewCreateNestedManyWithoutTransactionInput
   user: Prisma.UserCreateNestedOneWithoutTransactionsInput
-  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionInput
+  voucher?: Prisma.VoucherCreateNestedOneWithoutTransactionsInput
   items?: Prisma.TransactionItemCreateNestedManyWithoutTransactionInput
 }
 
@@ -891,7 +901,7 @@ export type TransactionUpdateWithoutCouponInput = {
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
   reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTransactionsNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionsNestedInput
   items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
 }
 
@@ -938,15 +948,83 @@ export type TransactionCreateOrConnectWithoutVoucherInput = {
   create: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
 }
 
-export type TransactionUpsertWithoutVoucherInput = {
-  update: Prisma.XOR<Prisma.TransactionUpdateWithoutVoucherInput, Prisma.TransactionUncheckedUpdateWithoutVoucherInput>
-  create: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
-  where?: Prisma.TransactionWhereInput
+export type TransactionCreateManyVoucherInputEnvelope = {
+  data: Prisma.TransactionCreateManyVoucherInput | Prisma.TransactionCreateManyVoucherInput[]
+  skipDuplicates?: boolean
 }
 
-export type TransactionUpdateToOneWithWhereWithoutVoucherInput = {
-  where?: Prisma.TransactionWhereInput
+export type TransactionUpsertWithWhereUniqueWithoutVoucherInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutVoucherInput, Prisma.TransactionUncheckedUpdateWithoutVoucherInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutVoucherInput, Prisma.TransactionUncheckedCreateWithoutVoucherInput>
+}
+
+export type TransactionUpdateWithWhereUniqueWithoutVoucherInput = {
+  where: Prisma.TransactionWhereUniqueInput
   data: Prisma.XOR<Prisma.TransactionUpdateWithoutVoucherInput, Prisma.TransactionUncheckedUpdateWithoutVoucherInput>
+}
+
+export type TransactionUpdateManyWithWhereWithoutVoucherInput = {
+  where: Prisma.TransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutVoucherInput>
+}
+
+export type TransactionCreateManyUserInput = {
+  id?: number
+  uuid?: string
+  expiredAt?: Date | string | null
+  paymentProof?: string | null
+  paymentStatus: $Enums.PaymentStatus
+  voucherId?: number | null
+  couponId?: number | null
+  pointsUsed?: number
+}
+
+export type TransactionUpdateWithoutUserInput = {
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
+  coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
+  voucher?: Prisma.VoucherUpdateOneWithoutTransactionsNestedInput
+  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
+}
+
+export type TransactionUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
+  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
+}
+
+export type TransactionUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  uuid?: Prisma.StringFieldUpdateOperationsInput | string
+  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type TransactionCreateManyVoucherInput = {
+  id?: number
+  uuid?: string
+  expiredAt?: Date | string | null
+  paymentProof?: string | null
+  paymentStatus: $Enums.PaymentStatus
+  userId: number
+  couponId?: number | null
+  pointsUsed?: number
 }
 
 export type TransactionUpdateWithoutVoucherInput = {
@@ -974,49 +1052,13 @@ export type TransactionUncheckedUpdateWithoutVoucherInput = {
   items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
 }
 
-export type TransactionCreateManyUserInput = {
-  id?: number
-  uuid?: string
-  expiredAt?: Date | string | null
-  paymentProof?: string | null
-  paymentStatus: $Enums.PaymentStatus
-  voucherId?: number | null
-  couponId?: number | null
-  pointsUsed?: number
-}
-
-export type TransactionUpdateWithoutUserInput = {
-  uuid?: Prisma.StringFieldUpdateOperationsInput | string
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  reviews?: Prisma.ReviewUpdateManyWithoutTransactionNestedInput
-  coupon?: Prisma.CouponUpdateOneWithoutTransactionNestedInput
-  voucher?: Prisma.VoucherUpdateOneWithoutTransactionNestedInput
-  items?: Prisma.TransactionItemUpdateManyWithoutTransactionNestedInput
-}
-
-export type TransactionUncheckedUpdateWithoutUserInput = {
+export type TransactionUncheckedUpdateManyWithoutVoucherInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   uuid?: Prisma.StringFieldUpdateOperationsInput | string
   expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTransactionNestedInput
-  items?: Prisma.TransactionItemUncheckedUpdateManyWithoutTransactionNestedInput
-}
-
-export type TransactionUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  uuid?: Prisma.StringFieldUpdateOperationsInput | string
-  expiredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  paymentProof?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-  voucherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   couponId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   pointsUsed?: Prisma.IntFieldUpdateOperationsInput | number
 }
