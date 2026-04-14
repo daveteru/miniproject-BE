@@ -25,7 +25,7 @@ export class TransactionService {
     pointsUsed?: number;
   }) => {
     await this.prisma.$transaction(async (trans) => {
-      // Fetch all tickets in one query
+      // ambil semua tiket
       const ticketIds = body.items.map((i) => i.ticketId);
       const tickets = await trans.ticket.findMany({
         where: { id: { in: ticketIds }, deletedAt: null },
@@ -35,7 +35,7 @@ export class TransactionService {
         throw new ApiError("One or more tickets not found", 404);
       }
 
-      // Validate availability for each item
+      // cek ada ticket gak di db
       for (const item of body.items) {
         const ticket = tickets.find((t) => t.id === item.ticketId)!;
         if (ticket.availableTicket < item.quantity) {
@@ -46,7 +46,7 @@ export class TransactionService {
         }
       }
 
-      // Decrement each ticket's availability
+      // pengurangan setiap ticket item
       await Promise.all(
         body.items.map((item) =>
           trans.ticket.update({
@@ -56,7 +56,6 @@ export class TransactionService {
         ),
       );
 
-      // Create the transaction and all its items
       await trans.transaction.create({
         data: {
           paymentStatus: "WAITING_FOR_PAYMENT",
@@ -64,7 +63,7 @@ export class TransactionService {
           voucherId: body.voucherId,
           couponId: body.couponId,
           pointsUsed: body.pointsUsed ?? 0,
-          expiredAt: new Date(Date.now() + 60 * 60 * 1000),
+          expiredAt: new Date(Date.now() + 2 * 60 * 60 * 1000),
           items: {
             create: body.items.map((item) => {
               const ticket = tickets.find((t) => t.id === item.ticketId)!;
