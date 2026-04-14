@@ -33,6 +33,11 @@ export type Event = Prisma.EventModel
  */
 export type Ticket = Prisma.TicketModel
 /**
+ * Model TransactionItem
+ * 
+ */
+export type TransactionItem = Prisma.TransactionItemModel
+/**
  * Model Transaction
  * 
  */

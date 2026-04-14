@@ -387,6 +387,7 @@ export const ModelName = {
   User: 'User',
   Event: 'Event',
   Ticket: 'Ticket',
+  TransactionItem: 'TransactionItem',
   Transaction: 'Transaction',
   Review: 'Review',
   Coupon: 'Coupon',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "event" | "ticket" | "transaction" | "review" | "coupon" | "point" | "voucher" | "promotions" | "refreshToken"
+    modelProps: "user" | "event" | "ticket" | "transactionItem" | "transaction" | "review" | "coupon" | "point" | "voucher" | "promotions" | "refreshToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -632,6 +633,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TicketCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TicketCountAggregateOutputType> | number
+        }
+      }
+    }
+    TransactionItem: {
+      payload: Prisma.$TransactionItemPayload<ExtArgs>
+      fields: Prisma.TransactionItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransactionItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransactionItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        findFirst: {
+          args: Prisma.TransactionItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransactionItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        findMany: {
+          args: Prisma.TransactionItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>[]
+        }
+        create: {
+          args: Prisma.TransactionItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        createMany: {
+          args: Prisma.TransactionItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransactionItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>[]
+        }
+        delete: {
+          args: Prisma.TransactionItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        update: {
+          args: Prisma.TransactionItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransactionItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransactionItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransactionItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransactionItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionItemPayload>
+        }
+        aggregate: {
+          args: Prisma.TransactionItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransactionItem>
+        }
+        groupBy: {
+          args: Prisma.TransactionItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransactionItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransactionItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransactionItemCountAggregateOutputType> | number
         }
       }
     }
@@ -1238,6 +1313,17 @@ export const TicketScalarFieldEnum = {
 export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
 
 
+export const TransactionItemScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  ticketId: 'ticketId',
+  quantity: 'quantity',
+  price: 'price'
+} as const
+
+export type TransactionItemScalarFieldEnum = (typeof TransactionItemScalarFieldEnum)[keyof typeof TransactionItemScalarFieldEnum]
+
+
 export const TransactionScalarFieldEnum = {
   id: 'id',
   uuid: 'uuid',
@@ -1245,7 +1331,6 @@ export const TransactionScalarFieldEnum = {
   paymentProof: 'paymentProof',
   paymentStatus: 'paymentStatus',
   userId: 'userId',
-  ticketId: 'ticketId',
   voucherId: 'voucherId',
   couponId: 'couponId',
   pointsUsed: 'pointsUsed'
@@ -1560,6 +1645,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   event?: Prisma.EventOmit
   ticket?: Prisma.TicketOmit
+  transactionItem?: Prisma.TransactionItemOmit
   transaction?: Prisma.TransactionOmit
   review?: Prisma.ReviewOmit
   coupon?: Prisma.CouponOmit
