@@ -26,7 +26,7 @@ export class PointsService {
     const result = total._sum.amount;
 
     if (!result) {
-      return { points: 0 };
+      return { totalPoints: 0 };
     }
 
     return { totalPoints: result };
