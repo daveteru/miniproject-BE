@@ -40,7 +40,7 @@ export class AuthService {
           fullName: body.fullName,
           email: body.email,
           password: hashedPassword,
-          birthdate: body.birthdate,
+          birthdate: new Date(body.birthdate),
           referral: referralCode,
         },
       });
