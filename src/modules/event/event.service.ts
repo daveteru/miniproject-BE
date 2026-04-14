@@ -108,6 +108,7 @@ export class EventService {
         },
         vouchers: {
           select: {
+            id:true,
             expiredDate: true,
             discamount: true,
             amount: true,
