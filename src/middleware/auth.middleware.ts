@@ -6,7 +6,16 @@ import { Role } from "../generated/prisma/enums.js";
 export class AuthMiddleware {
   verifyToken = (secretKey: string) => {
     return (req: Request, res: Response, next: NextFunction) => {
-      const token = req.cookies?.accessToken;
+      let token: string | undefined;
+
+      const authBearerToken = req.headers.authorization?.split(" ")[1];
+      if (authBearerToken) {
+        token = authBearerToken;
+      }
+
+      if (!token) {
+        token = req.cookies?.accessToken;
+      }
 
       if (!token) throw new ApiError("No token provided", 401);
 

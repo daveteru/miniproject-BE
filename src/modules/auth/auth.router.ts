@@ -2,12 +2,14 @@ import { Router } from "express";
 import { AuthController } from "./auth.controller.js";
 import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
 import { AuthValidator } from "./auth.validator.js";
+import { AuthMiddleware } from "../../middleware/auth.middleware.js";
 
 export class AuthRouter {
   router: Router;
 
   constructor(
     private authController: AuthController,
+    private authMiddleware: AuthMiddleware,
     private validatorMiddleware: ValidatorMiddleware,
   ) {
     this.router = Router();
@@ -28,6 +30,19 @@ export class AuthRouter {
       this.authController.login,
     );
     this.router.post("/logout", this.authController.logout);
+    this.router.post(
+      "/forgot-password",
+      AuthValidator.forgotPassword(),
+      this.validatorMiddleware.validateBody,
+      this.authController.forgotPassword,
+    );
+    this.router.post(
+      "/reset-password",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET_RESET!),
+      AuthValidator.resetPassword(),
+      this.validatorMiddleware.validateBody,
+      this.authController.resetPassword,
+    );
   };
 
   getRouter = () => {
