@@ -73,7 +73,7 @@ export class App {
     const eventService = new EventService(prisma);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
-    const mailService = new MailService()
+    const mailService = new MailService();
     const authService = new AuthService(prisma, mailService);
 
     // middlewares
@@ -102,7 +102,11 @@ export class App {
     const eventRouter = new EventRouter(eventController, validatorMiddleware);
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
-    const authRouter = new AuthRouter(authController, validatorMiddleware);
+    const authRouter = new AuthRouter(
+      authController,
+      authMiddleware,
+      validatorMiddleware,
+    );
 
     // entry points
     this.app.use("/users", userRouter.getRouter());

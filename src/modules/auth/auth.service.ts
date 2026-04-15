@@ -8,6 +8,7 @@ import {
   COUPON_ON_REGISTRATION,
   EXPIRED_ACCESS_TOKEN_JWT,
   EXPIRED_REFRESH_TOKEN_JWT,
+  EXPIRED_RESET_TOKEN_JWT,
   POINTS_EXPIRE_DATE,
   POINTS_ON_REGISTRATION,
   REFRESH_TOKEN_EXPIRES_IN,
@@ -168,5 +169,56 @@ export class AuthService {
     });
 
     return { accessToken: newAccessToken };
+  };
+
+  forgotPassword = async ({ email }: User) => {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return { message: "Email sent successfully" };
+    }
+
+    const payload = {
+      id: user.id,
+      role: user.role,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_RESET!, {
+      expiresIn: EXPIRED_RESET_TOKEN_JWT,
+    });
+
+    await this.mailService.sendMail({
+      to: email,
+      subject: "FRNTROW* - Reset Password",
+      templateName: "forgot-password",
+      context: { link: `${process.env.BASE_URL_FE}/reset-password/${token}` },
+    });
+
+    return { message: "Email sent successfully" };
+  };
+
+  resetPassword = async ({ password }: User, userId: number) => {
+    const user = this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) throw new ApiError("User not found", 404);
+
+    const hashedPassword = await hash(password);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return { message: "Password reset successfully" };
   };
 }
