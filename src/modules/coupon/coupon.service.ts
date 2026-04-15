@@ -1,10 +1,18 @@
-import { PrismaClient } from "../../generated/prisma/client.js";
+import { Prisma, PrismaClient } from "../../generated/prisma/client.js";
+import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
 
 export class CouponService {
   constructor(private prisma: PrismaClient) {}
 
-  getCouponsByUser = async (userId: number) => {
+  getCouponsByUser = async (
+    userId: number,
+    { page, take, sortBy, sortOrder }: PaginationQueryParams,
+  ) => {
+    const whereClause: Prisma.CouponWhereInput = {
+      expiredDate: { gt: new Date() },
+    };
+
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
@@ -13,15 +21,22 @@ export class CouponService {
       throw new ApiError("User not found", 400);
     }
 
+    whereClause.userId = userId;
+
     const coupons = await this.prisma.coupon.findMany({
-      where: {
-        userId: userId,
-        expiredDate: { gt: new Date() },
-      },
+      where: whereClause,
+      skip: (page - 1) * take,
+      take: take,
+      orderBy: { [sortBy]: sortOrder },
     });
 
-    return coupons;
-  }
+    const total = await this.prisma.coupon.count({ where: whereClause });
+
+    return {
+      data: coupons,
+      meta: { page, take, total },
+    };
+  };
 
   getCoupon = async (id: number) => {
     const coupon = await this.prisma.coupon.findUnique({
