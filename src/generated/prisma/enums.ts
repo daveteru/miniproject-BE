@@ -43,3 +43,11 @@ export const PaymentStatus = {
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const Provider = {
+  CREDENTIALS: 'CREDENTIALS',
+  GOOGLE: 'GOOGLE'
+} as const
+
+export type Provider = (typeof Provider)[keyof typeof Provider]
