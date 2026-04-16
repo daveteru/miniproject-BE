@@ -23,7 +23,7 @@ export class UserService {
 
   updateUser = async (
     userId: number,
-    { fullName, birthdate }: User,
+    body: Prisma.UserUpdateInput,
     newAvatar: Express.Multer.File,
   ) => {
     const user = this.prisma.user.findUnique({
@@ -36,18 +36,20 @@ export class UserService {
       throw new ApiError("User not found", 404);
     }
 
+    let secure_url: string | undefined = undefined;
 
-    const { secure_url } = newAvatar
-      ? await this.cloudinaryService.upload(newAvatar)
-      : undefined;
+    if (newAvatar) {
+      const result = await this.cloudinaryService.upload(newAvatar);
+      secure_url = result.secure_url;
+    }
 
     await this.prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        fullName,
-        birthdate,
+        fullName: body?.fullName,
+        birthdate: body?.birthdate,
         avatar: secure_url,
       },
     });

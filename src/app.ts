@@ -95,7 +95,11 @@ export class App {
     const authController = new AuthController(authService);
 
     // routers
-    const userRouter = new UserRouter(userController, validatorMiddleware);
+    const userRouter = new UserRouter(
+      userController,
+      validatorMiddleware,
+      authMiddleware,
+    );
     const transactionRouter = new TransactionRouter(transactionController);
     const ticketRouter = new TicketRouter(ticketController);
     const reviewRouter = new ReviewRouter(reviewController);

@@ -8,11 +8,6 @@ export class UserValidator {
         .isString()
         .withMessage("Name must be a string"),
 
-      body("password")
-        .optional()
-        .isString()
-        .withMessage("Password must be a string"),
-
       body("birthdate")
         .optional()
         .isISO8601()
