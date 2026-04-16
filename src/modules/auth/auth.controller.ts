@@ -52,4 +52,16 @@ export class AuthController {
     const result = await this.authService.resetPassword(req.body, userId);
     res.status(200).send(result);
   }
+
+  authgoogle = async (req: Request, res: Response) => {
+    const { userWithoutPassword, accessToken, refreshToken } = await this.authService.authgoogle(
+      req.body,
+    );
+
+    res.cookie("accessToken", accessToken, cookieOptions);
+    res.cookie("refreshToken", refreshToken, cookieOptions);
+
+    res.status(200).send({ user: userWithoutPassword });
+  };
+
 }

@@ -57,6 +57,10 @@ export class App {
     this.app.use(cors(corsOptions));
     this.app.use(cookieParser());
     this.app.use(express.json());
+    this.app.use((_req, res, next) => {
+      res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
+      next();
+    });
   }
 
   errors() {
