@@ -9,4 +9,15 @@ export class UserController {
     const result = await this.userService.getUser(id);
     res.status(200).send(result);
   };
+
+  updateUser = async (req: Request, res: Response) => {
+    const body = req.body;
+    const userId = res.locals.user.id;
+
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const avatar = files?.avatar?.[0];
+
+    const result = await this.userService.updateUser(userId, body, avatar);
+    res.status(200).send(result);
+  };
 }

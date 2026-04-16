@@ -42,6 +42,7 @@ import { AuthMiddleware } from "./middleware/auth.middleware.js";
 import { corsOptions } from "./config/cors.js";
 import { ValidatorMiddleware } from "./middleware/validator.middleware.js";
 import { MailService } from "./modules/mail/mail.service.js";
+import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
 
 export class App {
   app: Express;
@@ -70,7 +71,8 @@ export class App {
 
   private registerModules() {
     // services
-    const userService = new UserService(prisma);
+    const cloudinaryService = new CloudinaryService();
+    const userService = new UserService(prisma, cloudinaryService);
     const transactionService = new TransactionService(prisma);
     const ticketService = new TicketService(prisma);
     const reviewService = new ReviewService(prisma);
@@ -99,7 +101,11 @@ export class App {
     const authController = new AuthController(authService);
 
     // routers
-    const userRouter = new UserRouter(userController);
+    const userRouter = new UserRouter(
+      userController,
+      validatorMiddleware,
+      authMiddleware,
+    );
     const transactionRouter = new TransactionRouter(transactionController);
     const ticketRouter = new TicketRouter(ticketController);
     const reviewRouter = new ReviewRouter(reviewController);
