@@ -221,4 +221,19 @@ export class AuthService {
 
     return { message: "Password reset successfully" };
   };
+
+  //   loginGoogle = async (body) => {
+  //   const result = await this.prisma.$transaction(async (tx) => {
+  //     const user = await tx.user.findUnique({
+  //       where: { email: body.email },
+  //     });
+
+    
+
+  //     return { userWithoutPassword, accessToken, refreshToken };
+  //   });
+
+  //   const { userWithoutPassword, accessToken, refreshToken } = result;
+  //   return { user: userWithoutPassword, accessToken, refreshToken };
+  // };
 }
