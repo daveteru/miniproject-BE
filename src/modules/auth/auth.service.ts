@@ -1,6 +1,7 @@
+import axios from "axios";
 import { hash, verify } from "argon2";
 import jwt from "jsonwebtoken";
-import { PrismaClient, User } from "../../generated/prisma/client.js";
+import { PrismaClient, Provider, User } from "../../generated/prisma/client.js";
 import { randomString } from "../../helpers/random-string.js";
 import { ApiError } from "../../utils/api-error.js";
 import {
@@ -15,6 +16,15 @@ import {
 } from "./constants.js";
 import { MailService } from "../mail/mail.service.js";
 
+type googleapi = {
+  sub: string;
+  name: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  email: string;
+  email_verified: boolean;
+};
 export class AuthService {
   constructor(
     private prisma: PrismaClient,
@@ -222,18 +232,66 @@ export class AuthService {
     return { message: "Password reset successfully" };
   };
 
-  //   loginGoogle = async (body) => {
-  //   const result = await this.prisma.$transaction(async (tx) => {
-  //     const user = await tx.user.findUnique({
-  //       where: { email: body.email },
-  //     });
+  authgoogle = async (body: any) => {
+    const response = await axios.get<googleapi>(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${body.accessToken}`,
+        },
+      },
+    );
 
-    
+    let user = await this.prisma.user.findUnique({
+      where: { email: response.data.email },
+    });
 
-  //     return { userWithoutPassword, accessToken, refreshToken };
-  //   });
+    if (!user) {
+      user = await this.prisma.user.create({
+        data: {
+          fullName: response.data.name,
+          email: response.data.email,
+          avatar: response.data.picture,
+          password: "",
+          birthdate: new Date(),
+          referral: randomString(16),
+          provider: Provider.GOOGLE,
+        },
+      });
+    }
 
-  //   const { userWithoutPassword, accessToken, refreshToken } = result;
-  //   return { user: userWithoutPassword, accessToken, refreshToken };
-  // };
+    if (user?.provider !== Provider.GOOGLE) {
+      throw new ApiError("Account already registered without google", 400);
+    }
+
+    const payload = {
+      id: user.id,
+      role: user.role,
+    };
+
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: EXPIRED_ACCESS_TOKEN_JWT,
+    });
+
+    const refreshToken = jwt.sign(payload, process.env.JWT_SECRET_REFRESH!, {
+      expiresIn: EXPIRED_REFRESH_TOKEN_JWT,
+    });
+
+    await this.prisma.refreshToken.upsert({
+      where: { userId: user.id },
+      update: {
+        token: refreshToken,
+        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+      },
+      create: {
+        token: refreshToken,
+        expiredAt: new Date(REFRESH_TOKEN_EXPIRES_IN),
+        userId: user.id,
+      },
+    });
+
+    const { password, ...userWithoutPassword } = user;
+
+    return { userWithoutPassword, accessToken, refreshToken };
+  };
 }

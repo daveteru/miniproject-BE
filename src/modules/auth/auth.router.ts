@@ -43,6 +43,7 @@ export class AuthRouter {
       this.validatorMiddleware.validateBody,
       this.authController.resetPassword,
     );
+    this.router.post("/google", this.authController.authgoogle);
   };
 
   getRouter = () => {
