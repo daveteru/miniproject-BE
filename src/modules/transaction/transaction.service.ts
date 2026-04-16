@@ -16,7 +16,6 @@ export class TransactionService {
     return transaction;
   };
 
-
   createTransaction = async (body: {
     items: { ticketId: number; quantity: number }[];
     userId: number;
@@ -99,5 +98,56 @@ export class TransactionService {
     });
 
     return { message: "Transaction created successfully" };
+  };
+
+  getTransactionByUserId = async (id: number, page: number, take: number) => {
+    const transaction = await this.prisma.transaction.findMany({
+      where: { userId: id },
+      skip: (page - 1) * take,
+      take,
+      orderBy: { id: "desc" },
+      select: {
+        id: true,
+        expiredAt: true,
+        paymentProof: true,
+        paymentStatus: true,
+        pointsUsed: true,
+        voucher:{
+          select: {
+            discamount:true,
+          }
+        },
+        items: {
+          include: {
+            ticket: {
+              include: {
+                event: {
+                  select:{
+                    name:true,
+                    artist:true,
+                    location:true,
+                    city:true,
+                    startDate:true,
+                  }
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const total = await this.prisma.transaction.count({ where: { userId: id } });
+
+    const data = transaction.map((tx) => {
+      const subtotal = tx.items.reduce((sum, item) => sum + item.price, 0);
+      const discount = tx.voucher?.discamount ?? 0;
+      return {
+        ...tx,
+        totalPrice: subtotal - discount,
+      };
+    });
+
+    return { data, meta: { page, take, total } };
   };
 }

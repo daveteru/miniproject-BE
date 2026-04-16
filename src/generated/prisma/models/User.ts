@@ -43,6 +43,7 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   avatar: string | null
   fullName: string | null
+  provider: $Enums.Provider | null
   referral: string | null
 }
 
@@ -55,6 +56,7 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   avatar: string | null
   fullName: string | null
+  provider: $Enums.Provider | null
   referral: string | null
 }
 
@@ -67,6 +69,7 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   avatar: number
   fullName: number
+  provider: number
   referral: number
   _all: number
 }
@@ -89,6 +92,7 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   avatar?: true
   fullName?: true
+  provider?: true
   referral?: true
 }
 
@@ -101,6 +105,7 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   avatar?: true
   fullName?: true
+  provider?: true
   referral?: true
 }
 
@@ -113,6 +118,7 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   avatar?: true
   fullName?: true
+  provider?: true
   referral?: true
   _all?: true
 }
@@ -212,6 +218,7 @@ export type UserGroupByOutputType = {
   createdAt: Date
   avatar: string | null
   fullName: string
+  provider: $Enums.Provider
   referral: string
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -247,6 +254,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   fullName?: Prisma.StringFilter<"User"> | string
+  provider?: Prisma.EnumProviderFilter<"User"> | $Enums.Provider
   referral?: Prisma.StringFilter<"User"> | string
   coupons?: Prisma.CouponListRelationFilter
   events?: Prisma.EventListRelationFilter
@@ -267,6 +275,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   referral?: Prisma.SortOrder
   coupons?: Prisma.CouponOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
@@ -291,6 +300,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   fullName?: Prisma.StringFilter<"User"> | string
+  provider?: Prisma.EnumProviderFilter<"User"> | $Enums.Provider
   coupons?: Prisma.CouponListRelationFilter
   events?: Prisma.EventListRelationFilter
   points?: Prisma.PointListRelationFilter
@@ -310,6 +320,7 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   referral?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -330,6 +341,7 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   fullName?: Prisma.StringWithAggregatesFilter<"User"> | string
+  provider?: Prisma.EnumProviderWithAggregatesFilter<"User"> | $Enums.Provider
   referral?: Prisma.StringWithAggregatesFilter<"User"> | string
 }
 
@@ -341,6 +353,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -361,6 +374,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -380,6 +394,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -400,6 +415,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -420,6 +436,7 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
 }
 
@@ -431,6 +448,7 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -443,6 +461,7 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -455,6 +474,7 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   referral?: Prisma.SortOrder
 }
 
@@ -471,6 +491,7 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   referral?: Prisma.SortOrder
 }
 
@@ -483,6 +504,7 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   referral?: Prisma.SortOrder
 }
 
@@ -509,6 +531,10 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type EnumProviderFieldUpdateOperationsInput = {
+  set?: $Enums.Provider
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -639,6 +665,7 @@ export type UserCreateWithoutEventsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -658,6 +685,7 @@ export type UserUncheckedCreateWithoutEventsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -692,6 +720,7 @@ export type UserUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -711,6 +740,7 @@ export type UserUncheckedUpdateWithoutEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -729,6 +759,7 @@ export type UserCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -748,6 +779,7 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -782,6 +814,7 @@ export type UserUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -801,6 +834,7 @@ export type UserUncheckedUpdateWithoutTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -819,6 +853,7 @@ export type UserCreateWithoutReviewsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -838,6 +873,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -872,6 +908,7 @@ export type UserUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -891,6 +928,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -909,6 +947,7 @@ export type UserCreateWithoutCouponsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointCreateNestedManyWithoutUserInput
@@ -928,6 +967,7 @@ export type UserUncheckedCreateWithoutCouponsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
   points?: Prisma.PointUncheckedCreateNestedManyWithoutUserInput
@@ -962,6 +1002,7 @@ export type UserUpdateWithoutCouponsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUpdateManyWithoutUserNestedInput
@@ -981,6 +1022,7 @@ export type UserUncheckedUpdateWithoutCouponsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
   points?: Prisma.PointUncheckedUpdateManyWithoutUserNestedInput
@@ -999,6 +1041,7 @@ export type UserCreateWithoutPointsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -1018,6 +1061,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -1052,6 +1096,7 @@ export type UserUpdateWithoutPointsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -1071,6 +1116,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -1089,6 +1135,7 @@ export type UserCreateWithoutVoucherOwnerInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -1108,6 +1155,7 @@ export type UserUncheckedCreateWithoutVoucherOwnerInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -1131,6 +1179,7 @@ export type UserCreateWithoutVouchersInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -1150,6 +1199,7 @@ export type UserUncheckedCreateWithoutVouchersInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -1184,6 +1234,7 @@ export type UserUpdateWithoutVoucherOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -1203,6 +1254,7 @@ export type UserUncheckedUpdateWithoutVoucherOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -1232,6 +1284,7 @@ export type UserUpdateWithoutVouchersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -1251,6 +1304,7 @@ export type UserUncheckedUpdateWithoutVouchersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -1269,6 +1323,7 @@ export type UserCreateWithoutRefreshTokenInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponCreateNestedManyWithoutUserInput
   events?: Prisma.EventCreateNestedManyWithoutOrganizerInput
@@ -1288,6 +1343,7 @@ export type UserUncheckedCreateWithoutRefreshTokenInput = {
   createdAt?: Date | string
   avatar?: string | null
   fullName: string
+  provider?: $Enums.Provider
   referral: string
   coupons?: Prisma.CouponUncheckedCreateNestedManyWithoutUserInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutOrganizerInput
@@ -1322,6 +1378,7 @@ export type UserUpdateWithoutRefreshTokenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUpdateManyWithoutOrganizerNestedInput
@@ -1341,6 +1398,7 @@ export type UserUncheckedUpdateWithoutRefreshTokenInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  provider?: Prisma.EnumProviderFieldUpdateOperationsInput | $Enums.Provider
   referral?: Prisma.StringFieldUpdateOperationsInput | string
   coupons?: Prisma.CouponUncheckedUpdateManyWithoutUserNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutOrganizerNestedInput
@@ -1445,6 +1503,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   avatar?: boolean
   fullName?: boolean
+  provider?: boolean
   referral?: boolean
   coupons?: boolean | Prisma.User$couponsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
@@ -1466,6 +1525,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   avatar?: boolean
   fullName?: boolean
+  provider?: boolean
   referral?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -1478,6 +1538,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   avatar?: boolean
   fullName?: boolean
+  provider?: boolean
   referral?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -1490,10 +1551,11 @@ export type UserSelectScalar = {
   createdAt?: boolean
   avatar?: boolean
   fullName?: boolean
+  provider?: boolean
   referral?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "birthdate" | "role" | "createdAt" | "avatar" | "fullName" | "referral", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "birthdate" | "role" | "createdAt" | "avatar" | "fullName" | "provider" | "referral", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   coupons?: boolean | Prisma.User$couponsArgs<ExtArgs>
   events?: boolean | Prisma.User$eventsArgs<ExtArgs>
@@ -1529,6 +1591,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     avatar: string | null
     fullName: string
+    provider: $Enums.Provider
     referral: string
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -1969,6 +2032,7 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly fullName: Prisma.FieldRef<"User", 'String'>
+  readonly provider: Prisma.FieldRef<"User", 'Provider'>
   readonly referral: Prisma.FieldRef<"User", 'String'>
 }
     

@@ -16,6 +16,7 @@ model User {
   createdAt    DateTime      @default(now())
   avatar       String?
   fullName     String
+  provider     Provider      @default(CREDENTIALS)
   referral     String        @unique
   coupons      Coupon[]
   events       Event[]       @relation("OrganizerEvents")
@@ -53,13 +54,13 @@ model Event {
 }
 
 model Ticket {
-  id              Int               @id @default(autoincrement())
-  ticketLevel     String
-  availableTicket Int
-  deletedAt       DateTime?
-  eventId         Int
-  price           Int               @default(0)
-  event           Event             @relation(fields: [eventId], references: [id])
+  id               Int               @id @default(autoincrement())
+  ticketLevel      String
+  availableTicket  Int
+  deletedAt        DateTime?
+  eventId          Int
+  price            Int               @default(0)
+  event            Event             @relation(fields: [eventId], references: [id])
   transactionItems TransactionItem[]
 
   @@map("tickets")
@@ -140,9 +141,9 @@ model Voucher {
   organizerID  Int
   eventId      Int?
   transactions Transaction[]
-  organizer   User         @relation("Organizer", fields: [organizerID], references: [id])
-  user        User         @relation("User", fields: [userId], references: [id])
-  event       Event?       @relation(fields: [eventId], references: [id])
+  organizer    User          @relation("Organizer", fields: [organizerID], references: [id])
+  user         User          @relation("User", fields: [userId], references: [id])
+  event        Event?        @relation(fields: [eventId], references: [id])
 
   @@map("vouchers")
 }
@@ -192,4 +193,9 @@ enum PaymentStatus {
   PAID
   EXPIRED
   REJECTED
+}
+
+enum Provider {
+  CREDENTIALS
+  GOOGLE
 }
