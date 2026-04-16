@@ -14,4 +14,11 @@ export class TransactionController {
     const result = await this.transactionService.createTransaction(req.body);
     res.status(200).send(result);
   };
+  getTransactionByUserId = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const page = parseInt(req.query.page as string) || 1;
+    const take = parseInt(req.query.take as string) || 10;
+    const result = await this.transactionService.getTransactionByUserId(id, page, take);
+    res.status(200).send(result);
+  };
 }

@@ -10,8 +10,9 @@ export class TransactionRouter {
   }
 
   private initRoutes = () => {
-    this.router.get("/:id", this.transactionController.getTransaction);
     this.router.post("/", this.transactionController.createTransaction);
+    this.router.get("/:id", this.transactionController.getTransaction);
+    this.router.get("/history/:id", this.transactionController.getTransactionByUserId);
   };
 
   getRouter = () => {

@@ -7,7 +7,7 @@ export class EventController {
   getEvents = async (req: Request, res: Response) => {
     const DEFAULT_PAGE: number = 1;
     const DEFAULT_TAKE: number = 6;
-    const DEFAULT_SORT_ORDER: string = "desc";
+    const DEFAULT_SORT_ORDER: string = "asc";
     const DEFAULT_SORT_BY: string = "startDate";
     const DEFAULT_SEARCH: string = "";
     const DEFAULT_FILTER: string = "";
