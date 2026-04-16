@@ -43,6 +43,7 @@ import { corsOptions } from "./config/cors.js";
 import { ValidatorMiddleware } from "./middleware/validator.middleware.js";
 import { MailService } from "./modules/mail/mail.service.js";
 import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
+import { expiredTransactionsCron } from "./jobs/transactionExpiryCron.js";
 
 export class App {
   app: Express;
@@ -137,6 +138,10 @@ export class App {
     const PORT = process.env.PORT;
     this.app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
+
+      cron.schedule('0 * * * * *', () => {
+        expiredTransactionsCron().catch(console.error);
+      });
     });
   }
 }
