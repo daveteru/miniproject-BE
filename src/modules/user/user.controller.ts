@@ -9,4 +9,14 @@ export class UserController {
     const result = await this.userService.getUser(id);
     res.status(200).send(result);
   };
+
+  updateUser = async (req: Request, res: Response) => {
+    const body = req.body;
+    const id = Number(req.params.id);
+
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const thumbnail = files.thumbnail?.[0];
+
+    const result = await this.userService.updateUser(id, body, thumbnail);
+  };
 }
