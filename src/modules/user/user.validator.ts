@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export class UserValidator {
-  static create() {
+  static updateUser() {
     return [
       body("fullName")
         .optional()
