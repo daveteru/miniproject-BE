@@ -43,6 +43,7 @@ import { corsOptions } from "./config/cors.js";
 import { ValidatorMiddleware } from "./middleware/validator.middleware.js";
 import { MailService } from "./modules/mail/mail.service.js";
 import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
+import { UploadMiddleware } from "./middleware/upload.middleware.js";
 import { expiredTransactionsCron } from "./jobs/transactionExpiryCron.js";
 
 export class App {
@@ -79,7 +80,7 @@ export class App {
     const reviewService = new ReviewService(prisma);
     const promotionService = new PromotionService(prisma);
     const pointsService = new PointsService(prisma);
-    const eventService = new EventService(prisma);
+    const eventService = new EventService(prisma,cloudinaryService);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
     const mailService = new MailService();
@@ -88,6 +89,7 @@ export class App {
     // middlewares
     const authMiddleware = new AuthMiddleware();
     const validatorMiddleware = new ValidatorMiddleware();
+    const uploadMiddleware = new UploadMiddleware();
 
     // controllers
     const userController = new UserController(userService);
@@ -112,7 +114,7 @@ export class App {
     const reviewRouter = new ReviewRouter(reviewController);
     const promotionRouter = new PromotionRouter(promotionController);
     const pointsRouter = new PointsRouter(pointsController);
-    const eventRouter = new EventRouter(eventController, validatorMiddleware);
+    const eventRouter = new EventRouter(eventController, validatorMiddleware, uploadMiddleware);
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
     const authRouter = new AuthRouter(
@@ -139,7 +141,7 @@ export class App {
     this.app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
 
-      cron.schedule('0 * * * * *', () => {
+      cron.schedule('*/15 * * * * *', () => {
         expiredTransactionsCron().catch(console.error);
       });
     });
