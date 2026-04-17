@@ -66,4 +66,18 @@ export class AuthValidator {
         .withMessage("Password must be a string"),
     ];
   }
+  static changePassword() {
+    return [
+      body("password")
+        .notEmpty()
+        .withMessage("Password is required")
+        .isString()
+        .withMessage("Password must be a string"),
+      body("newPassword")
+        .notEmpty()
+        .withMessage("New password is required")
+        .isString()
+        .withMessage("New password must be a string"),
+    ];
+  }
 }

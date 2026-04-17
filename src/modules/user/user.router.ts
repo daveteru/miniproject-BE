@@ -23,7 +23,7 @@ export class UserRouter {
     this.router.patch(
       "/",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
-      UserValidator.create(),
+      UserValidator.updateUser(),
       this.uploadMiddleware.upload().fields([{ name: "avatar", maxCount: 1 }]),
       this.validatorMiddleware.validateBody,
       this.userController.updateUser,
