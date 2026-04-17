@@ -3,6 +3,7 @@ import { UserController } from "./user.controller.js";
 import { UserValidator } from "./user.validator.js";
 import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
 import { AuthMiddleware } from "../../middleware/auth.middleware.js";
+import { UploadMiddleware } from "../../middleware/upload.middleware.js";
 
 export class UserRouter {
   router: Router;
@@ -11,6 +12,7 @@ export class UserRouter {
     private userController: UserController,
     private validatorMiddleware: ValidatorMiddleware,
     private authMiddleware: AuthMiddleware,
+    private uploadMiddleware: UploadMiddleware,
   ) {
     this.router = Router();
     this.initRoutes();
@@ -22,6 +24,7 @@ export class UserRouter {
       "/",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       UserValidator.create(),
+      this.uploadMiddleware.upload().fields([{ name: "avatar", maxCount: 1 }]),
       this.validatorMiddleware.validateBody,
       this.userController.updateUser,
     );

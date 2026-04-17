@@ -45,6 +45,7 @@ import { MailService } from "./modules/mail/mail.service.js";
 import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
 import { UploadMiddleware } from "./middleware/upload.middleware.js";
 import { expiredTransactionsCron } from "./jobs/transactionExpiryCron.js";
+import { UploadMiddleware } from "./middleware/upload.middleware.js";
 
 export class App {
   app: Express;
@@ -108,6 +109,7 @@ export class App {
       userController,
       validatorMiddleware,
       authMiddleware,
+      uploadMiddleware
     );
     const transactionRouter = new TransactionRouter(transactionController);
     const ticketRouter = new TicketRouter(ticketController);
