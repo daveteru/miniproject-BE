@@ -1,5 +1,4 @@
-import { hash } from "argon2";
-import { Prisma, PrismaClient, User } from "../../generated/prisma/client.js";
+import { Prisma, PrismaClient } from "../../generated/prisma/client.js";
 import { ApiError } from "../../utils/api-error.js";
 import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
 
@@ -26,7 +25,7 @@ export class UserService {
     body: Prisma.UserUpdateInput,
     newAvatar: Express.Multer.File,
   ) => {
-    const user = this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -43,17 +42,23 @@ export class UserService {
       secure_url = result.secure_url;
     }
 
-    await this.prisma.user.update({
+    const birthdate: Date | undefined = body?.birthdate
+      ? new Date(body.birthdate as string | Date)
+      : undefined;
+
+    const updatedUser = await this.prisma.user.update({
       where: {
         id: userId,
       },
       data: {
         fullName: body?.fullName,
-        birthdate: body?.birthdate,
+        birthdate,
         avatar: secure_url,
       },
     });
 
-    return { message: "User update successful" };
+    const { password, ...userWithoutPassword } = updatedUser;
+
+    return { message: "User update successful", user: userWithoutPassword };
   };
 }
