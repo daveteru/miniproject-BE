@@ -3,6 +3,8 @@ import { EventController } from "./event.controller.js";
 import { EventValidator } from "./event.validator.js";
 import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
 import { UploadMiddleware } from "../../middleware/upload.middleware.js";
+import { AuthMiddleware } from "../../middleware/auth.middleware.js";
+import { Role } from "../../generated/prisma/enums.js";
 
 export class EventRouter {
   router: Router;
@@ -11,6 +13,7 @@ export class EventRouter {
     private eventController: EventController,
     private validatorMiddleware: ValidatorMiddleware,
     private uploadMiddleware: UploadMiddleware,
+    private authMiddleware: AuthMiddleware,
   ) {
     this.router = Router();
     this.initRoutes();
@@ -22,6 +25,12 @@ export class EventRouter {
       EventValidator.getMany(),
       this.validatorMiddleware.validateBody,
       this.eventController.getEvents,
+    );
+    this.router.get(
+      "/organizer",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.ORGANIZER]),
+      this.eventController.getEventsByOrganizer,
     );
     this.router.post(
       "/",

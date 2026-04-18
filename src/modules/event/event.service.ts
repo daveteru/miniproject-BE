@@ -79,6 +79,35 @@ export class EventService {
     };
   };
 
+  getEventsByOrganizer = async (
+    userId: number,
+    { page, sortBy, sortOrder, take }: PaginationQueryParams,
+  ) => {
+    const user = this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) throw new ApiError("User not found", 404);
+
+    const whereClause: Prisma.EventWhereInput = {
+      organizerId: userId,
+      deletedAt: null,
+    };
+
+    const events = this.prisma.event.findMany({
+      where: whereClause,
+      skip: (page - 1) * take,
+      take: take,
+      orderBy: { [sortBy]: sortOrder },
+    });
+
+    const total = this.prisma.event.count({ where: whereClause });
+
+    return { data: events, meta: { page, take, total } };
+  };
+
   getEvent = async (id: number) => {
     const event = await this.prisma.event.findUnique({
       where: {
@@ -180,11 +209,14 @@ export class EventService {
 
     await this.prisma.$transaction(async (tx) => {
       const result = file ? await this.cloudinary.upload(file) : undefined;
-      const uploaded = result?.secure_url
+      const uploaded = result?.secure_url;
       const totalTicket = body.tickets.reduce(
         (sum, t) => sum + Number(t.availableTicket),
         0,
       );
+
+      console.log(body);
+      
 
       const event = await tx.event.create({
         data: {
@@ -217,7 +249,7 @@ export class EventService {
             amount: Number(body.voucher.amount),
             discamount: Number(body.voucher.discamount),
             expiredDate: new Date(body.voucher.expiredDate),
-            userId: body.event.organizerId,
+            userId: body.voucher.userId,
             organizerID: body.event.organizerId,
             eventId: event.id,
           },

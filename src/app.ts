@@ -1,7 +1,7 @@
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import express, { Express } from "express";
-import cron from 'node-cron'
+import cron from "node-cron";
 
 import {
   errorMiddleware,
@@ -79,7 +79,7 @@ export class App {
     const reviewService = new ReviewService(prisma);
     const promotionService = new PromotionService(prisma);
     const pointsService = new PointsService(prisma);
-    const eventService = new EventService(prisma,cloudinaryService);
+    const eventService = new EventService(prisma, cloudinaryService);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
     const mailService = new MailService();
@@ -107,14 +107,19 @@ export class App {
       userController,
       validatorMiddleware,
       authMiddleware,
-      uploadMiddleware
+      uploadMiddleware,
     );
     const transactionRouter = new TransactionRouter(transactionController);
     const ticketRouter = new TicketRouter(ticketController);
     const reviewRouter = new ReviewRouter(reviewController);
     const promotionRouter = new PromotionRouter(promotionController);
     const pointsRouter = new PointsRouter(pointsController);
-    const eventRouter = new EventRouter(eventController, validatorMiddleware, uploadMiddleware);
+    const eventRouter = new EventRouter(
+      eventController,
+      validatorMiddleware,
+      uploadMiddleware,
+      authMiddleware,
+    );
     const couponRouter = new CouponRouter(couponController);
     const voucherRouter = new VoucherRouter(voucherController);
     const authRouter = new AuthRouter(
@@ -141,7 +146,7 @@ export class App {
     this.app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
 
-      cron.schedule('*/15 * * * * *', () => {
+      cron.schedule("*/15 * * * * *", () => {
         expiredTransactionsCron().catch(console.error);
       });
     });
