@@ -147,6 +147,18 @@ export class EventService {
             amount: true,
           },
         },
+        reviews:{
+          select:{
+            text:true,
+            rating:true,
+            reviewer:{
+              select:{
+                fullName: true,
+                avatar:true,
+              }
+            }
+          }
+        }
       },
     });
 
