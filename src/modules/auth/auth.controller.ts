@@ -45,21 +45,25 @@ export class AuthController {
     res.status(200).send(result);
   };
 
-  resetPassword = async (req: Request, res: Response) => {    
+  resetPassword = async (req: Request, res: Response) => {
     const userId = res.locals.user.id;
     const result = await this.authService.resetPassword(req.body, userId);
     res.status(200).send(result);
-  }
+  };
+
+  changePassword = async (req: Request, res: Response) => {
+    const userId = res.locals.user.id;
+    const result = await this.authService.changePassword(userId, req.body);
+    res.status(200).send(result);
+  };
 
   authgoogle = async (req: Request, res: Response) => {
-    const { userWithoutPassword, accessToken, refreshToken } = await this.authService.authgoogle(
-      req.body,
-    );
+    const { userWithoutPassword, accessToken, refreshToken } =
+      await this.authService.authgoogle(req.body);
 
     res.cookie("accessToken", accessToken, cookieOptions);
     res.cookie("refreshToken", refreshToken, cookieOptions);
 
     res.status(200).send({ user: userWithoutPassword });
   };
-
 }

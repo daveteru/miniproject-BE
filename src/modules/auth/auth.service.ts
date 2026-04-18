@@ -1,9 +1,10 @@
-import axios from "axios";
 import { hash, verify } from "argon2";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 import { PrismaClient, Provider, User } from "../../generated/prisma/client.js";
 import { randomString } from "../../helpers/random-string.js";
 import { ApiError } from "../../utils/api-error.js";
+import { MailService } from "../mail/mail.service.js";
 import {
   COUPON_EXPIRE_DATE,
   COUPON_ON_REGISTRATION,
@@ -14,7 +15,7 @@ import {
   POINTS_ON_REGISTRATION,
   REFRESH_TOKEN_EXPIRES_IN,
 } from "./constants.js";
-import { MailService } from "../mail/mail.service.js";
+import { ChangePasswordDTO } from "./dto/change-password.dto.js";
 
 type googleapi = {
   sub: string;
@@ -70,14 +71,14 @@ export class AuthService {
         await tx.point.create({
           data: {
             amount: POINTS_ON_REGISTRATION,
-            userId: user.id,
+            userId: referrer.id,
             expiredDate: new Date(POINTS_EXPIRE_DATE),
           },
         });
         await tx.coupon.create({
           data: {
             amount: COUPON_ON_REGISTRATION,
-            userId: referrer.id,
+            userId: user.id,
             expiredDate: new Date(COUPON_EXPIRE_DATE),
           },
         });
@@ -212,7 +213,7 @@ export class AuthService {
   };
 
   resetPassword = async ({ password }: User, userId: number) => {
-    const user = this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -230,6 +231,36 @@ export class AuthService {
     });
 
     return { message: "Password reset successfully" };
+  };
+
+  changePassword = async (
+    userId: number,
+    { password, newPassword }: ChangePasswordDTO,
+  ) => {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) throw new ApiError("User not found", 404);
+
+    const isPassMatch = await verify(user.password, password);
+
+    if (!isPassMatch) {
+      throw new ApiError("Invalid credentials", 400);
+    }
+
+    const hashedPassword = await hash(newPassword);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return { message: "Password changed successfully" };
   };
 
   authgoogle = async (body: any) => {

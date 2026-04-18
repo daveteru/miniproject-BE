@@ -29,6 +29,7 @@ export class AuthRouter {
       this.validatorMiddleware.validateBody,
       this.authController.login,
     );
+    this.router.post("/refresh", this.authController.refresh);
     this.router.post("/logout", this.authController.logout);
     this.router.post(
       "/forgot-password",
@@ -42,6 +43,13 @@ export class AuthRouter {
       AuthValidator.resetPassword(),
       this.validatorMiddleware.validateBody,
       this.authController.resetPassword,
+    );
+    this.router.patch(
+      "/change-password",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      AuthValidator.changePassword(),
+      this.validatorMiddleware.validateBody,
+      this.authController.changePassword,
     );
     this.router.post("/google", this.authController.authgoogle);
   };
