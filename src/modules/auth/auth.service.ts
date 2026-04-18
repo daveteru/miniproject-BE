@@ -71,14 +71,14 @@ export class AuthService {
         await tx.point.create({
           data: {
             amount: POINTS_ON_REGISTRATION,
-            userId: user.id,
+            userId: referrer.id,
             expiredDate: new Date(POINTS_EXPIRE_DATE),
           },
         });
         await tx.coupon.create({
           data: {
             amount: COUPON_ON_REGISTRATION,
-            userId: referrer.id,
+            userId: user.id,
             expiredDate: new Date(COUPON_EXPIRE_DATE),
           },
         });
