@@ -2,6 +2,7 @@ import { Router } from "express";
 import { EventController } from "./event.controller.js";
 import { EventValidator } from "./event.validator.js";
 import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
+import { UploadMiddleware } from "../../middleware/upload.middleware.js";
 
 export class EventRouter {
   router: Router;
@@ -9,6 +10,7 @@ export class EventRouter {
   constructor(
     private eventController: EventController,
     private validatorMiddleware: ValidatorMiddleware,
+    private uploadMiddleware: UploadMiddleware,
   ) {
     this.router = Router();
     this.initRoutes();
@@ -29,8 +31,7 @@ export class EventRouter {
     );
     this.router.post(
       "/bundle",
-      EventValidator.createBundle(),
-      this.validatorMiddleware.validateBody,
+      this.uploadMiddleware.upload().single("thumbnail"),
       this.eventController.createEventBundle,
     );
     this.router.get(

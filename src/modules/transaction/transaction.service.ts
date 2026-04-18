@@ -75,6 +75,22 @@ export class TransactionService {
         });
       }
 
+            if (body.pointsUsed) {
+        const points = await trans.point.findMany({
+          where: { userId: body.userId },
+        });
+
+        if (!points.length) {
+          throw new ApiError("Points not found", 404);
+        }
+
+        await trans.point.updateMany({
+          where: { userId: body.userId },
+          data: { amount: 0 },
+        });
+      }
+
+
       await trans.transaction.create({
         data: {
           paymentStatus: "WAITING_FOR_PAYMENT",
@@ -142,9 +158,10 @@ export class TransactionService {
     const data = transaction.map((tx) => {
       const subtotal = tx.items.reduce((sum, item) => sum + item.price, 0);
       const discount = tx.voucher?.discamount ?? 0;
+      const point = tx.pointsUsed
       return {
         ...tx,
-        totalPrice: subtotal - discount,
+        totalPrice: subtotal - discount - point,
       };
     });
 

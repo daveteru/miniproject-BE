@@ -1,6 +1,7 @@
 import { Event, Prisma, PrismaClient } from "../../generated/prisma/client.js";
 import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
+import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
 
 interface createEventBundle {
   event: {
@@ -35,7 +36,10 @@ interface GetEventsQuery extends PaginationQueryParams {
 }
 
 export class EventService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    private cloudinary: CloudinaryService,
+  ) {}
 
   getEvents = async ({
     page,
@@ -108,7 +112,7 @@ export class EventService {
         },
         vouchers: {
           select: {
-            id:true,
+            id: true,
             expiredDate: true,
             discamount: true,
             amount: true,
@@ -167,8 +171,16 @@ export class EventService {
     return { message: "Event creation successful" };
   };
 
-  createEventBundle = async (body: createEventBundle) => {
+  createEventBundle = async (
+    body: createEventBundle,
+    file?: Express.Multer.File,
+  ) => {
+    if (!body.tickets?.length)
+      throw new ApiError("At least one ticket is required", 400); // ← here
+
     await this.prisma.$transaction(async (tx) => {
+      const result = file ? await this.cloudinary.upload(file) : undefined;
+      const uploaded = result?.secure_url
       const totalTicket = body.tickets.reduce(
         (sum, t) => sum + Number(t.availableTicket),
         0,
@@ -182,7 +194,7 @@ export class EventService {
           city: body.event.city,
           startDate: new Date(body.event.startDate),
           endDate: new Date(body.event.endDate),
-          thumbnail: body.event.thumbnail,
+          thumbnail: uploaded,
           totalTicket,
           category: body.event.category,
           description: body.event.description,
@@ -205,7 +217,7 @@ export class EventService {
             amount: Number(body.voucher.amount),
             discamount: Number(body.voucher.discamount),
             expiredDate: new Date(body.voucher.expiredDate),
-            userId: Number(body.voucher.userId),
+            userId: body.event.organizerId,
             organizerID: body.event.organizerId,
             eventId: event.id,
           },
@@ -216,4 +228,3 @@ export class EventService {
     return { message: "Event bundle creation successful" };
   };
 }
-
