@@ -73,9 +73,9 @@ export class EventController {
   };
 
   createEventBundle = async (req: Request, res: Response) => {
-    const event = req.body.event;
-    const tickets = req.body.tickets;
-    const voucher = req.body.voucher ? req.body.voucher : undefined;
+    const event = typeof req.body.event === "string" ? JSON.parse(req.body.event) : req.body.event;
+    const tickets = typeof req.body.tickets === "string" ? JSON.parse(req.body.tickets) : req.body.tickets;
+    const voucher = req.body.voucher ? (typeof req.body.voucher === "string" ? JSON.parse(req.body.voucher) : req.body.voucher) : undefined;
 
     const result = await this.eventService.createEventBundle(
       { event, tickets, voucher },
