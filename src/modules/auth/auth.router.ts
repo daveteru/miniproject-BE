@@ -29,6 +29,7 @@ export class AuthRouter {
       this.validatorMiddleware.validateBody,
       this.authController.login,
     );
+    this.router.post("/refresh", this.authController.refresh);
     this.router.post("/logout", this.authController.logout);
     this.router.post(
       "/forgot-password",
