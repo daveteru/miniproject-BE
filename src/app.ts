@@ -111,7 +111,7 @@ export class App {
     );
     const transactionRouter = new TransactionRouter(transactionController, uploadMiddleware);
     const ticketRouter = new TicketRouter(ticketController);
-    const reviewRouter = new ReviewRouter(reviewController);
+    const reviewRouter = new ReviewRouter(reviewController, authMiddleware);
     const promotionRouter = new PromotionRouter(promotionController);
     const pointsRouter = new PointsRouter(pointsController);
     const eventRouter = new EventRouter(

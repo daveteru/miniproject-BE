@@ -26,4 +26,8 @@ export class TransactionController {
     const result = await this.transactionService.getTransactionByUserId(id, page, take);
     res.status(200).send(result);
   };
+  checkAttendance = async (req: Request, res: Response) => {
+    const result = await this.transactionService.checkAttendance(req.body);
+    res.status(200).send(result);
+  };
 }

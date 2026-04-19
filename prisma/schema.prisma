@@ -104,12 +104,12 @@ model Review {
   id            Int         @id @default(autoincrement())
   text          String
   rating        Int
-  transactionId Int
+  transactionId Int?
   eventId       Int
   reviewerId    Int
-  event         Event       @relation(fields: [eventId], references: [id])
-  reviewer      User        @relation("Reviewer", fields: [reviewerId], references: [id])
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  event         Event        @relation(fields: [eventId], references: [id])
+  reviewer      User         @relation("Reviewer", fields: [reviewerId], references: [id])
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
 
   @@map("reviews")
 }
