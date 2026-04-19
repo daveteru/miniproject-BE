@@ -53,6 +53,18 @@ export class EventController {
     res.status(200).send(result);
   };
 
+  getEventAttendees = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const query = {
+      page: parseInt(req.query.page as string) || DEFAULT_PAGE,
+      take: parseInt(req.query.take as string) || DEFAULT_TAKE,
+      sortOrder: (req.query.sortOrder as string) || DEFAULT_SORT_ORDER,
+      sortBy: (req.query.sortBy as string) || DEFAULT_SORT_BY,
+    };
+    const result = await this.eventService.getEventAttendees(id, query);
+    res.status(200).send(result);
+  }
+
   deleteEvent = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const result = await this.eventService.deleteEvent(id);

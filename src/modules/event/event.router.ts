@@ -32,6 +32,7 @@ export class EventRouter {
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
       this.eventController.getEventsByOrganizer,
     );
+    this.router.get("/attendees/:id", this.eventController.getEventAttendees);
     this.router.post(
       "/",
       EventValidator.create(),
