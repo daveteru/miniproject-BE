@@ -43,7 +43,7 @@ interface GetEventsQuery extends PaginationQueryParams {
 export class EventService {
   constructor(
     private prisma: PrismaClient,
-    private cloudinary: CloudinaryService,
+    private cloudinaryService: CloudinaryService,
   ) {}
 
   getEvents = async ({
@@ -210,7 +210,7 @@ export class EventService {
       };
     });
 
-    return {data: attendees, meta: { page, take, total } };
+    return { data: attendees, meta: { page, take, total } };
   };
 
   getEvent = async (id: number) => {
@@ -286,16 +286,54 @@ export class EventService {
     }
   };
 
-  updateEvent = async (id: number, body: Partial<Event>) => {
-    // cek kalo event ada
-    await this.getEvent(id);
-
-    await this.prisma.event.update({
-      where: { id },
-      data: body,
+  updateEvent = async (
+    eventId: number,
+    body: Prisma.EventUpdateInput,
+    newThumbnail: Express.Multer.File,
+  ) => {    
+    const event = await this.prisma.event.findUnique({
+      where: {
+        id: eventId,
+      },
     });
 
-    return { message: "Event data update successful" };
+    if (!event) {
+      throw new ApiError("Event not found", 404);
+    }
+
+    let secure_url: string | undefined = undefined;
+
+    if (newThumbnail) {
+      const result = await this.cloudinaryService.upload(newThumbnail);
+      secure_url = result.secure_url;
+    }
+
+    const startDate: Date | undefined = body?.startDate
+      ? new Date(body.startDate as string | Date)
+      : undefined;
+
+    const endDate: Date | undefined = body?.endDate
+      ? new Date(body.endDate as string | Date)
+      : undefined;
+
+    const updatedEvent = await this.prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      data: {
+        name: body?.name,
+        artist: body?.artist,
+        category: body?.category,
+        startDate,
+        endDate,
+        city: body?.city,
+        location: body?.location,
+        description: body?.description,
+        thumbnail: secure_url,
+      },
+    });
+
+    return updatedEvent;
   };
 
   createEvent = async (body: Omit<Event, "id" | "deletedAt">) => {
@@ -325,14 +363,14 @@ export class EventService {
       throw new ApiError("At least one ticket is required", 400); // ← here
 
     await this.prisma.$transaction(async (tx) => {
-      const result = file ? await this.cloudinary.upload(file) : undefined;
+      const result = file
+        ? await this.cloudinaryService.upload(file)
+        : undefined;
       const uploaded = result?.secure_url;
       const totalTicket = body.tickets.reduce(
         (sum, t) => sum + Number(t.availableTicket),
         0,
       );
-
-      console.log(body);
 
       const event = await tx.event.create({
         data: {

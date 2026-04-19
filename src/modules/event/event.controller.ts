@@ -73,8 +73,12 @@ export class EventController {
 
   updateEvent = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const body = req.body;
-    const result = await this.eventService.updateEvent(id, body);
+    const body = req.body;    
+    
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const thumbnail = files?.thumbnail?.[0];
+
+    const result = await this.eventService.updateEvent(id, body, thumbnail);
     res.status(200).send(result);
   };
 

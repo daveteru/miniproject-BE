@@ -64,7 +64,10 @@ export class EventRouter {
     );
     this.router.patch(
       "/:id",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.ORGANIZER]),
       EventValidator.update(),
+      this.uploadMiddleware.upload().fields([{ name: "thumbnail", maxCount: 1 }]),
       this.validatorMiddleware.validateBody,
       this.eventController.updateEvent,
     );

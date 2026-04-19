@@ -132,6 +132,7 @@ export class EventValidator {
       body("name").optional().isString(),
       body("artist").optional().isString(),
       body("location").optional().isString(),
+      body("city").optional().isString(),
 
       body("startDate")
         .optional()
@@ -151,13 +152,6 @@ export class EventValidator {
           }
           return true;
         }),
-
-      body("thumbnail").optional().isString(),
-
-      body("totalTicket")
-        .optional()
-        .isInt({ min: 1 })
-        .withMessage("Total ticket must be at least 1"),
 
       body("category").optional().isString(),
       body("description").optional().isString(),
