@@ -31,24 +31,25 @@ model User {
 }
 
 model Event {
-  id          Int          @id @default(autoincrement())
-  name        String
-  artist      String
-  location    String
-  city        String?
-  startDate   DateTime
-  endDate     DateTime
-  thumbnail   String?
-  totalTicket Int
-  category    String
-  description String?
-  deletedAt   DateTime?
-  organizerId Int
-  organizer   User         @relation("OrganizerEvents", fields: [organizerId], references: [id])
-  promotions  Promotions[]
-  reviews     Review[]
-  tickets     Ticket[]
-  vouchers    Voucher[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  artist       String
+  location     String
+  city         String?
+  startDate    DateTime
+  endDate      DateTime
+  thumbnail    String?
+  totalTicket  Int
+  category     String
+  description  String?
+  deletedAt    DateTime?
+  organizerId  Int
+  organizer    User          @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  promotions   Promotions[]
+  reviews      Review[]
+  tickets      Ticket[]
+  vouchers     Voucher[]
+  transactions Transaction[]
 
   @@map("events")
 }
@@ -87,11 +88,13 @@ model Transaction {
   userId        Int
   voucherId     Int?
   couponId      Int?              @unique
+  eventId       Int?
   pointsUsed    Int               @default(0)
   reviews       Review[]
   coupon        Coupon?           @relation(fields: [couponId], references: [id])
   user          User              @relation(fields: [userId], references: [id])
   voucher       Voucher?          @relation(fields: [voucherId], references: [id])
+  event         Event?            @relation(fields: [eventId], references: [id])
   items         TransactionItem[]
 
   @@map("transactions")
@@ -116,6 +119,7 @@ model Coupon {
   amount      Int
   expiredDate DateTime
   userId      Int
+  isused      Boolean      @default(false)
   user        User         @relation(fields: [userId], references: [id])
   transaction Transaction?
 
@@ -127,6 +131,7 @@ model Point {
   amount      Int
   expiredDate DateTime
   userId      Int
+  isused      Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id])
 
   @@map("points")

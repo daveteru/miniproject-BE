@@ -1,8 +1,12 @@
 import { PrismaClient } from "../../generated/prisma/client.js";
 import { ApiError } from "../../utils/api-error.js";
+import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
 
 export class TransactionService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    private cloudinary: CloudinaryService,
+  ) {}
 
   getTransaction = async (id: number) => {
     const transaction = await this.prisma.transaction.findUnique({
@@ -20,7 +24,8 @@ export class TransactionService {
     items: { ticketId: number; quantity: number }[];
     userId: number;
     voucherId?: number;
-    couponId?: number;
+    eventId?: number;
+    couponId?: number | null;
     pointsUsed?: number;
   }) => {
     await this.prisma.$transaction(async (trans) => {
@@ -77,7 +82,9 @@ export class TransactionService {
 
             if (body.pointsUsed) {
         const points = await trans.point.findMany({
-          where: { userId: body.userId },
+          where: { userId: body.userId,
+            isused: false
+           },
         });
 
         if (!points.length) {
@@ -86,10 +93,22 @@ export class TransactionService {
 
         await trans.point.updateMany({
           where: { userId: body.userId },
-          data: { amount: 0 },
+          data: { isused:true },
         });
       }
+              if (body.couponId) {
+        const coupon = await trans.coupon.findUnique({
+          where: { id: body.couponId },
+        });
 
+        if (!coupon) throw new ApiError("Coupon not found", 404);
+        if (coupon.isused) throw new ApiError("Coupon already used", 400);
+
+        await trans.coupon.update({
+          where: { id: body.couponId },
+          data: { isused: true },
+        });
+      }
 
       await trans.transaction.create({
         data: {
@@ -97,6 +116,7 @@ export class TransactionService {
           userId: body.userId,
           voucherId: body.voucherId,
           couponId: body.couponId,
+          eventId: body.eventId,
           pointsUsed: body.pointsUsed ?? 0,
           expiredAt: new Date(Date.now() + 2 * 60 * 60 * 1000),
           items: {
@@ -128,6 +148,22 @@ export class TransactionService {
         paymentProof: true,
         paymentStatus: true,
         pointsUsed: true,
+        coupon: {
+          select: {
+            id: true,
+            amount:true,
+          }
+        },
+        event: {
+          select: {
+            id: true,
+            name:true,
+            artist:true,
+            location:true,
+            city:true,
+            startDate:true,
+          }
+        },
         voucher:{
           select: {
             discamount:true,
@@ -136,16 +172,9 @@ export class TransactionService {
         items: {
           include: {
             ticket: {
-              include: {
-                event: {
-                  select:{
-                    name:true,
-                    artist:true,
-                    location:true,
-                    city:true,
-                    startDate:true,
-                  }
-                },
+              select: {
+                ticketLevel: true,
+                price: true,
               },
             },
           },
@@ -156,15 +185,32 @@ export class TransactionService {
     const total = await this.prisma.transaction.count({ where: { userId: id } });
 
     const data = transaction.map((tx) => {
-      const subtotal = tx.items.reduce((sum, item) => sum + item.price, 0);
+      const allitems = tx.items.reduce((sum, item) => sum + item.price, 0);
       const discount = tx.voucher?.discamount ?? 0;
       const point = tx.pointsUsed
+      const total = allitems - discount - point
+      const coupondisocunt = total * ((tx.coupon?.amount ?? 0) /100)
       return {
         ...tx,
-        totalPrice: subtotal - discount - point,
+        totalbeforecoupon: total,
+        coupondisc: coupondisocunt,
+        totalPrice: total - coupondisocunt
       };
     });
 
     return { data, meta: { page, take, total } };
+  };
+
+  uploadPaymentProof = async (id: number, file: Express.Multer.File) => {
+    const transaction = await this.prisma.transaction.findUnique({ where: { id } });
+    if (!transaction) throw new ApiError("Transaction not found", 404);
+
+    const result = await this.cloudinary.upload(file);
+    await this.prisma.transaction.update({
+      where: { id },
+      data: { paymentProof: result.secure_url, paymentStatus: "WAITING_FOR_CONFIRM" },
+    });
+
+    return { message: "Payment proof uploaded successfully" };
   };
 }
