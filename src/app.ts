@@ -74,7 +74,7 @@ export class App {
     // services
     const cloudinaryService = new CloudinaryService();
     const userService = new UserService(prisma, cloudinaryService);
-    const transactionService = new TransactionService(prisma);
+    const transactionService = new TransactionService(prisma, cloudinaryService);
     const ticketService = new TicketService(prisma);
     const reviewService = new ReviewService(prisma);
     const promotionService = new PromotionService(prisma);
@@ -109,7 +109,7 @@ export class App {
       authMiddleware,
       uploadMiddleware,
     );
-    const transactionRouter = new TransactionRouter(transactionController);
+    const transactionRouter = new TransactionRouter(transactionController, uploadMiddleware);
     const ticketRouter = new TicketRouter(ticketController);
     const reviewRouter = new ReviewRouter(reviewController);
     const promotionRouter = new PromotionRouter(promotionController);

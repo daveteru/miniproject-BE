@@ -34,8 +34,18 @@ export async function expiredTransactionsCron() {
       }
       if (transaction.pointsUsed) {
         await tx.point.updateMany({
-          where: { userId: transaction.userId },
-          data: { amount: { increment: transaction.pointsUsed } },
+          where: { userId: transaction.userId, isused: true },
+          data: { isused: false },
+        });
+      }
+      if (transaction.couponId) {
+        await tx.coupon.update({
+          where: { id: transaction.couponId },
+          data: { isused: false },
+        });
+        await tx.transaction.update({
+          where: { id: transaction.id },
+          data: { couponId: null },
         });
       }
       // mark transaction as expired

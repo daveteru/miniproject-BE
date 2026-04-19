@@ -19,6 +19,7 @@ export class PointsService {
       },
       where: {
         userId: userId,
+        isused:false,
         expiredDate: { gt: new Date() },
       },
     });
