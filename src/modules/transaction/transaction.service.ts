@@ -213,4 +213,16 @@ export class TransactionService {
 
     return { message: "Payment proof uploaded successfully" };
   };
+
+  checkAttendance = async (body: { userId: number; eventId: number }) => {
+    const { userId, eventId } = body;
+    const attendance = await this.prisma.transaction.findMany({
+      where: {
+        userId,
+        eventId,
+        paymentStatus: "PAID",
+      },
+    });
+    return attendance;
+  };
 }
