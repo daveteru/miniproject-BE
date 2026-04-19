@@ -9,6 +9,22 @@ export class ReviewService {
       where: {
         event: { organizerId: userId },
       },
+      select: {
+        id: true,
+        text: true,
+        rating: true,
+        event: {
+          select: {
+            name: true,
+          }
+        },
+        reviewer: {
+          select: {
+            fullName: true,
+            avatar:true
+          }
+        },
+      },
     });
 
     if (!review.length) {
