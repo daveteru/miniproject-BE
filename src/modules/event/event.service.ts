@@ -1,4 +1,9 @@
-import { Event, Prisma, PrismaClient } from "../../generated/prisma/client.js";
+import {
+  Event,
+  PaymentStatus,
+  Prisma,
+  PrismaClient,
+} from "../../generated/prisma/client.js";
 import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
 import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
@@ -83,7 +88,7 @@ export class EventService {
     userId: number,
     { page, sortBy, sortOrder, take }: PaginationQueryParams,
   ) => {
-    const user = this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -96,16 +101,116 @@ export class EventService {
       deletedAt: null,
     };
 
-    const events = this.prisma.event.findMany({
+    const events = await this.prisma.event.findMany({
       where: whereClause,
       skip: (page - 1) * take,
       take: take,
       orderBy: { [sortBy]: sortOrder },
     });
 
-    const total = this.prisma.event.count({ where: whereClause });
+    const total = await this.prisma.event.count({ where: whereClause });
 
     return { data: events, meta: { page, take, total } };
+  };
+
+  getEventAttendees = async (
+    id: number,
+    { page, take }: PaginationQueryParams,
+  ) => {
+    const event = await this.prisma.event.findUnique({
+      where: { id },
+    });
+
+    if (!event) throw new ApiError("Event not found", 404);
+
+    const attendeesRaw = await this.prisma.user.findMany({
+      where: {
+        transactions: {
+          some: {
+            items: {
+              some: {
+                ticket: {
+                  eventId: id,
+                },
+              },
+            },
+            paymentStatus: PaymentStatus.PAID,
+          },
+        },
+      },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        avatar: true,
+        transactions: {
+          where: {
+            paymentStatus: PaymentStatus.PAID,
+            items: {
+              some: {
+                ticket: {
+                  eventId: id,
+                },
+              },
+            },
+          },
+          select: {
+            items: {
+              where: {
+                ticket: {
+                  eventId: id,
+                },
+              },
+              include: {
+                ticket: true,
+              },
+            },
+          },
+        },
+      },
+      skip: (page - 1) * take,
+      take: take,
+    });
+
+    const total = await this.prisma.user.count({
+      where: {
+        transactions: {
+          some: {
+            items: {
+              some: {
+                ticket: {
+                  eventId: id,
+                },
+              },
+            },
+            paymentStatus: PaymentStatus.PAID,
+          },
+        },
+      },
+    });
+
+    const attendees = attendeesRaw.map((user) => {
+      const tickets = user.transactions.flatMap((tx) =>
+        tx.items.map((item) => ({
+          ticketId: item.ticket.id,
+          ticketLevel: item.ticket.ticketLevel,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      );
+
+      const totalPaid = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
+
+      return {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        tickets,
+        totalPaid,
+      };
+    });
+
+    return {data: attendees, meta: { page, take, total } };
   };
 
   getEvent = async (id: number) => {
@@ -147,18 +252,18 @@ export class EventService {
             amount: true,
           },
         },
-        reviews:{
-          select:{
-            text:true,
-            rating:true,
-            reviewer:{
-              select:{
+        reviews: {
+          select: {
+            text: true,
+            rating: true,
+            reviewer: {
+              select: {
                 fullName: true,
-                avatar:true,
-              }
-            }
-          }
-        }
+                avatar: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -228,7 +333,6 @@ export class EventService {
       );
 
       console.log(body);
-      
 
       const event = await tx.event.create({
         data: {
