@@ -80,11 +80,9 @@ export class TransactionService {
         });
       }
 
-            if (body.pointsUsed) {
+      if (body.pointsUsed) {
         const points = await trans.point.findMany({
-          where: { userId: body.userId,
-            isused: false
-           },
+          where: { userId: body.userId, isused: false },
         });
 
         if (!points.length) {
@@ -93,10 +91,10 @@ export class TransactionService {
 
         await trans.point.updateMany({
           where: { userId: body.userId },
-          data: { isused:true },
+          data: { isused: true },
         });
       }
-              if (body.couponId) {
+      if (body.couponId) {
         const coupon = await trans.coupon.findUnique({
           where: { id: body.couponId },
         });
@@ -106,7 +104,7 @@ export class TransactionService {
 
         await trans.coupon.update({
           where: { id: body.couponId },
-          data: { isused: true },
+          data: { isused: true, usage: "HOLD" },
         });
       }
 
@@ -151,23 +149,23 @@ export class TransactionService {
         coupon: {
           select: {
             id: true,
-            amount:true,
-          }
+            amount: true,
+          },
         },
         event: {
           select: {
             id: true,
-            name:true,
-            artist:true,
-            location:true,
-            city:true,
-            startDate:true,
-          }
+            name: true,
+            artist: true,
+            location: true,
+            city: true,
+            startDate: true,
+          },
         },
-        voucher:{
+        voucher: {
           select: {
-            discamount:true,
-          }
+            discamount: true,
+          },
         },
         items: {
           include: {
@@ -182,19 +180,21 @@ export class TransactionService {
       },
     });
 
-    const total = await this.prisma.transaction.count({ where: { userId: id } });
+    const total = await this.prisma.transaction.count({
+      where: { userId: id },
+    });
 
     const data = transaction.map((tx) => {
       const allitems = tx.items.reduce((sum, item) => sum + item.price, 0);
       const discount = tx.voucher?.discamount ?? 0;
-      const point = tx.pointsUsed
-      const total = allitems - discount - point
-      const coupondisocunt = total * ((tx.coupon?.amount ?? 0) /100)
+      const point = tx.pointsUsed;
+      const total = allitems - discount - point;
+      const coupondisocunt = total * ((tx.coupon?.amount ?? 0) / 100);
       return {
         ...tx,
         totalbeforecoupon: total,
         coupondisc: coupondisocunt,
-        totalPrice: total - coupondisocunt
+        totalPrice: total - coupondisocunt,
       };
     });
 
@@ -202,13 +202,18 @@ export class TransactionService {
   };
 
   uploadPaymentProof = async (id: number, file: Express.Multer.File) => {
-    const transaction = await this.prisma.transaction.findUnique({ where: { id } });
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { id },
+    });
     if (!transaction) throw new ApiError("Transaction not found", 404);
 
     const result = await this.cloudinary.upload(file);
     await this.prisma.transaction.update({
       where: { id },
-      data: { paymentProof: result.secure_url, paymentStatus: "WAITING_FOR_CONFIRM" },
+      data: {
+        paymentProof: result.secure_url,
+        paymentStatus: "WAITING_FOR_CONFIRM",
+      },
     });
 
     return { message: "Payment proof uploaded successfully" };
