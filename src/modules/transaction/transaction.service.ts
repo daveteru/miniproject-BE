@@ -86,7 +86,7 @@ export class TransactionService {
 
       if (body.pointsUsed) {
         const points = await trans.point.findMany({
-          where: { userId: body.userId, isused: false },
+          where: { userId: body.userId, usage: "FREE" },
         });
 
         if (!points.length) {
@@ -95,7 +95,7 @@ export class TransactionService {
 
         await trans.point.updateMany({
           where: { userId: body.userId },
-          data: { isused: true },
+          data: { usage: "HOLD" },
         });
       }
       if (body.couponId) {
@@ -108,7 +108,7 @@ export class TransactionService {
 
         await trans.coupon.update({
           where: { id: body.couponId },
-          data: { isused: true },
+          data: { isused: true, usage: "HOLD" },
         });
       }
 

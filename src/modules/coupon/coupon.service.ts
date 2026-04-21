@@ -11,7 +11,7 @@ export class CouponService {
   ) => {
     const whereClause: Prisma.CouponWhereInput = {
       expiredDate: { gt: new Date() },
-      isused: false,
+      usage: "FREE",
     };
 
     const user = await this.prisma.user.findUnique({
@@ -52,7 +52,7 @@ export class CouponService {
   };
   getallCoupon = async (id: number) => {
     const coupon = await this.prisma.coupon.findMany({
-      where: { userId : id , isused:false,
+      where: { userId : id , usage:"FREE",
         expiredDate: { gt: new Date() }
       },
     });

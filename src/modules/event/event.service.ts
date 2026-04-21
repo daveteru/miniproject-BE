@@ -7,6 +7,7 @@ import {
 import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
 import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
+import { RedisService } from "../redis/redis.service.js";
 
 interface createEventBundle {
   event: {
@@ -43,8 +44,26 @@ interface GetEventsQuery extends PaginationQueryParams {
 export class EventService {
   constructor(
     private prisma: PrismaClient,
+    private redisService : RedisService,
     private cloudinaryService: CloudinaryService,
   ) {}
+
+  getSampleEvents = async ()=>{
+    const cacheSamples = await this.redisService.getValue("sample")
+    if (cacheSamples){
+      console.log("ini data samples dari redis")
+      return JSON.parse(cacheSamples)
+    }
+
+    const samples = await this.prisma.event.findMany()
+
+    await this.redisService.setValue("sample", JSON.stringify(samples),30)
+
+    console.log("ini data samples dari database")
+    return samples
+  }
+
+
 
   getEvents = async ({
     page,

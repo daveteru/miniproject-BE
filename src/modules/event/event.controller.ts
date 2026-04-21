@@ -82,6 +82,11 @@ export class EventController {
     res.status(200).send(result);
   };
 
+  getSampleEvents = async (_req: Request, res: Response) => {
+    const result = await this.eventService.getSampleEvents();
+    res.status(200).send(result);
+  };
+
   createEvent = async (req: Request, res: Response) => {
     const body = req.body;
     const result = await this.eventService.createEvent(body);
