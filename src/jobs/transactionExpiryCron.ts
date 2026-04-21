@@ -41,7 +41,7 @@ export async function expiredTransactionsCron() {
       if (transaction.couponId) {
         await tx.coupon.update({
           where: { id: transaction.couponId, usage:"HOLD" },
-          data: { isused: false, usage:"FREE" },
+          data: { usage:"FREE" },
         });
         await tx.transaction.update({
           where: { id: transaction.id },

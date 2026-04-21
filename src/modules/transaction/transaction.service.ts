@@ -87,25 +87,8 @@ export class TransactionService {
         });
       }
 
-
       let deductedPoints = null;
       if (body.pointsUsed) {
-        // const points = await trans.point.findMany({
-        //   where: { userId: body.userId, usage: Usage.FREE },
-        // });
-
-        // if (!points.length) {
-        //   throw new ApiError("Points not found", 404);
-        // }
-
-        // await trans.point.updateMany({
-        //   where: {
-        //     userId: body.userId,
-        //     usage: Usage.FREE,
-        //   },
-        //   data: { usage: Usage.HOLD },
-        // });
-
         deductedPoints = await trans.point.create({
           data: {
             userId: body.userId,
@@ -120,13 +103,12 @@ export class TransactionService {
         });
 
         if (!coupon) throw new ApiError("Coupon not found", 404);
-        if (coupon.isused) throw new ApiError("Coupon already used", 400);
         if (coupon.usage !== Usage.FREE)
           throw new ApiError("Coupon already used", 400);
 
         await trans.coupon.update({
           where: { id: body.couponId },
-          data: { isused: true, usage: Usage.HOLD },
+          data: { usage: Usage.HOLD },
         });
       }
 
@@ -342,12 +324,12 @@ export class TransactionService {
       }
     });
 
-    // await this.mailService.sendMail({
-    //   to: user.email,
-    //   subject: "Your Payment Has Been Approved",
-    //   templateName: "transaction-accepted",
-    //   context: { username: user.fullName, eventName: transaction.event?.name },
-    // });
+    await this.mailService.sendMail({
+      to: user.email,
+      subject: "FRNTROW* - Your Payment Has Been Approved",
+      templateName: "transaction-accepted",
+      context: { username: user.fullName, eventName: transaction.event?.name },
+    });
 
     return { message: "Transaction accept successful" };
   };
@@ -358,6 +340,7 @@ export class TransactionService {
         id,
       },
       include: {
+        event: true,
         points: true,
         items: true,
       },
@@ -423,6 +406,16 @@ export class TransactionService {
           },
         });
       }
+    });
+
+    await this.mailService.sendMail({
+      to: user.email,
+      subject: "FRNTROW* - Your Payment Has Been Rejected",
+      templateName: "transaction-rejected",
+      context: {
+        username: user.fullName,
+        eventName: transaction.event ? transaction.event.name : "",
+      },
     });
 
     return { message: "Transaction rejection successful" };
