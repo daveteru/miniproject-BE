@@ -87,7 +87,7 @@ model Transaction {
   paymentStatus PaymentStatus
   userId        Int
   voucherId     Int?
-  couponId      Int?              @unique
+  couponId      Int?
   eventId       Int?
   pointsId      Int?              @unique
   pointsUsed    Int               @default(0)
@@ -117,14 +117,14 @@ model Review {
 }
 
 model Coupon {
-  id          Int          @id @default(autoincrement())
-  amount      Int
-  expiredDate DateTime
-  userId      Int
-  isused      Boolean      @default(false)
-  user        User         @relation(fields: [userId], references: [id])
-  transaction Transaction?
-  usage       Usage        @default(FREE)
+  id           Int           @id @default(autoincrement())
+  amount       Int
+  expiredDate  DateTime
+  userId       Int
+  isused       Boolean       @default(false)
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+  usage        Usage         @default(FREE)
 
   @@map("coupons")
 }

@@ -1,8 +1,8 @@
 const now = new Date();
 const day = 24 * 60 * 60 * 100;
 
-export const POINTS_EXPIRE_DATE: number = now.setMonth(now.getMonth() + 3);
-export const COUPON_EXPIRE_DATE: number = now.setMonth(now.getMonth() + 3);
+export const POINTS_EXPIRE_DATE: number = new Date().setMonth(now.getMonth() + 3);
+export const COUPON_EXPIRE_DATE: number = new Date().setMonth(now.getMonth() + 3);
 
 export const POINTS_ON_REGISTRATION = 10000;
 export const COUPON_ON_REGISTRATION = 20;
