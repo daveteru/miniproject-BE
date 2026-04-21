@@ -34,14 +34,14 @@ export async function expiredTransactionsCron() {
       }
       if (transaction.pointsUsed) {
         await tx.point.updateMany({
-          where: { userId: transaction.userId, isused: true },
-          data: { isused: false },
+          where: { userId: transaction.userId, usage: "HOLD" },
+          data: { usage: "FREE" },
         });
       }
       if (transaction.couponId) {
         await tx.coupon.update({
-          where: { id: transaction.couponId },
-          data: { isused: false },
+          where: { id: transaction.couponId, usage:"HOLD" },
+          data: { isused: false, usage:"FREE" },
         });
         await tx.transaction.update({
           where: { id: transaction.id },
