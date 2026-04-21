@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { TransactionService } from "./transaction.service.js";
+import { ApiError } from "../../utils/api-error.js";
 
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}
@@ -15,7 +16,10 @@ export class TransactionController {
   };
   uploadPaymentProof = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const result = await this.transactionService.uploadPaymentProof(id, req.file!);
+    const result = await this.transactionService.uploadPaymentProof(
+      id,
+      req.file!,
+    );
     res.status(200).send(result);
   };
 
@@ -23,11 +27,21 @@ export class TransactionController {
     const id = Number(req.params.id);
     const page = parseInt(req.query.page as string) || 1;
     const take = parseInt(req.query.take as string) || 10;
-    const result = await this.transactionService.getTransactionByUserId(id, page, take);
+    const result = await this.transactionService.getTransactionByUserId(
+      id,
+      page,
+      take,
+    );
     res.status(200).send(result);
   };
   checkAttendance = async (req: Request, res: Response) => {
     const result = await this.transactionService.checkAttendance(req.body);
     res.status(200).send(result);
   };
+  getPendingTransactions = async (req: Request, res: Response) => {
+    const userId = res.locals.user.id;
+
+    const result = await this.transactionService.getPendingTransactions(userId);
+    res.status(200).send(result);
+  }
 }

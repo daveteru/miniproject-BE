@@ -91,11 +91,12 @@ model Transaction {
   eventId       Int?
   pointsUsed    Int               @default(0)
   reviews       Review[]
-  coupon        Coupon?           @relation(fields: [couponId], references: [id])
-  user          User              @relation(fields: [userId], references: [id])
-  voucher       Voucher?          @relation(fields: [voucherId], references: [id])
-  event         Event?            @relation(fields: [eventId], references: [id])
   items         TransactionItem[]
+  user          User              @relation(fields: [userId], references: [id])
+  event         Event?            @relation(fields: [eventId], references: [id])
+  coupon        Coupon?           @relation(fields: [couponId], references: [id])
+  voucher       Voucher?          @relation(fields: [voucherId], references: [id])
+  points        Point[]
 
   @@map("transactions")
 }
@@ -128,13 +129,16 @@ model Coupon {
 }
 
 model Point {
-  id          Int      @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   amount      Int
   expiredDate DateTime
   userId      Int
-  isused      Boolean  @default(false)
-  user        User     @relation(fields: [userId], references: [id])
-  usage       Usage    @default(FREE)
+  isused      Boolean      @default(false)
+  user        User         @relation(fields: [userId], references: [id])
+  transaction Transaction? @relation(fields: [transactionId], references: [id])
+  usage       Usage        @default(FREE)
+
+  transactionId Int?
 
   @@map("points")
 }
