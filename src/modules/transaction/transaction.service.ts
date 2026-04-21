@@ -2,14 +2,17 @@ import {
   PaymentStatus,
   PrismaClient,
   Role,
+  Usage,
 } from "../../generated/prisma/client.js";
 import { ApiError } from "../../utils/api-error.js";
 import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
+import { MailService } from "../mail/mail.service.js";
 
 export class TransactionService {
   constructor(
     private prisma: PrismaClient,
-    private cloudinary: CloudinaryService,
+    private cloudinaryService: CloudinaryService,
+    private mailService: MailService,
   ) {}
 
   getTransaction = async (id: number) => {
@@ -84,18 +87,31 @@ export class TransactionService {
         });
       }
 
+
+      let deductedPoints = null;
       if (body.pointsUsed) {
-        const points = await trans.point.findMany({
-          where: { userId: body.userId, usage: "FREE" },
-        });
+        // const points = await trans.point.findMany({
+        //   where: { userId: body.userId, usage: Usage.FREE },
+        // });
 
-        if (!points.length) {
-          throw new ApiError("Points not found", 404);
-        }
+        // if (!points.length) {
+        //   throw new ApiError("Points not found", 404);
+        // }
 
-        await trans.point.updateMany({
-          where: { userId: body.userId },
-          data: { usage: "HOLD" },
+        // await trans.point.updateMany({
+        //   where: {
+        //     userId: body.userId,
+        //     usage: Usage.FREE,
+        //   },
+        //   data: { usage: Usage.HOLD },
+        // });
+
+        deductedPoints = await trans.point.create({
+          data: {
+            userId: body.userId,
+            amount: -body.pointsUsed,
+            expiredDate: new Date("9999-12-17T00:00:00"),
+          },
         });
       }
       if (body.couponId) {
@@ -105,10 +121,12 @@ export class TransactionService {
 
         if (!coupon) throw new ApiError("Coupon not found", 404);
         if (coupon.isused) throw new ApiError("Coupon already used", 400);
+        if (coupon.usage !== Usage.FREE)
+          throw new ApiError("Coupon already used", 400);
 
         await trans.coupon.update({
           where: { id: body.couponId },
-          data: { isused: true, usage: "HOLD" },
+          data: { isused: true, usage: Usage.HOLD },
         });
       }
 
@@ -120,6 +138,7 @@ export class TransactionService {
           couponId: body.couponId,
           eventId: body.eventId,
           pointsUsed: body.pointsUsed ?? 0,
+          pointsId: deductedPoints && deductedPoints?.id,
           expiredAt: new Date(Date.now() + 2 * 60 * 60 * 1000),
           items: {
             create: body.items.map((item) => {
@@ -211,7 +230,7 @@ export class TransactionService {
     });
     if (!transaction) throw new ApiError("Transaction not found", 404);
 
-    const result = await this.cloudinary.upload(file);
+    const result = await this.cloudinaryService.upload(file);
     await this.prisma.transaction.update({
       where: { id },
       data: {
@@ -235,7 +254,7 @@ export class TransactionService {
     return attendance;
   };
 
-  getPendingTransactions = async (organizerId: number) => {
+  getOrganizerTransactions = async (organizerId: number) => {
     const organizer = await this.prisma.user.findUnique({
       where: {
         id: organizerId,
@@ -247,12 +266,11 @@ export class TransactionService {
     if (organizer.role !== Role.ORGANIZER)
       throw new ApiError("User is not an organizer", 400);
 
-    const pendingTransactions = await this.prisma.transaction.findMany({
+    const transactions = await this.prisma.transaction.findMany({
       where: {
         event: {
           organizerId,
         },
-        paymentStatus: PaymentStatus.WAITING_FOR_CONFIRM,
       },
       include: {
         items: {
@@ -264,9 +282,9 @@ export class TransactionService {
       },
     });
 
-    if (!pendingTransactions) throw new ApiError("No transactions found", 404);
+    if (!transactions) throw new ApiError("No transactions found", 404);
 
-    return pendingTransactions;
+    return transactions;
   };
 
   acceptTransaction = async (id: number) => {
@@ -274,18 +292,62 @@ export class TransactionService {
       where: {
         id,
       },
+      include: {
+        event: true,
+        points: true,
+      },
     });
 
     if (!transaction) throw new ApiError("Transaction not found", 404);
 
-    await this.prisma.transaction.update({
+    if (transaction.paymentStatus !== PaymentStatus.WAITING_FOR_CONFIRM)
+      throw new ApiError("Incorrect payment status", 400);
+
+    const user = await this.prisma.user.findUnique({
       where: {
-        id,
-      },
-      data: {
-        paymentStatus: PaymentStatus.PAID,
+        id: transaction.userId,
       },
     });
+
+    if (!user) throw new ApiError("User not found", 404);
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.transaction.update({
+        where: {
+          id,
+        },
+        data: {
+          paymentStatus: PaymentStatus.PAID,
+        },
+      });
+      if (transaction.couponId) {
+        await tx.coupon.update({
+          where: {
+            id: transaction.couponId,
+          },
+          data: {
+            usage: Usage.USED,
+          },
+        });
+      }
+      if (transaction.voucherId) {
+        await tx.voucher.update({
+          where: {
+            id: transaction.voucherId,
+          },
+          data: {
+            amount: { increment: 1 },
+          },
+        });
+      }
+    });
+
+    // await this.mailService.sendMail({
+    //   to: user.email,
+    //   subject: "Your Payment Has Been Approved",
+    //   templateName: "transaction-accepted",
+    //   context: { username: user.fullName, eventName: transaction.event?.name },
+    // });
 
     return { message: "Transaction accept successful" };
   };
@@ -295,12 +357,74 @@ export class TransactionService {
       where: {
         id,
       },
+      include: {
+        points: true,
+        items: true,
+      },
     });
 
     if (!transaction) throw new ApiError("Transaction not found", 404);
 
+    if (transaction.paymentStatus !== PaymentStatus.WAITING_FOR_CONFIRM)
+      throw new ApiError("Incorrect payment status", 400);
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: transaction.userId,
+      },
+    });
+
+    if (!user) throw new ApiError("User not found", 404);
+
     await this.prisma.$transaction(async (tx) => {
-      
-    })
+      await tx.transaction.update({
+        where: {
+          id,
+        },
+        data: {
+          paymentStatus: PaymentStatus.REJECTED,
+        },
+      });
+      await Promise.all(
+        transaction.items.map((item) =>
+          tx.ticket.update({
+            where: { id: item.ticketId },
+            data: { availableTicket: { increment: item.quantity } },
+          }),
+        ),
+      );
+      if (transaction.couponId) {
+        await tx.coupon.update({
+          where: {
+            id: transaction.couponId,
+          },
+          data: {
+            usage: Usage.FREE,
+          },
+        });
+      }
+      if (transaction.pointsId) {
+        await tx.point.updateMany({
+          where: {
+            id: transaction.pointsId,
+          },
+          data: {
+            usage: Usage.USED,
+          },
+        });
+      }
+      if (transaction.voucherId) {
+        await tx.voucher.update({
+          where: {
+            id: transaction.voucherId,
+          },
+          data: {
+            amount: { increment: 1 },
+          },
+        });
+      }
+    });
+
+    return { message: "Transaction rejection successful" };
   };
 }

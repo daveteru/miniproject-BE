@@ -19,7 +19,7 @@ export class PointsService {
       },
       where: {
         userId: userId,
-        usage:"FREE",
+        usage: "FREE",
         expiredDate: { gt: new Date() },
       },
     });
@@ -31,17 +31,5 @@ export class PointsService {
     }
 
     return { totalPoints: result };
-  };
-
-  getPoints = async (id: number) => {
-    const points = await this.prisma.point.findUnique({
-      where: { id },
-    });
-
-    if (!points) {
-      throw new ApiError("Points not found", 404);
-    }
-
-    return points;
   };
 }

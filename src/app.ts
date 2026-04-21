@@ -73,11 +73,13 @@ export class App {
 
   private registerModules() {
     // services
+    const mailService = new MailService();
     const cloudinaryService = new CloudinaryService();
     const userService = new UserService(prisma, cloudinaryService);
     const transactionService = new TransactionService(
       prisma,
       cloudinaryService,
+      mailService,
     );
     const ticketService = new TicketService(prisma);
     const reviewService = new ReviewService(prisma);
@@ -87,7 +89,6 @@ export class App {
     const eventService = new EventService(prisma, redisService, cloudinaryService);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
-    const mailService = new MailService();
     const authService = new AuthService(prisma, mailService);
 
     // middlewares

@@ -38,10 +38,26 @@ export class TransactionController {
     const result = await this.transactionService.checkAttendance(req.body);
     res.status(200).send(result);
   };
-  getPendingTransactions = async (req: Request, res: Response) => {
+  getOrganizerTransactions = async (req: Request, res: Response) => {
     const userId = res.locals.user.id;
 
-    const result = await this.transactionService.getPendingTransactions(userId);
+    const result =
+      await this.transactionService.getOrganizerTransactions(userId);
     res.status(200).send(result);
-  }
+  };
+
+  acceptTransaction = async (req: Request, res: Response) => {
+    const transactionId = Number(req.params.id);
+
+    const result =
+      await this.transactionService.acceptTransaction(transactionId);
+    res.status(200).send(result);
+  };
+  rejectTransaction = async (req: Request, res: Response) => {
+    const transactionId = Number(req.params.id);
+
+    const result =
+      await this.transactionService.rejectTransaction(transactionId);
+    res.status(200).send(result);
+  };
 }
