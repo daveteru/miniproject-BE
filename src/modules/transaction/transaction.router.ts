@@ -27,16 +27,28 @@ export class TransactionRouter {
       this.transactionController.getTransactionByUserId,
     );
     this.router.get(
-      "/pending",
+      "/organizer",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
-      this.transactionController.getPendingTransactions,
+      this.transactionController.getOrganizerTransactions,
     );
     this.router.get("/:id", this.transactionController.getTransaction);
     this.router.patch(
       "/:id/proof",
       this.uploadMiddleware.upload().single("paymentProof"),
       this.transactionController.uploadPaymentProof,
+    );
+    this.router.patch(
+      "/accept/:id",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.ORGANIZER]),
+      this.transactionController.acceptTransaction,
+    );
+    this.router.patch(
+      "/reject/:id",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.ORGANIZER]),
+      this.transactionController.rejectTransaction,
     );
   };
 
