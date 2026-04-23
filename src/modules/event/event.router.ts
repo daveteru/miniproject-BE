@@ -20,7 +20,6 @@ export class EventRouter {
   }
 
   private initRoutes = () => {
-    this.router.get("/sample", this.eventController.getSampleEvents);
     this.router.get(
       "/",
       EventValidator.getMany(),
