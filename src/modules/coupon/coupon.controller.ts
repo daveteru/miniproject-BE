@@ -23,11 +23,12 @@ export class CouponController {
     res.status(200).send(result);
   };
 
-  getCoupon = async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
-    const result = await this.couponService.getCoupon(id);
-    res.status(200).send(result);
-  };
+  // getCoupon = async (req: Request, res: Response) => {
+  //   const id = Number(req.params.id);
+  //   const result = await this.couponService.getCoupon(id);
+  //   res.status(200).send(result);
+  // };
+
   getallCoupon = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const result = await this.couponService.getallCoupon(id);

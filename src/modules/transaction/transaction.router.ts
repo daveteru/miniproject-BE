@@ -17,13 +17,20 @@ export class TransactionRouter {
   }
 
   private initRoutes = () => {
-    this.router.post("/", this.transactionController.createTransaction);
+    this.router.post(
+      "/",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.transactionController.createTransaction,
+    );
     this.router.post(
       "/attendance/",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.transactionController.checkAttendance,
     );
     this.router.get(
       "/history/:id",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.USER]),
       this.transactionController.getTransactionByUserId,
     );
     this.router.get(
@@ -32,20 +39,21 @@ export class TransactionRouter {
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
       this.transactionController.getOrganizerTransactions,
     );
-    this.router.get("/:id", this.transactionController.getTransaction);
     this.router.patch(
       "/:id/proof",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.USER]),
       this.uploadMiddleware.upload().single("paymentProof"),
       this.transactionController.uploadPaymentProof,
     );
     this.router.patch(
-      "/accept/:id",
+      "/accept/:uuid",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
       this.transactionController.acceptTransaction,
     );
     this.router.patch(
-      "/reject/:id",
+      "/reject/:uuid",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
       this.transactionController.rejectTransaction,
