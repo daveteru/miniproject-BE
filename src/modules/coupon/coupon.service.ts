@@ -39,17 +39,18 @@ export class CouponService {
     };
   };
 
-  getCoupon = async (id: number) => {
-    const coupon = await this.prisma.coupon.findUnique({
-      where: { id },
-    });
+  // getCoupon = async (id: number) => {
+  //   const coupon = await this.prisma.coupon.findUnique({
+  //     where: { id },
+  //   });
 
-    if (!coupon) {
-      throw new ApiError("Coupon not found", 404);
-    }
+  //   if (!coupon) {
+  //     throw new ApiError("Coupon not found", 404);
+  //   }
 
-    return coupon;
-  };
+  //   return coupon;
+  // };
+  
   getallCoupon = async (id: number) => {
     const coupon = await this.prisma.coupon.findMany({
       where: { userId : id , usage:"FREE",

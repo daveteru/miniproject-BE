@@ -4,6 +4,7 @@ import {
   Role,
   Usage,
 } from "../../generated/prisma/client.js";
+import { PaginationQueryParams } from "../../types/pagination.js";
 import { ApiError } from "../../utils/api-error.js";
 import { CloudinaryService } from "../cloudinary/cloudinary.service.js";
 import { MailService } from "../mail/mail.service.js";
@@ -15,17 +16,17 @@ export class TransactionService {
     private mailService: MailService,
   ) {}
 
-  getTransaction = async (id: number) => {
-    const transaction = await this.prisma.transaction.findUnique({
-      where: { id },
-    });
+  // getTransaction = async (id: number) => {
+  //   const transaction = await this.prisma.transaction.findUnique({
+  //     where: { id },
+  //   });
 
-    if (!transaction) {
-      throw new ApiError("Transaction not found", 404);
-    }
+  //   if (!transaction) {
+  //     throw new ApiError("Transaction not found", 404);
+  //   }
 
-    return transaction;
-  };
+  //   return transaction;
+  // };
 
   createTransaction = async (body: {
     items: { ticketId: number; quantity: number }[];
@@ -194,12 +195,12 @@ export class TransactionService {
       const discount = tx.voucher?.discamount ?? 0;
       const point = tx.pointsUsed;
       const total = allitems - discount - point;
-      const coupondisocunt = total * ((tx.coupon?.amount ?? 0) / 100);
+      const couponDiscount = total * ((tx.coupon?.amount ?? 0) / 100);
       return {
         ...tx,
         totalbeforecoupon: total,
-        coupondisc: coupondisocunt,
-        totalPrice: total - coupondisocunt,
+        coupondisc: couponDiscount,
+        totalPrice: total - couponDiscount,
       };
     });
 
@@ -236,7 +237,10 @@ export class TransactionService {
     return attendance;
   };
 
-  getOrganizerTransactions = async (organizerId: number) => {
+  getOrganizerTransactions = async (
+    organizerId: number,
+    { page, take }: PaginationQueryParams,
+  ) => {
     const organizer = await this.prisma.user.findUnique({
       where: {
         id: organizerId,
@@ -254,25 +258,91 @@ export class TransactionService {
           organizerId,
         },
       },
+      skip: (page - 1) * take,
+      take,
+      orderBy: { id: "desc" },
       include: {
         items: {
-          omit: {
-            id: true,
+          select: {
+            ticket: {
+              select: {
+                ticketLevel: true,
+              },
+            },
+            price: true,
+            quantity: true,
           },
         },
-        uuid: false,
+        user: {
+          select: {
+            email: true,
+          },
+        },
+        voucher: {
+          select: {
+            discamount: true,
+          },
+        },
+        coupon: {
+          select: {
+            amount: true,
+          },
+        },
+        event: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
     if (!transactions) throw new ApiError("No transactions found", 404);
 
-    return transactions;
+    const total = await this.prisma.transaction.count({
+      where: {
+        event: {
+          organizerId,
+        },
+      },
+    });
+
+    const data = transactions.map((trans) => {
+      const totalPrice = trans.items.reduce((sum, item) => sum + item.price, 0);
+      const tickets = trans.items.map((transItems) => {
+        return {
+          level: transItems.ticket.ticketLevel,
+          amount: transItems.quantity,
+        };
+      });
+
+      const voucher = trans.voucher?.discamount ? trans.voucher.discamount : 0;
+      const coupon = trans.coupon?.amount ? trans.coupon.amount : 0;
+      const couponDiscount = totalPrice * (coupon / 100);
+      const finalPrice =
+        totalPrice - voucher - trans.pointsUsed - couponDiscount;
+
+      return {
+        uuid: trans.uuid,
+        eventName: trans.event?.name,
+        email: trans.user.email,
+        tickets,
+        totalPrice: totalPrice,
+        voucher,
+        coupon,
+        points: trans.pointsUsed,
+        finalPrice,
+        paymentStatus: trans.paymentStatus,
+        paymentProof: trans.paymentProof,
+      };
+    });
+
+    return { data, meta: { page, take, total } };
   };
 
-  acceptTransaction = async (id: number) => {
+  acceptTransaction = async (uuid: string) => {
     const transaction = await this.prisma.transaction.findUnique({
       where: {
-        id,
+        uuid,
       },
       include: {
         event: true,
@@ -296,7 +366,7 @@ export class TransactionService {
     await this.prisma.$transaction(async (tx) => {
       await tx.transaction.update({
         where: {
-          id,
+          uuid,
         },
         data: {
           paymentStatus: PaymentStatus.PAID,
@@ -334,10 +404,10 @@ export class TransactionService {
     return { message: "Transaction accept successful" };
   };
 
-  rejectTransaction = async (id: number) => {
+  rejectTransaction = async (uuid: string) => {
     const transaction = await this.prisma.transaction.findUnique({
       where: {
-        id,
+        uuid,
       },
       include: {
         event: true,
@@ -362,7 +432,7 @@ export class TransactionService {
     await this.prisma.$transaction(async (tx) => {
       await tx.transaction.update({
         where: {
-          id,
+          uuid,
         },
         data: {
           paymentStatus: PaymentStatus.REJECTED,

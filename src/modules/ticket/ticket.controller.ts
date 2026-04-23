@@ -4,11 +4,11 @@ import { TicketService } from "./ticket.service.js";
 export class TicketController {
   constructor(private userService: TicketService) {}
 
-  getTicket = async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
-    const result = await this.userService.getTicket(id);
-    res.status(200).send(result);
-  };
+  // getTicket = async (req: Request, res: Response) => {
+  //   const id = Number(req.params.id);
+  //   const result = await this.userService.getTicket(id);
+  //   res.status(200).send(result);
+  // };
   getEventTicket = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const result = await this.userService.getEventTicket(id);
