@@ -1,124 +1,117 @@
 import "dotenv/config";
 import {
-    PaymentStatus,
-    Priority,
-    Role,
-    Status
+  PaymentStatus,
+  Priority,
+  Provider,
+  Role,
+  Status,
+  Usage
 } from "../src/generated/prisma/client.js";
 import { prisma } from "../src/lib/prisma.js";
 
 async function main() {
-  // create user
+  // Create a USER
   const user = await prisma.user.create({
     data: {
-      email: "budi@mail.com",
-      password: "User123",
-      fullName: "Budi User",
-      birthdate: new Date("2000-01-01"),
+      email: "user@example.com",
+      password: "hashedpassword123", // hash in real apps
+      birthdate: new Date("1995-06-15"),
+      fullName: "John Doe",
+      referral: "REF12345",
+      avatar: null,
       role: Role.USER,
+      provider: Provider.CREDENTIALS,
     },
   });
 
-  // create organizer
+  // Create an ORGANIZER
   const organizer = await prisma.user.create({
     data: {
-      email: "budiOrganizer@mail.com",
-      password: "Admin123",
-      fullName: "Budi Organizer",
-      birthdate: new Date("1999-01-01"),
+      email: "organizer@example.com",
+      password: "hashedpassword456",
+      birthdate: new Date("1985-01-20"),
+      fullName: "Jane Organizer",
+      referral: "REF67890",
       role: Role.ORGANIZER,
+      provider: Provider.CREDENTIALS,
     },
   });
 
-  // event
+  // Create an Event
   const event = await prisma.event.create({
     data: {
-      name: "Festival Foo Bar",
-      artist: "Foo Bar",
-      location: "Foo Bar Convention Center",
-      startDate: new Date("2026-06-01T18:00:00"),
-      endDate: new Date("2026-06-01T23:00:00"),
-      totalTicket: 1000,
+      name: "Music Festival",
+      artist: "Cool Band",
+      location: "Jakarta Convention Center",
+      city: "Jakarta",
+      startDate: new Date("2026-07-01T18:00:00"),
+      endDate: new Date("2026-07-02T23:00:00"),
+      totalTicket: 500,
       category: "Concert",
-      description: "Ada ada aja festival.",
+      description: "A fun summer music festival",
       organizerId: organizer.id,
+      promotions: {
+        create: {
+          priority: Priority.HIGH,
+          status: Status.ACTIVE,
+        },
+      },
     },
   });
 
-  // tickets
-  const ticketVIP = await prisma.ticket.create({
+  // Create a Ticket
+  const ticket = await prisma.ticket.create({
     data: {
       ticketLevel: "VIP",
-      availableTicket: 100,
+      availableTicket: 50,
+      price: 1000000,
       eventId: event.id,
     },
   });
 
-  const ticketRegular = await prisma.ticket.create({
-    data: {
-      ticketLevel: "Regular",
-      availableTicket: 500,
-      eventId: event.id,
-    },
-  });
-
-  // coupon
+  // Create a Coupon
   const coupon = await prisma.coupon.create({
     data: {
-      amount: 50,
-      expiredDate: new Date("2026-07-01"),
+      amount: 100000,
+      expiredDate: new Date("2026-12-31"),
       userId: user.id,
+      usage: Usage.FREE,
     },
   });
 
-  // voucher
+  // Create a Voucher
   const voucher = await prisma.voucher.create({
     data: {
-      amount: 100,
-      expiredDate: new Date("2026-07-01"),
+      amount: 200000,
+      discamount: 50000,
+      expiredDate: new Date("2026-12-31"),
       userId: user.id,
       organizerID: organizer.id,
+      eventId: event.id,
     },
   });
 
-  // transaction
+  // Create a Transaction
   const transaction = await prisma.transaction.create({
     data: {
       paymentStatus: PaymentStatus.PAID,
       userId: user.id,
-      ticketId: ticketVIP.id,
+      eventId: event.id,
       couponId: coupon.id,
       voucherId: voucher.id,
+      items: {
+        create: [
+          {
+            ticketId: ticket.id,
+            quantity: 2,
+            price: ticket.price,
+          },
+        ],
+      },
     },
   });
 
-  // review
-  await prisma.review.create({
-    data: {
-      text: "jorok amet",
-      rating: 2,
-      transactionId: transaction.id,
-      eventId: event.id,
-      reviewerId: user.id,
-    },
-  });
-
-  // points
-  await prisma.point.create({
-    data: {
-      amount: 200,
-      expiredDate: new Date("2026-12-31"),
-      userId: user.id,
-    },
-  });
-
-  await prisma.promotions.create({
-    data: {
-      priority: Priority.HIGH,
-      status: Status.DRAFT,
-      eventId: event.id,
-    },
-  });
+  console.log({ user, organizer, event, ticket, coupon, voucher, transaction });
 }
 
 main()

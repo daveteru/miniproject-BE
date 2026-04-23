@@ -82,6 +82,7 @@ model TransactionItem {
 model Transaction {
   id            Int               @id @default(autoincrement())
   uuid          String            @unique @default(uuid())
+  createdAt     DateTime          @default(now())
   expiredAt     DateTime?
   paymentProof  String?
   paymentStatus PaymentStatus

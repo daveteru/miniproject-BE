@@ -16,18 +16,6 @@ export class TransactionService {
     private mailService: MailService,
   ) {}
 
-  // getTransaction = async (id: number) => {
-  //   const transaction = await this.prisma.transaction.findUnique({
-  //     where: { id },
-  //   });
-
-  //   if (!transaction) {
-  //     throw new ApiError("Transaction not found", 404);
-  //   }
-
-  //   return transaction;
-  // };
-
   createTransaction = async (body: {
     items: { ticketId: number; quantity: number }[];
     userId: number;
@@ -325,6 +313,7 @@ export class TransactionService {
         uuid: trans.uuid,
         eventName: trans.event?.name,
         email: trans.user.email,
+        createdAt: trans.createdAt,
         tickets,
         totalPrice: totalPrice,
         voucher,
