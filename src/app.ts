@@ -45,7 +45,6 @@ import { MailService } from "./modules/mail/mail.service.js";
 import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
 import { UploadMiddleware } from "./middleware/upload.middleware.js";
 import { expiredTransactionsCron } from "./jobs/transactionExpiryCron.js";
-import { RedisService } from "./modules/redis/redis.service.js";
 export class App {
   app: Express;
 
@@ -85,8 +84,7 @@ export class App {
     const reviewService = new ReviewService(prisma);
     const promotionService = new PromotionService(prisma);
     const pointsService = new PointsService(prisma);
-    const redisService = new RedisService()
-    const eventService = new EventService(prisma, redisService, cloudinaryService);
+    const eventService = new EventService(prisma, cloudinaryService);
     const couponService = new CouponService(prisma);
     const voucherService = new VoucherService(prisma);
     const authService = new AuthService(prisma, mailService);
