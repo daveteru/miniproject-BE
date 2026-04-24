@@ -40,7 +40,8 @@ export class TransactionController {
     res.status(200).send(result);
   };
   checkAttendance = async (req: Request, res: Response) => {
-    const result = await this.transactionService.checkAttendance(req.body);
+    const userId = res.locals.user.id;
+    const result = await this.transactionService.checkAttendance({userId,eventId:req.body.eventId});
     res.status(200).send(result);
   };
   getOrganizerTransactions = async (req: Request, res: Response) => {
