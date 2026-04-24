@@ -204,6 +204,7 @@ enum PaymentStatus {
   PAID
   EXPIRED
   REJECTED
+  CANCELLED
 }
 
 enum Provider {
