@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma.js";
 
 export async function expiredTransactionsCron() {
   const now = new Date();
-  // console.log(`[CRON] check Expiration running at ${new Date().toISOString()}`);
+  console.log(`[CRON] check Expiration running at ${new Date().toISOString()}`);
 
   const expiredTransactions = await prisma.transaction.findMany({
     where: {
@@ -32,10 +32,13 @@ export async function expiredTransactionsCron() {
           data: { amount: { increment: 1 } },
         });
       }
-      if (transaction.pointsId) {
-        await tx.point.update({
-          where: { id: transaction.pointsId, usage: "HOLD" },
-          data: { usage: "FREE" },
+      if (transaction.pointsId && transaction.pointsUsed > 0) {
+        await tx.point.create({
+          data: {
+            userId: transaction.userId,
+            amount: transaction.pointsUsed,
+            expiredDate: new Date("9999-12-17T00:00:00"),
+          },
         });
       }
       if (transaction.couponId) {
