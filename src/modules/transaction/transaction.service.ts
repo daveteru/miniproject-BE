@@ -249,7 +249,7 @@ export class TransactionService {
       },
       skip: (page - 1) * take,
       take,
-      orderBy: { id: "desc" },
+      orderBy: { createdAt: "desc" },
       include: {
         items: {
           select: {
