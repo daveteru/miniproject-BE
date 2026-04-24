@@ -41,7 +41,10 @@ export class TransactionController {
   };
   checkAttendance = async (req: Request, res: Response) => {
     const userId = res.locals.user.id;
-    const result = await this.transactionService.checkAttendance({userId,eventId:req.body.eventId});
+    const result = await this.transactionService.checkAttendance({
+      userId,
+      eventId: req.body.eventId,
+    });
     res.status(200).send(result);
   };
   getOrganizerTransactions = async (req: Request, res: Response) => {
@@ -74,6 +77,16 @@ export class TransactionController {
 
     const result =
       await this.transactionService.rejectTransaction(transactionId);
+    res.status(200).send(result);
+  };
+  
+  cancelTransaction = async (req: Request, res: Response) => {
+    const transactionId = String(req.params.uuid);
+    const userId = res.locals.user.id;
+    const result = await this.transactionService.cancelTransaction(
+      transactionId,
+      userId,
+    );
     res.status(200).send(result);
   };
 }

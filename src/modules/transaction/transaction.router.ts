@@ -58,6 +58,13 @@ export class TransactionRouter {
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
       this.transactionController.rejectTransaction,
     );
+    
+    this.router.patch(
+      "/cancel/:uuid",
+      this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      this.authMiddleware.verifyRole([Role.USER]),
+      this.transactionController.cancelTransaction,
+    );
   };
 
   getRouter = () => {
