@@ -136,6 +136,7 @@ export class TransactionService {
       orderBy: { id: "desc" },
       select: {
         id: true,
+        uuid:true,
         expiredAt: true,
         paymentProof: true,
         paymentStatus: true,
@@ -478,5 +479,86 @@ export class TransactionService {
     });
 
     return { message: "Transaction rejection successful" };
+  };
+
+  cancelTransaction = async (uuid: string, userId: number) => {
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { uuid },
+      include: {
+        event: true,
+        points: true,
+        items: true,
+      },
+    });
+    if (!transaction) throw new ApiError("Transaction is not found", 404);
+    if (transaction.userId !== userId)
+      throw new ApiError("unAuthorized user", 403);
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: transaction.userId,
+      },
+    });
+
+    if (!user) throw new ApiError("User not found", 404);
+    if (
+      transaction.paymentStatus !== "WAITING_FOR_PAYMENT" &&
+      transaction.paymentStatus !== "WAITING_FOR_CONFIRM"
+    )
+      throw new ApiError(
+        "You Cannot Cancel after your purchase has been approved",
+        400,
+      );
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.transaction.update({
+        where: {
+          uuid,
+        },
+        data: {
+          paymentStatus: PaymentStatus.CANCELLED,
+        },
+      });
+
+      await Promise.all(
+        transaction.items.map((item) =>
+          tx.ticket.update({
+            where: { id: item.ticketId },
+            data: { availableTicket: { increment: item.quantity } },
+          }),
+        ),
+      );
+      if (transaction.couponId) {
+        await tx.coupon.update({
+          where: {
+            id: transaction.couponId,
+            usage:Usage.HOLD
+          },
+          data: {
+            usage: Usage.FREE,
+          },
+        });
+      }
+      if (transaction.pointsId && transaction.pointsUsed > 0) {
+        await tx.point.create({
+          data: {
+            userId: transaction.userId,
+            amount: transaction.pointsUsed,
+            expiredDate: new Date("9999-12-17T00:00:00"),
+          },
+        });
+      }
+      if (transaction.voucherId) {
+        await tx.voucher.update({
+          where: {
+            id: transaction.voucherId,
+          },
+          data: {
+            amount: { increment: 1 },
+          },
+        });
+      } return { message: "Transaction cancelled successfully" };
+
+    });
   };
 }
