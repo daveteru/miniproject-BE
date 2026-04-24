@@ -136,7 +136,7 @@ export class TransactionService {
       orderBy: { id: "desc" },
       select: {
         id: true,
-        uuid:true,
+        uuid: true,
         expiredAt: true,
         paymentProof: true,
         paymentStatus: true,
@@ -265,6 +265,8 @@ export class TransactionService {
         user: {
           select: {
             email: true,
+            fullName: true,
+            avatar: true,
           },
         },
         voucher: {
@@ -314,6 +316,8 @@ export class TransactionService {
         uuid: trans.uuid,
         eventName: trans.event?.name,
         email: trans.user.email,
+        customerName: trans.user.fullName,
+        customerAvatar: trans.user.avatar,
         createdAt: trans.createdAt,
         tickets,
         totalPrice: totalPrice,
@@ -532,7 +536,7 @@ export class TransactionService {
         await tx.coupon.update({
           where: {
             id: transaction.couponId,
-            usage:Usage.HOLD
+            usage: Usage.HOLD,
           },
           data: {
             usage: Usage.FREE,
@@ -557,8 +561,8 @@ export class TransactionService {
             amount: { increment: 1 },
           },
         });
-      } return { message: "Transaction cancelled successfully" };
-
+      }
+      return { message: "Transaction cancelled successfully" };
     });
   };
 }
