@@ -10,19 +10,15 @@ import { TransactionService } from "./transaction.service.js";
 export class TransactionController {
   constructor(private transactionService: TransactionService) {}
 
-  // getTransaction = async (req: Request, res: Response) => {
-  //   const id = Number(req.params.id);
-  //   const result = await this.transactionService.getTransaction(id);
-  //   res.status(200).send(result);
-  // };
   createTransaction = async (req: Request, res: Response) => {
     const result = await this.transactionService.createTransaction(req.body);
     res.status(200).send(result);
   };
+
   uploadPaymentProof = async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const uuid = String(req.params.uuid);
     const result = await this.transactionService.uploadPaymentProof(
-      id,
+      uuid,
       req.file!,
     );
     res.status(200).send(result);
@@ -39,6 +35,7 @@ export class TransactionController {
     );
     res.status(200).send(result);
   };
+
   checkAttendance = async (req: Request, res: Response) => {
     const userId = res.locals.user.id;
     const result = await this.transactionService.checkAttendance({
@@ -47,6 +44,7 @@ export class TransactionController {
     });
     res.status(200).send(result);
   };
+
   getOrganizerTransactions = async (req: Request, res: Response) => {
     const userId = res.locals.user.id;
 

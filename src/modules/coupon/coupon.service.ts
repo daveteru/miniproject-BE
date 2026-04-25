@@ -38,18 +38,6 @@ export class CouponService {
       meta: { page, take, total },
     };
   };
-
-  // getCoupon = async (id: number) => {
-  //   const coupon = await this.prisma.coupon.findUnique({
-  //     where: { id },
-  //   });
-
-  //   if (!coupon) {
-  //     throw new ApiError("Coupon not found", 404);
-  //   }
-
-  //   return coupon;
-  // };
   
   getallCoupon = async (id: number) => {
     const coupon = await this.prisma.coupon.findMany({
