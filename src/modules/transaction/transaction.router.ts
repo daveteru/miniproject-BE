@@ -3,6 +3,8 @@ import { TransactionController } from "./transaction.controller.js";
 import { UploadMiddleware } from "../../middleware/upload.middleware.js";
 import { AuthMiddleware } from "../../middleware/auth.middleware.js";
 import { Role } from "../../generated/prisma/enums.js";
+import { ValidatorMiddleware } from "../../middleware/validator.middleware.js";
+import { TransactionValidator } from "./transaction.validator.js";
 
 export class TransactionRouter {
   router: Router;
@@ -11,6 +13,7 @@ export class TransactionRouter {
     private transactionController: TransactionController,
     private uploadMiddleware: UploadMiddleware,
     private authMiddleware: AuthMiddleware,
+    private validatorMiddleware: ValidatorMiddleware,
   ) {
     this.router = Router();
     this.initRoutes();
@@ -20,9 +23,11 @@ export class TransactionRouter {
     this.router.post(
       "/",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
+      TransactionValidator.create(),
+      this.validatorMiddleware.validateBody,
       this.transactionController.createTransaction,
     );
-    this.router.post(
+    this.router.get(
       "/attendance/",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.transactionController.checkAttendance,
@@ -30,7 +35,6 @@ export class TransactionRouter {
     this.router.get(
       "/history/:id",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
-      this.authMiddleware.verifyRole([Role.USER]),
       this.transactionController.getTransactionByUserId,
     );
     this.router.get(
@@ -40,7 +44,7 @@ export class TransactionRouter {
       this.transactionController.getOrganizerTransactions,
     );
     this.router.patch(
-      "/:id/proof",
+      "/:uuid/proof",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.USER]),
       this.uploadMiddleware.upload().single("paymentProof"),
@@ -50,15 +54,19 @@ export class TransactionRouter {
       "/accept/:uuid",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
+      TransactionValidator.accept(),
+      this.validatorMiddleware.validateBody,
       this.transactionController.acceptTransaction,
     );
     this.router.patch(
       "/reject/:uuid",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
       this.authMiddleware.verifyRole([Role.ORGANIZER]),
+      TransactionValidator.reject(),
+      this.validatorMiddleware.validateBody,
       this.transactionController.rejectTransaction,
     );
-    
+
     this.router.patch(
       "/cancel/:uuid",
       this.authMiddleware.verifyToken(process.env.JWT_SECRET!),
