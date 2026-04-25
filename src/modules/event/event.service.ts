@@ -27,6 +27,7 @@ interface createEventBundle {
   }[];
   voucher?: {
     amount: number;
+    startDate: string;
     expiredDate: string;
     userId: number;
     discamount: number;
@@ -246,6 +247,7 @@ export class EventService {
         vouchers: {
           select: {
             id: true,
+            startDate: true,
             expiredDate: true,
             discamount: true,
             amount: true,
@@ -289,7 +291,7 @@ export class EventService {
     eventId: number,
     body: Prisma.EventUpdateInput,
     newThumbnail: Express.Multer.File,
-  ) => {    
+  ) => {
     const event = await this.prisma.event.findUnique({
       where: {
         id: eventId,
@@ -358,8 +360,33 @@ export class EventService {
     body: createEventBundle,
     file?: Express.Multer.File,
   ) => {
-    if (!body.tickets?.length)
-      throw new ApiError("At least one ticket is required", 400); // ← here
+    // if (!body.tickets?.length)
+    //   throw new ApiError("At least one ticket is required", 400);
+
+    if (!body.event.startDate || !body.event.endDate)
+      throw new ApiError("Start date and end date are required", 400);
+
+    if (new Date(body.event.startDate) >= new Date(body.event.endDate))
+      throw new ApiError("Start date must be before end date", 400);
+    if (new Date(body.event.startDate) < new Date())
+      throw new ApiError("Start date cannot be in the past", 400);
+
+    if (body.tickets.some((t) => Number(t.availableTicket) <= 0))
+      throw new ApiError("Ticket quantity must be greater than 0", 400);
+    if (body.voucher && body.voucher.discamount <= 0)
+      throw new ApiError("Voucher discount must be greater than 0", 400);
+
+    if (body.voucher && !body.voucher?.expiredDate)
+      throw new ApiError("Voucher Expired date is required", 400);
+    if (body.voucher && !body.voucher?.startDate)
+      throw new ApiError("Voucher Start date is required", 400);
+    if (
+      body.voucher &&
+      new Date(body.voucher.startDate) > new Date(body.voucher.expiredDate)
+    )
+      throw new ApiError("Voucher start date cannot be after expiry date", 400);
+    if (body.voucher && body.voucher?.amount === 0)
+      throw new ApiError("Voucher Amount Cannot be 0", 400);
 
     await this.prisma.$transaction(async (tx) => {
       const result = file
@@ -402,6 +429,7 @@ export class EventService {
             amount: Number(body.voucher.amount),
             discamount: Number(body.voucher.discamount),
             expiredDate: new Date(body.voucher.expiredDate),
+            startDate: new Date(body.voucher.startDate),
             userId: body.voucher.userId,
             organizerID: body.event.organizerId,
             eventId: event.id,
