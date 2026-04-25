@@ -196,15 +196,15 @@ export class TransactionService {
     return { data, meta: { page, take, total } };
   };
 
-  uploadPaymentProof = async (id: number, file: Express.Multer.File) => {
+  uploadPaymentProof = async (uuid: string, file: Express.Multer.File) => {
     const transaction = await this.prisma.transaction.findUnique({
-      where: { id },
+      where: { uuid },
     });
     if (!transaction) throw new ApiError("Transaction not found", 404);
 
     const result = await this.cloudinaryService.upload(file);
     await this.prisma.transaction.update({
-      where: { id },
+      where: { uuid },
       data: {
         paymentProof: result.secure_url,
         paymentStatus: "WAITING_FOR_CONFIRM",

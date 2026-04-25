@@ -117,8 +117,13 @@ export class App {
       transactionController,
       uploadMiddleware,
       authMiddleware,
+      validatorMiddleware,
     );
-    const ticketRouter = new TicketRouter(ticketController);
+    const ticketRouter = new TicketRouter(
+      ticketController,
+      authMiddleware,
+      validatorMiddleware,
+    );
     const reviewRouter = new ReviewRouter(reviewController, authMiddleware);
     const promotionRouter = new PromotionRouter(promotionController);
     const pointsRouter = new PointsRouter(pointsController);
@@ -128,8 +133,12 @@ export class App {
       uploadMiddleware,
       authMiddleware,
     );
-    const couponRouter = new CouponRouter(couponController);
-    const voucherRouter = new VoucherRouter(voucherController);
+    const couponRouter = new CouponRouter(couponController, authMiddleware);
+    const voucherRouter = new VoucherRouter(
+      voucherController,
+      authMiddleware,
+      validatorMiddleware,
+    );
     const authRouter = new AuthRouter(
       authController,
       authMiddleware,
