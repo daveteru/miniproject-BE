@@ -1,7 +1,7 @@
 import { hash, verify } from "argon2";
 import axios from "axios";
 import jwt from "jsonwebtoken";
-import { PrismaClient, Provider, User } from "../../generated/prisma/client.js";
+import { Prisma, PrismaClient, Provider, User } from "../../generated/prisma/client.js";
 import { randomString } from "../../helpers/random-string.js";
 import { ApiError } from "../../utils/api-error.js";
 import { MailService } from "../mail/mail.service.js";
@@ -33,7 +33,7 @@ export class AuthService {
   ) {}
 
   register = async (body: User) => {
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const emailExists = await tx.user.findUnique({
         where: {
           email: body.email,
