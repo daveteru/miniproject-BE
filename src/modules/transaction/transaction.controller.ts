@@ -40,7 +40,7 @@ export class TransactionController {
     const userId = res.locals.user.id;
     const result = await this.transactionService.checkAttendance({
       userId,
-      eventId: req.body.eventId,
+      eventId: Number(req.query.eventId),
     });
     res.status(200).send(result);
   };
