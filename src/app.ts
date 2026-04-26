@@ -163,7 +163,7 @@ export class App {
     this.app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
 
-      cron.schedule("*/15 * * * * *", () => {
+      cron.schedule("* * * * * *", () => {
         expiredTransactionsCron().catch(console.error);
       });
     });
