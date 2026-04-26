@@ -148,6 +148,7 @@ model Voucher {
   amount       Int
   discamount   Int           @default(0)
   expiredDate  DateTime
+  startDate    DateTime     @default(now())
   userId       Int
   organizerID  Int
   eventId      Int?
