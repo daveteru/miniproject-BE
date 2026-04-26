@@ -4,6 +4,10 @@
     {
       "src": "api/index.ts",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/cron/transaction-expiry.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -12,5 +16,11 @@
       "dest": "api/index.ts"
     }
   ],
-  "regions": ["sin1"]
+  "regions": ["sin1"],
+  "crons": [
+    {
+      "path": "/api/cron/transaction-expiry",
+      "schedule": "* * * * *"
+    }
+  ]
 }

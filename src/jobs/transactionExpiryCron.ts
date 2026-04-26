@@ -7,7 +7,7 @@ export async function expiredTransactionsCron() {
 
   const expiredTransactions = await prisma.transaction.findMany({
     where: {
-      paymentStatus: PaymentStatus.WAITING_FOR_PAYMENT,
+      paymentStatus: {in: [PaymentStatus.WAITING_FOR_PAYMENT , PaymentStatus.WAITING_FOR_CONFIRM]} ,
       expiredAt: { lt: now },
     },
     include: { items: true },
