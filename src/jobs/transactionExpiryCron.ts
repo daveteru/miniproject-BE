@@ -52,10 +52,18 @@ export async function expiredTransactionsCron() {
         });
       }
       // mark transaction as expired
+     if (transaction.paymentStatus == "WAITING_FOR_PAYMENT"){
       await tx.transaction.update({
         where: { id: transaction.id },
         data: { paymentStatus: PaymentStatus.EXPIRED },
       });
+    }
+     if (transaction.paymentStatus == "WAITING_FOR_CONFIRM"){
+      await tx.transaction.update({
+        where: { id: transaction.id },
+        data: { paymentStatus: PaymentStatus.CANCELLED },
+      });
+    }
     }
   });
 }

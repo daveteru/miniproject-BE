@@ -45,6 +45,8 @@ import { MailService } from "./modules/mail/mail.service.js";
 import { CloudinaryService } from "./modules/cloudinary/cloudinary.service.js";
 import { UploadMiddleware } from "./middleware/upload.middleware.js";
 import { expiredTransactionsCron } from "./jobs/transactionExpiryCron.js";
+import cronRouter from "./jobs/cron.route.js";
+
 export class App {
   app: Express;
 
@@ -156,6 +158,7 @@ export class App {
     this.app.use("/coupons", couponRouter.getRouter());
     this.app.use("/vouchers", voucherRouter.getRouter());
     this.app.use("/auth", authRouter.getRouter());
+    this.app.use("/cron", cronRouter);
   }
 
   start() {
