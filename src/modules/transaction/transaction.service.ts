@@ -208,7 +208,7 @@ export class TransactionService {
       data: {
         paymentProof: result.secure_url,
         paymentStatus: "WAITING_FOR_CONFIRM",
-        expiredAt: new Date(transaction.expiredAt!.getTime() + 3 * 60 * 60 * 1000)
+        expiredAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
       },
     });
 
